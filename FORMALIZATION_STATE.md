@@ -43,6 +43,10 @@ Needed from the user before concept authoring:
 - Confirmed the authenticated Lax account is `szymtor`.
 - Read the authoring instructions and specification.
 - Added this durable state file and `AGENTS.md` as the next-session entry point.
+- Initialized a local Git repository and created initial commit `212ae23`.
+- Verified the untouched concept package with
+  `lax build . --only concepts --no-color`; layout, dependency resolution,
+  compilation, and statement inspection all passed.
 - Blocked concept authoring on the missing mathematical source statement.
 
 ## Exact next action
