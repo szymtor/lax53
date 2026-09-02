@@ -101,10 +101,10 @@ theorem somewhere_recognizable {A : RankedAlphabet.{u}} {n m : Nat}
   ext t
   exact somewhere_accepts_iff pred t
 
-noncomputable def bothFO {A : RankedAlphabet.{u}} {n m : Nat} (x y : Fin n) :
+def bothFO {A : RankedAlphabet.{u}} {n m : Nat} (x y : Fin n) :
     (MarkedAlphabet A n m).Symbol → Bool := fun s => s.2.1 x && s.2.1 y
 
-noncomputable def foSO {A : RankedAlphabet.{u}} {n m : Nat} (x : Fin n) (X : Fin m) :
+def foSO {A : RankedAlphabet.{u}} {n m : Nat} (x : Fin n) (X : Fin m) :
     (MarkedAlphabet A n m).Symbol → Bool := fun s => s.2.1 x && s.2.2 X
 
 noncomputable def labelFO {A : RankedAlphabet.{u}} {n m : Nat}
@@ -312,6 +312,97 @@ theorem represented_edge_iff {A : RankedAlphabet.{u}} {n m : Nat}
   · rintro ⟨i, hi, hpq⟩
     exact ⟨v x, v y, (hv (v x) x).mpr rfl, (hv (v y) y).mpr rfl,
       i, hi, hpq⟩
+
+theorem formulaLanguage_equal_eq {A : RankedAlphabet.{u}} {n m : Nat}
+    (t₁ t₂ : (treeSignature A).Term (Fin n)) :
+    formulaLanguage (Formula.equal (m := m) t₁ t₂) =
+      validMarkedLanguage A n m ∩
+        {t | Somewhere (bothFO (A := A) (m := m)
+          (treeTermVar t₁) (treeTermVar t₂)) t} := by
+  ext t
+  constructor
+  · rintro ⟨v, V, hrep, hreal⟩
+    letI := markedStructure t
+    refine ⟨⟨v, V, hrep⟩, ?_⟩
+    apply (represented_somewhere_bothFO_iff hrep
+      (treeTermVar t₁) (treeTermVar t₂)).mpr
+    change t₁.realize v = t₂.realize v at hreal
+    simpa only [treeTerm_realize] using hreal
+  · rintro ⟨⟨v, V, hrep⟩, hsome⟩
+    letI := markedStructure t
+    refine ⟨v, V, hrep, ?_⟩
+    change t₁.realize v = t₂.realize v
+    simpa only [treeTerm_realize] using
+      (represented_somewhere_bothFO_iff hrep
+        (treeTermVar t₁) (treeTermVar t₂)).mp hsome
+
+theorem formulaLanguage_mem_eq {A : RankedAlphabet.{u}} {n m : Nat}
+    (t₁ : (treeSignature A).Term (Fin n)) (X : Fin m) :
+    formulaLanguage (Formula.mem t₁ X) = validMarkedLanguage A n m ∩
+      {t | Somewhere (foSO (A := A) (treeTermVar t₁) X) t} := by
+  ext t
+  constructor
+  · rintro ⟨v, V, hrep, hreal⟩
+    letI := markedStructure t
+    refine ⟨⟨v, V, hrep⟩, ?_⟩
+    apply (represented_somewhere_foSO_iff hrep (treeTermVar t₁) X).mpr
+    change t₁.realize v ∈ V X at hreal
+    simpa only [treeTerm_realize] using hreal
+  · rintro ⟨⟨v, V, hrep⟩, hsome⟩
+    letI := markedStructure t
+    refine ⟨v, V, hrep, ?_⟩
+    change t₁.realize v ∈ V X
+    simpa only [treeTerm_realize] using
+      (represented_somewhere_foSO_iff hrep (treeTermVar t₁) X).mp hsome
+
+theorem formulaLanguage_label_eq {A : RankedAlphabet.{u}} {n m : Nat}
+    (a : A.Symbol) (ts : Fin 1 → (treeSignature A).Term (Fin n)) :
+    formulaLanguage (Formula.rel (m := m) (.label a) ts) =
+      validMarkedLanguage A n m ∩
+        {t | Somewhere (labelFO (m := m) a (treeTermVar (ts 0))) t} := by
+  ext t
+  constructor
+  · rintro ⟨v, V, hrep, hreal⟩
+    letI := markedStructure t
+    refine ⟨⟨v, V, hrep⟩, ?_⟩
+    apply (represented_somewhere_labelFO_iff hrep a (treeTermVar (ts 0))).mpr
+    change ((ts 0).realize v).label.1 = a at hreal
+    simpa only [treeTerm_realize] using hreal
+  · rintro ⟨⟨v, V, hrep⟩, hsome⟩
+    letI := markedStructure t
+    refine ⟨v, V, hrep, ?_⟩
+    change ((ts 0).realize v).label.1 = a
+    simpa only [treeTerm_realize] using
+      (represented_somewhere_labelFO_iff hrep a (treeTermVar (ts 0))).mp hsome
+
+theorem formulaLanguage_child_eq {A : RankedAlphabet.{u}} {n m : Nat}
+    (slot : ChildIndex A) (ts : Fin 2 → (treeSignature A).Term (Fin n)) :
+    formulaLanguage (Formula.rel (m := m) (.child slot) ts) =
+      validMarkedLanguage A n m ∩ {t | EdgeSomewhere (m := m) slot
+        (treeTermVar (ts 0)) (treeTermVar (ts 1)) t} := by
+  ext t
+  constructor
+  · rintro ⟨v, V, hrep, hreal⟩
+    letI := markedStructure t
+    refine ⟨⟨v, V, hrep⟩, ?_⟩
+    apply (represented_edge_iff hrep slot
+      (treeTermVar (ts 0)) (treeTermVar (ts 1))).mpr
+    change ∃ i : Fin (A.rank ((ts 0).realize v).label.1),
+      i.val = slot.val ∧ (ts 1).realize v = Node.child ((ts 0).realize v) i at hreal
+    have h₀ : (ts 0).realize v = v (treeTermVar (ts 0)) := treeTerm_realize _ _
+    have h₁ : (ts 1).realize v = v (treeTermVar (ts 1)) := treeTerm_realize _ _
+    rw [h₀, h₁] at hreal
+    exact hreal
+  · rintro ⟨⟨v, V, hrep⟩, hedge⟩
+    letI := markedStructure t
+    refine ⟨v, V, hrep, ?_⟩
+    change ∃ i : Fin (A.rank ((ts 0).realize v).label.1),
+      i.val = slot.val ∧ (ts 1).realize v = Node.child ((ts 0).realize v) i
+    have h₀ : (ts 0).realize v = v (treeTermVar (ts 0)) := treeTerm_realize _ _
+    have h₁ : (ts 1).realize v = v (treeTermVar (ts 1)) := treeTerm_realize _ _
+    rw [h₀, h₁]
+    exact (represented_edge_iff hrep slot
+      (treeTermVar (ts 0)) (treeTermVar (ts 1))).mp hedge
 
 theorem formulaLanguage_falsum_recognizable {A : RankedAlphabet.{u}} {n m : Nat} :
     Recognizable (formulaLanguage

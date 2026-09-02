@@ -15,5 +15,17 @@ git = "https://github.com/szymtor/MSO-automata"
 rev = "93d9b7c3ad77b383b9734cede0b95bfd17928575"
 subDir = "concepts"
 
+[[require]]
+name = "Lax13"
+git = "https://github.com/lax-archive/lax-submissions"
+rev = "d35ba57ad420ce6a6d3c763aa7f6a4a8be1d406d"
+subDir = "word-ram/concepts"
+
+[[require]]
+name = "Lax58"
+git = "https://github.com/lax-archive/lax-submissions"
+rev = "0994f68f21d33c6a065fd3bb4578b4bd9efb8e96"
+subDir = "canonical-encodings/concepts"
+
 [[lean_lib]]
 name = "Lax53"

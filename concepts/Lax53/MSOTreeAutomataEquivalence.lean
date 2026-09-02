@@ -7,14 +7,16 @@ import Lax53.MSOToTreeAutomata
 
 /-!
 ---
-title: Büchi-Elgot-Trakhtenbrot theorem for finite ranked trees
+title: Thatcher–Wright–Doner theorem for finite ranked trees
 type: theorem
 ---
 
 Over a finite ranked alphabet, a language of finite ranked trees is recognizable
 by a bottom-up finite tree automaton if and only if it is definable by a monadic
 second-order sentence in the relational tree structure with unary label
-predicates and indexed child relations.
+predicates and indexed child relations. This is the ranked-tree
+automata--MSO characterization proved by Thatcher and Wright (1968) and,
+independently, by Doner (1970).
 -/
 
 namespace Lax53.MSOTreeAutomataEquivalence

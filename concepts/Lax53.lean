@@ -6,3 +6,7 @@ import Lax53.TreeAutomataToMSO
 import Lax53.MSOToTreeAutomata
 import Lax53.MSOTreeAutomataEquivalence
 import Lax53.EffectiveTranslations
+import Lax53.StructuralRepresentations
+import Lax53.TreeModelCheckingEncoding
+import Lax53.AutomatonLinearTime
+import Lax53.MSOLinearTime

@@ -4,6 +4,29 @@ leanVersion: "v4.30.0"
 mathlibVersion: "c5ea00351c28e24afc9f0f84379aa41082b1188f"
 title: "MSO and finite automata on ranked trees"
 authors:
-  - name: "szymtor"
+  - name: "Szymon Toruńczyk"
     github: "szymtor"
-bibEntries: []
+  - name: "Codex 5.6"
+bibEntries:
+  - |
+    @article{ThatcherWright1968,
+      author  = {Thatcher, James W. and Wright, Jesse B.},
+      title   = {Generalized finite automata theory with an application to a
+                 decision problem of second-order logic},
+      journal = {Mathematical Systems Theory},
+      volume  = {2},
+      pages   = {57--81},
+      year    = {1968},
+      doi     = {10.1007/BF01691346}
+    }
+  - |
+    @article{Doner1970,
+      author  = {Doner, John},
+      title   = {Tree acceptors and some of their applications},
+      journal = {Journal of Computer and System Sciences},
+      volume  = {4},
+      number  = {5},
+      pages   = {406--451},
+      year    = {1970},
+      doi     = {10.1016/S0022-0000(70)80041-1}
+    }
