@@ -1,9 +1,9 @@
 import Mathlib.Data.List.GetD
-import Lax53.TreeModelCheckingEncoding
+import Lax53Proofs.RuntimeLayout
 
 namespace Lax53Proofs.AutomatonTableEncoding
 
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.TreeModelCheckingEncoding
 
 theorem encodeTransitionFixed_length (R : Nat) (tr : TransitionCode) :

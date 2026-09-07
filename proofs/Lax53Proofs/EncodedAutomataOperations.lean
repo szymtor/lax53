@@ -6,7 +6,7 @@ import Lax53Proofs.Determinization
 
 namespace Lax53Proofs.EncodedAutomataOperations
 
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.RankedTree
 open Lax53.TreeAutomaton
 open Lax53Proofs.FiniteAutomatonEncoding

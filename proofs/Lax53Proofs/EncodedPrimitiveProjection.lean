@@ -2,7 +2,7 @@ import Lax53Proofs.EncodedPrimitiveAtomicAutomata
 
 namespace Lax53Proofs.EncodedPrimitiveProjection
 
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53Proofs.MarkedAlphabetEncoding
 open Lax53Proofs.EncodedPrimitiveAtomicAutomata
 open Lax53Proofs.EncodedProjection

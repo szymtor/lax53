@@ -1,9 +1,10 @@
 import Mathlib.Computability.Primrec.List
-import Lax53.EffectiveTranslations
+import Mathlib.Data.List.GetD
+import Lax53.ValueTranslations
 
 namespace Lax53Proofs.FiniteAutomatonEncoding
 
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.RankedTree
 open Lax53.TreeAutomaton
 
@@ -11,6 +12,82 @@ open Lax53.TreeAutomaton
 def words (n : Nat) : Nat → List (List Nat)
   | 0 => [[]]
   | k + 1 => (List.range n).flatMap fun q => (words n k).map (q :: ·)
+
+theorem words_length (base length : Nat) :
+    (words base length).length = base ^ length := by
+  induction length with
+  | zero => rfl
+  | succ length ih => simp [words, ih, pow_succ, Nat.mul_comm]
+
+/-- The word at a numeric row index, written most-significant digit first in
+base `base` and padded to exactly `length` digits.  This arithmetic view is
+the one used by charged RAM compilers; it does not materialize `words`. -/
+def radixWord (base : Nat) : Nat → Nat → List Nat
+  | 0, _ => []
+  | length + 1, state =>
+      state / base ^ length ::
+        radixWord base length (state % base ^ length)
+
+@[simp] theorem radixWord_length (base length state : Nat) :
+    (radixWord base length state).length = length := by
+  induction length generalizing state with
+  | zero => rfl
+  | succ length ih => simp [radixWord, ih]
+
+private def wordsVector (base : Nat) : (length : Nat) →
+    Vector (List Nat) (base ^ length)
+  | 0 => #v[[]]
+  | length + 1 =>
+      ((Vector.range base).flatMap fun q =>
+        (wordsVector base length).map (q :: ·)).cast
+          (by simp [pow_succ, Nat.mul_comm])
+
+private theorem wordsVector_succ (base length : Nat) :
+    wordsVector base (length + 1) =
+      ((Vector.range base).flatMap fun q =>
+        (wordsVector base length).map (q :: ·)).cast
+          (by simp [pow_succ, Nat.mul_comm]) := by
+  rfl
+
+private theorem wordsVector_toList (base length : Nat) :
+    (wordsVector base length).toArray.toList = words base length := by
+  induction length with
+  | zero => rfl
+  | succ length ih =>
+      rw [wordsVector_succ]
+      simp only [Vector.toArray_cast]
+      rw [← Vector.flatMap_toArray]
+      simp [words, ih]
+
+private theorem wordsVector_get_eq_radixWord (base length state : Nat)
+    (hstate : state < base ^ length) :
+    (wordsVector base length)[state] = radixWord base length state := by
+  induction length generalizing state with
+  | zero =>
+      have hzero : state = 0 := by
+        simpa using hstate
+      subst state
+      rfl
+  | succ length ih =>
+      rw [wordsVector_succ]
+      simp only [Vector.getElem_cast, Vector.getElem_flatMap]
+      simp only [Vector.getElem_map, Vector.getElem_range]
+      rw [ih]
+      rfl
+
+/-- Arithmetic radix decoding agrees exactly with the canonical enumeration
+used by `encode`.  Thus an implementation can compute a row from its index
+without receiving the exponentially large enumeration as advice. -/
+theorem words_getD_eq_radixWord (base length state : Nat)
+    (hstate : state < base ^ length) :
+    (words base length).getD state [] = radixWord base length state := by
+  rw [← wordsVector_toList base length]
+  have hi : state < (wordsVector base length).toArray.toList.length := by
+    simpa using hstate
+  rw [List.getD_eq_getElem?_getD,
+    List.getElem?_eq_getElem hi]
+  change (wordsVector base length)[state] = _
+  exact wordsVector_get_eq_radixWord base length state hstate
 
 theorem mem_words_iff {n k : Nat} {xs : List Nat} :
     xs ∈ words n k ↔ xs.length = k ∧ ∀ q ∈ xs, q < n := by
@@ -39,6 +116,93 @@ theorem mem_words_iff {n k : Nat} {xs : List Nat} :
         · refine ⟨q, hbound q (by simp), ys, ?_, rfl⟩
           rw [ih]
           exact ⟨by simpa using hlen, fun r hr => hbound r (by simp [hr])⟩
+
+theorem radixWord_mem_words (base length state : Nat)
+    (hstate : state < base ^ length) :
+    radixWord base length state ∈ words base length := by
+  have hindex : state < (words base length).length := by
+    simpa [words_length] using hstate
+  rw [← words_getD_eq_radixWord base length state hstate]
+  rw [List.getD_eq_getElem (l := words base length) (d := []) hindex]
+  exact List.getElem_mem _
+
+theorem radixWord_value_lt {base length state value : Nat}
+    (hstate : state < base ^ length)
+    (hvalue : value ∈ radixWord base length state) : value < base := by
+  exact (mem_words_iff.mp (radixWord_mem_words base length state hstate)).2
+    value hvalue
+
+/-- Numeric value of a most-significant-first radix word. -/
+def radixValue (base : Nat) : List Nat → Nat
+  | [] => 0
+  | digit :: digits =>
+      digit * base ^ digits.length + radixValue base digits
+
+theorem radixValue_lt_pow {base : Nat} {digits : List Nat}
+    (hbase : 0 < base) (hdigits : ∀ digit ∈ digits, digit < base) :
+    radixValue base digits < base ^ digits.length := by
+  induction digits with
+  | nil => simp [radixValue]
+  | cons digit digits ih =>
+      have hdigit : digit < base := hdigits digit (by simp)
+      have htail : ∀ value ∈ digits, value < base := by
+        intro value hvalue
+        exact hdigits value (by simp [hvalue])
+      have hih := ih htail
+      have hpowerPos : 0 < base ^ digits.length := pow_pos hbase _
+      calc
+        radixValue base (digit :: digits) =
+            digit * base ^ digits.length + radixValue base digits := rfl
+        _ < digit * base ^ digits.length + base ^ digits.length := by omega
+        _ = (digit + 1) * base ^ digits.length := by
+          simp [Nat.add_mul]
+        _ ≤ base * base ^ digits.length :=
+          Nat.mul_le_mul_right _ (Nat.succ_le_iff.mpr hdigit)
+        _ = base ^ (digit :: digits).length := by
+          simp [pow_succ, Nat.mul_comm]
+
+theorem radixValue_radixWord (base length state : Nat)
+    (hbase : 0 < base) (hstate : state < base ^ length) :
+    radixValue base (radixWord base length state) = state := by
+  induction length generalizing state with
+  | zero =>
+      have : state = 0 := by simpa using hstate
+      subst state
+      rfl
+  | succ length ih =>
+      have hpowerPos : 0 < base ^ length := pow_pos hbase _
+      have hremainder : state % base ^ length < base ^ length :=
+        Nat.mod_lt _ hpowerPos
+      simp only [radixWord, radixValue, radixWord_length]
+      rw [ih (state % base ^ length) hremainder]
+      simpa [Nat.mul_comm] using
+        (Nat.div_add_mod state (base ^ length))
+
+theorem radixWord_radixValue (base : Nat) (digits : List Nat)
+    (hbase : 0 < base) (hdigits : ∀ digit ∈ digits, digit < base) :
+    radixWord base digits.length (radixValue base digits) = digits := by
+  induction digits with
+  | nil => rfl
+  | cons digit digits ih =>
+      have hdigit : digit < base := hdigits digit (by simp)
+      have htail : ∀ value ∈ digits, value < base := by
+        intro value hvalue
+        exact hdigits value (by simp [hvalue])
+      have hvalueLt := radixValue_lt_pow hbase htail
+      have hpowerPos : 0 < base ^ digits.length := pow_pos hbase _
+      have hdiv :
+          (digit * base ^ digits.length + radixValue base digits) /
+              base ^ digits.length = digit := by
+        rw [Nat.mul_comm digit, Nat.mul_add_div hpowerPos,
+          Nat.div_eq_of_lt hvalueLt]
+        simp
+      have hmod :
+          (digit * base ^ digits.length + radixValue base digits) %
+              base ^ digits.length = radixValue base digits := by
+        rw [Nat.mul_comm digit, Nat.mul_add_mod,
+          Nat.mod_eq_of_lt hvalueLt]
+      simp only [radixValue, radixWord]
+      rw [hdiv, hmod, ih htail]
 
 theorem ofFn_mem_words {n k : Nat} (f : Fin k → Fin n) :
     List.ofFn (fun i => (f i).val) ∈ words n k := by

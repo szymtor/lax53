@@ -2,7 +2,7 @@ import Lax53Proofs.EncodedAutomataOperations
 
 namespace Lax53Proofs.EncodedProjection
 
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.RankedTree
 open Lax53.TreeAutomaton
 open Lax53Proofs.EncodedAutomataOperations

@@ -4,7 +4,7 @@ namespace Lax53Proofs.EncodedAutomatonEvaluation
 
 open Lax53.RankedTree
 open Lax53.TreeAutomaton
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 
 /-- The child-state list selected by a transition agrees with the lists of
 states already computed for the ordered children. -/

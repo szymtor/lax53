@@ -7,8 +7,8 @@ open Classical
 
 open Lax13Proofs.Imp
 open Lax13Proofs.Reasoning
-open Lax13Proofs.Codegen
-open Lax53.EffectiveTranslations
+open Lax53Proofs.ArrayInput
+open Lax53.ValueTranslations
 open Lax53.TreeModelCheckingEncoding
 open Lax53Proofs.AutomatonRamProgram
 

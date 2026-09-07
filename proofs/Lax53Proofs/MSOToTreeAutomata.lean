@@ -12,7 +12,7 @@ universe u
 
 /--
 ---
-conclusion: Lax53.MSOToTreeAutomata.mso_definable_is_recognizable
+conclusion: Lax53.MSOTreeAutomataEquivalence.mso_definable_is_recognizable
 ---
 -/
 theorem mso_definable_is_recognizable_proof {A : RankedAlphabet.{u}}

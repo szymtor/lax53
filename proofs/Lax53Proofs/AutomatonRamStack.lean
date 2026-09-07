@@ -6,7 +6,7 @@ set_option maxHeartbeats 1000000
 open Classical
 
 open Lax53.RankedTree
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.TreeModelCheckingEncoding
 open Lax53Proofs.EncodedAutomatonEvaluation
 open Lax53Proofs.EncodedAutomatonWordEvaluation
@@ -159,7 +159,7 @@ theorem rankSum_encodeTree_add_one (alphabet : RankedAlphabetCode)
       have hsum :
           (forest.map fun u => rankSum alphabet (encodeTree alphabet u)).sum +
               forest.length =
-            (forest.map fun u => (encodeTree alphabet u).length).sum :=
+            (forest.map fun u => treeSize u).sum :=
         sum_map_add_one forest _ _ (by
           intro u hu
           obtain ⟨i, rfl⟩ := List.mem_ofFn.mp hu
@@ -171,7 +171,10 @@ theorem rankSum_encodeTree_add_one (alphabet : RankedAlphabetCode)
       rw [alphabet_getD_symbol]
       have hforestLen : forest.length = alphabet.toRankedAlphabet.rank a := by
         simp [forest]
-      rw [← hforestLen]
+      have hforestSum :
+          (forest.map fun u => treeSize u).sum =
+            (List.ofFn fun i => treeSize (children i)).sum := by
+        simp [forest, List.map_ofFn, Function.comp_def]
       unfold rankSum at hsum
       omega
 

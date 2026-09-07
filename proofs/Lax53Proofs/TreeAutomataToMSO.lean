@@ -1,4 +1,4 @@
-import Lax53.TreeAutomataToMSO
+import Lax53.MSOTreeAutomataEquivalence
 import Lax53Proofs.MSOSemantics
 import Lax53Proofs.TreeNodes
 
@@ -539,7 +539,7 @@ open RunFormula
 
 /--
 ---
-conclusion: Lax53.TreeAutomataToMSO.automaton_definable_by_mso
+conclusion: Lax53.MSOTreeAutomataEquivalence.automaton_definable_by_mso
 ---
 -/
 theorem automaton_definable_by_mso_proof {A : RankedAlphabet.{u}} {Q : Type v}

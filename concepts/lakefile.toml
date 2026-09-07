@@ -18,14 +18,14 @@ subDir = "concepts"
 [[require]]
 name = "Lax13"
 git = "https://github.com/lax-archive/lax-submissions"
-rev = "d35ba57ad420ce6a6d3c763aa7f6a4a8be1d406d"
+rev = "92ae2d6275d09b856c02d6f851755590fdcb30ed"
 subDir = "word-ram/concepts"
 
 [[require]]
 name = "Lax58"
-git = "https://github.com/lax-archive/lax-submissions"
-rev = "0994f68f21d33c6a065fd3bb4578b4bd9efb8e96"
-subDir = "canonical-encodings/concepts"
+git = "https://github.com/szymtor/lax58"
+rev = "83d795f06ae20b48ceed34a9f1284975d305b9c4"
+subDir = "concepts"
 
 [[lean_lib]]
 name = "Lax53"

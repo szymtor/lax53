@@ -1,4 +1,4 @@
-import Lax53.MSOToTreeAutomata
+import Lax53.MSOTreeAutomataEquivalence
 
 namespace Lax53Proofs.MarkedTrees
 

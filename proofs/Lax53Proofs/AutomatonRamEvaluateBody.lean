@@ -7,7 +7,7 @@ open Classical
 
 open Lax13Proofs.Imp
 open Lax13Proofs.Reasoning
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.TreeModelCheckingEncoding
 open Lax53Proofs.AutomatonRamProgram
 open Lax53Proofs.AutomatonTableEncoding
@@ -35,23 +35,24 @@ def EvalStorage (M : EncodedAutomaton) (states lengths : List Nat)
 
 def NodeBodyContext (M : EncodedAutomaton) (treeLength node : Nat)
     (states lengths : List Nat) (stack : List CodeString)
-    (symbol : Nat) (rest : CodeString) (sigma : Env) : Prop :=
+    (word : CodeString) (symbol : Nat) (sigma : Env) : Prop :=
   EvalFields M treeLength sigma ∧ EvalStorage M states lengths stack sigma ∧
-    sigma.inp = symbol :: rest ∧ sigma.vars "node" = node
+    sigma.arrs "W" = word ∧ word.getD node 0 = symbol ∧
+    sigma.vars "node" = node
 
 def NodeBodyResult (M : EncodedAutomaton) (treeLength node : Nat)
     (states lengths : List Nat) (stack : List CodeString)
-    (symbol : Nat) (rest : CodeString) (sigma : Env) : Prop :=
+    (word : CodeString) (symbol : Nat) (sigma : Env) : Prop :=
   EvalFields M treeLength sigma ∧
     EvalStorage M (nodeStates M states stack symbol)
       (nodeLengths M lengths stack symbol)
       (pushSymbol M.1 M.2 stack symbol) sigma ∧
-    sigma.inp = rest ∧ sigma.vars "node" = node + 1
+    sigma.arrs "W" = word ∧ sigma.vars "node" = node + 1
 
 /-- One iteration of the postorder evaluator implements `pushSymbol`. -/
 theorem evaluateTreeBody_spec (B : Nat) (M : EncodedAutomaton)
     (treeLength node : Nat) (states lengths : List Nat)
-    (stack : List CodeString) (symbol : Nat) (rest : CodeString)
+    (stack : List CodeString) (word : CodeString) (symbol : Nat)
     (h0 : 0 < B) (h1 : 1 < B)
     (hparameterB : ∀ v ∈ encodeAutomaton M, v < B)
     (hstatesB : ∀ v ∈ states, v < B)
@@ -67,11 +68,11 @@ theorem evaluateTreeBody_spec (B : Nat) (M : EncodedAutomaton)
       (maximumRank M.1 + 3) < B)
     (hsafe : M.1.getD symbol 0 ≤ stack.length)
     (hrep : RowsRep states lengths M.2.2.1.length stack.reverse)
-    (hnodeB : node + 1 < B) :
-    Spec B (NodeBodyContext M treeLength node states lengths stack symbol rest)
+    (hnodeB : node + 1 < B) (hnodeWord : node < word.length) :
+    Spec B (NodeBodyContext M treeLength node states lengths stack word symbol)
       evaluateTreeBody
       (fun _ sigma' =>
-        NodeBodyResult M treeLength node states lengths stack symbol rest sigma')
+        NodeBodyResult M treeLength node states lengths stack word symbol sigma')
       (nodeCoreCost M (M.1.getD symbol 0) + 20) := by
   have hsymbolAddr : symbol + 1 < (encodeAutomaton M).length := by
     rw [encodeAutomaton_length]
@@ -89,7 +90,7 @@ theorem evaluateTreeBody_spec (B : Nat) (M : EncodedAutomaton)
     hsymbolIndex hstackRoom hcapacity hwidthB hQB hTB hsymbolB hworkB hsafe hrep
   have hcoreF : Spec B
       (fun sigma => ScanInstallContext M states lengths stack symbol sigma ∧
-        EvalFields M treeLength sigma ∧ sigma.inp = rest ∧
+        EvalFields M treeLength sigma ∧ sigma.arrs "W" = word ∧
         sigma.vars "node" = node)
       (.seq scanTransitions installParent)
       (fun _ sigma' =>
@@ -97,11 +98,11 @@ theorem evaluateTreeBody_spec (B : Nat) (M : EncodedAutomaton)
           EvalStorage M (nodeStates M states stack symbol)
             (nodeLengths M lengths stack symbol)
             (pushSymbol M.1 M.2 stack symbol) sigma' ∧
-          sigma'.inp = rest ∧ sigma'.vars "node" = node)
+          sigma'.arrs "W" = word ∧ sigma'.vars "node" = node)
       (nodeCoreCost M (M.1.getD symbol 0)) := by
     refine hcore.frame.conseq (fun _ h => h.1) ?_ le_rfl
     rintro sigma sigma' hpre ⟨hresult, hvars, harrs, hinp, hout⟩
-    rcases hpre with ⟨hscan, hfields, hinp0, hnode0⟩
+    rcases hpre with ⟨hscan, hfields, hW0, hnode0⟩
     rcases hfields with ⟨hP, hA, hQ, hT, hR, hwidth, hrecords,
       hacceptBase, hF, hn⟩
     have hfields' : EvalFields M treeLength sigma' :=
@@ -122,7 +123,7 @@ theorem evaluateTreeBody_spec (B : Nat) (M : EncodedAutomaton)
       rw [hS, hL] at hrep'
       exact ⟨hS, hL, hO, hdepth, hrep'⟩
     exact ⟨hfields', hstorage',
-      (hinp (by decide)).trans hinp0,
+      (harrs "W" (by decide)).trans hW0,
       (hvars "node" (by decide)).trans hnode0⟩
   unfold evaluateTreeBody seqs
   run_vcg [hcoreF]

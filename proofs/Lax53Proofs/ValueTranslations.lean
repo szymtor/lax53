@@ -1,33 +1,35 @@
-import Lax53Proofs.EffectiveTranslations
-import Lax53Proofs.EncodedFormulaCompiler
+import Lax53Proofs.TranslationConstructions
+import Lax53Proofs.IntrinsicFormulaCompiler
 
 namespace Lax53Proofs.ValueTranslations
 
-open Lax53.EffectiveTranslations
-open Lax53Proofs.EffectiveTranslations.AutomatonToMSO
-open Lax53Proofs.EncodedFormulaCompiler
+open Lax53.ValueTranslations
+open Lax53Proofs.TranslationConstructions.AutomatonToMSO
+open Lax53Proofs.IntrinsicFormulaCompiler
 
 /--
 ---
-conclusion: Lax53.EffectiveTranslations.uniform_language_equivalence
+conclusion: Lax53.ValueTranslations.language_equivalence
 ---
 The two witnesses operate directly on finite Lean values. Their correctness
 uses the previously verified automaton-to-formula construction and the
 marked-tree formula compiler; no serialization theorem occurs in the result.
 -/
-theorem uniform_language_equivalence_proof :
-    (∃ automatonToMSO : EncodedAutomaton → EncodedSentence,
-      ∀ input,
-        (automatonToMSO input).1 = input.1 ∧
-        AutomatonCode.language input.1 input.2 =
-          FormulaCode.language input.1 (automatonToMSO input).2) ∧
-    (∃ msoToAutomaton : EncodedSentence → EncodedAutomaton,
-      ∀ input,
-        (msoToAutomaton input).1 = input.1 ∧
-        AutomatonCode.language input.1 (msoToAutomaton input).2 =
-          FormulaCode.language input.1 input.2) := by
-  exact ⟨⟨compile, fun input => ⟨compile_alphabet input, compile_language input⟩⟩,
-    ⟨compileSentence,
-      fun input => ⟨compileSentence_alphabet input, compileSentence_language input⟩⟩⟩
+theorem language_equivalence_proof :
+    (∃ automatonToMSO : (alphabet : RankedAlphabetCode) → AutomatonCode →
+        Lax52.MSOSyntax.Sentence
+          (Lax53.TreeStructure.treeSignature alphabet.toRankedAlphabet),
+      ∀ alphabet M,
+        AutomatonCode.language alphabet M =
+          Lax53.TreeStructure.sentenceLanguage (automatonToMSO alphabet M)) ∧
+    (∃ msoToAutomaton : (alphabet : RankedAlphabetCode) →
+        Lax52.MSOSyntax.Sentence
+          (Lax53.TreeStructure.treeSignature alphabet.toRankedAlphabet) →
+            AutomatonCode,
+      ∀ alphabet phi,
+        AutomatonCode.language alphabet (msoToAutomaton alphabet phi) =
+          Lax53.TreeStructure.sentenceLanguage phi) := by
+  exact ⟨⟨compile, compile_language⟩,
+    ⟨compileSentence, compileSentence_language⟩⟩
 
 end Lax53Proofs.ValueTranslations

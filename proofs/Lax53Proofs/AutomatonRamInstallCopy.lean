@@ -7,7 +7,7 @@ open Classical
 
 open Lax13Proofs.Imp
 open Lax13Proofs.Reasoning
-open Lax13Proofs.Codegen
+open Lax53Proofs.ArrayInput
 open Lax53Proofs.AutomatonRamProgram
 
 /-- Functional model of copying the first `upto` values into one flat row. -/

@@ -7,7 +7,7 @@ open Classical
 
 open Lax13Proofs.Imp
 open Lax13Proofs.Reasoning
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.TreeModelCheckingEncoding
 open Lax53Proofs.AutomatonRamProgram
 open Lax53Proofs.EncodedAutomatonWordEvaluation
@@ -53,7 +53,8 @@ theorem nodeBodyCost_le (M : EncodedAutomaton) (k : Nat) :
   nlinarith [Nat.zero_le M.2.2.1.length, Nat.zero_le k]
 
 def EvalPotential (M : EncodedAutomaton) (sigma : Env) : Nat :=
-  nodeCoefficient M * (sigma.inp.length + rankSum M.1 sigma.inp)
+  nodeCoefficient M * (sigma.vars "n" - sigma.vars "node" +
+    rankSum M.1 ((sigma.arrs "W").drop (sigma.vars "node")))
 
 /-- The loop state is a split of the original word into a processed prefix
 and the unread suffix, together with the represented semantic stack. -/
@@ -61,7 +62,7 @@ def EvalLoopInv (B : Nat) (M : EncodedAutomaton) (word : CodeString)
     (sigma : Env) : Prop :=
   ∃ processed remaining stack states lengths,
     word = processed ++ remaining ∧
-      sigma.vars "node" = processed.length ∧ sigma.inp = remaining ∧
+      sigma.vars "node" = processed.length ∧ sigma.arrs "W" = word ∧
       EvalFields M word.length sigma ∧
       EvalStorage M states lengths stack sigma ∧
       stack = evalWord M.1 M.2 processed ∧
@@ -95,7 +96,7 @@ theorem evaluateTreeLoop_spec (B : Nat) (M : EncodedAutomaton)
     apply Spec.while_potential (EvalLoopInv B M word) (EvalPotential M)
     · intro sigma hinv
       rcases hinv with ⟨processed, remaining, stack, states, lengths,
-        hword, hnode, hinp, hfields, hstorage, hstack, hsafe, hstackLen,
+        hword, hnode, hW, hfields, hstorage, hstack, hsafe, hstackLen,
         hstatesLen, hlengthsLen, hstatesB, hlengthsB⟩
       refine ⟨decide (processed.length < word.length), ?_⟩
       rcases hfields with ⟨_, _, _, _, _, _, _, _, _, hn⟩
@@ -106,7 +107,7 @@ theorem evaluateTreeLoop_spec (B : Nat) (M : EncodedAutomaton)
       simp [hnode, hn, hwordLenB, hpB]
     · intro sigma hinv hcond
       rcases hinv with ⟨processed, remaining, stack, states, lengths,
-        hword, hnode, hinp, hfields, hstorage, hstack, hsafe, hstackLen,
+        hword, hnode, hW, hfields, hstorage, hstack, hsafe, hstackLen,
         hstatesLen, hlengthsLen, hstatesB, hlengthsB⟩
       have hprocessed : processed.length < word.length := by
         rcases hfields with ⟨_, _, _, _, _, _, _, _, _, hn⟩
@@ -119,7 +120,8 @@ theorem evaluateTreeLoop_spec (B : Nat) (M : EncodedAutomaton)
         rw [hnil] at hlen
         simp at hlen
         omega
-      obtain ⟨symbol, rest, rfl⟩ := List.exists_cons_of_ne_nil hremaining
+      obtain ⟨symbol, rest, hremainingEq⟩ := List.exists_cons_of_ne_nil hremaining
+      subst remaining
       rcases hsafe with ⟨hsafeHead, hsafeRest⟩
       have hsymbolMem : symbol ∈ word := by
         rw [hword]
@@ -139,15 +141,18 @@ theorem evaluateTreeLoop_spec (B : Nat) (M : EncodedAutomaton)
         omega
       have hcapacity : states.length = lengths.length * M.2.2.1.length := by
         rw [hstatesLen, hlengthsLen]
+      have hsymbolGet : word.getD processed.length 0 = symbol := by
+        rw [hword]
+        simp
       have hbody := evaluateTreeBody_spec B M word.length processed.length
-        states lengths stack symbol rest h0 h1 hparameterB hstatesB hlengthsB
+        states lengths stack word symbol h0 h1 hparameterB hstatesB hlengthsB
         hparameterLenB hstatesLenB (by omega) hsymbolIndex hstackRoom hcapacity
-        hwidthB hQB hTB hsymbolB hworkB hsafeHead hrep (by omega)
+        hwidthB hQB hTB hsymbolB hworkB hsafeHead hrep (by omega) (by omega)
       have hpre : NodeBodyContext M word.length processed.length states lengths
-          stack symbol rest sigma := by
-        exact ⟨hfields, ⟨hS, hL, hO, hdepth, hrep⟩, hinp, hnode⟩
+          stack word symbol sigma := by
+        exact ⟨hfields, ⟨hS, hL, hO, hdepth, hrep⟩, hW, hsymbolGet, hnode⟩
       obtain ⟨sigma', hrun, hresult⟩ := hbody.run hpre
-      rcases hresult with ⟨hfields', hstorage', hinp', hnode'⟩
+      rcases hresult with ⟨hfields', hstorage', hW', hnode'⟩
       let states' := nodeStates M states stack symbol
       let lengths' := nodeLengths M lengths stack symbol
       let stack' := pushSymbol M.1 M.2 stack symbol
@@ -162,7 +167,7 @@ theorem evaluateTreeLoop_spec (B : Nat) (M : EncodedAutomaton)
         simpa [List.append_assoc] using hword
       have hinv' : EvalLoopInv B M word sigma' := by
         refine ⟨processed ++ [symbol], rest, stack', states', lengths', hword',
-          ?_, hinp', hfields', ?_, hstack', hsafeRest, ?_, ?_, ?_,
+          ?_, hW', hfields', ?_, hstack', hsafeRest, ?_, ?_, ?_,
           hstatesB', hlengthsB'⟩
         · simpa using hnode'
         · simpa [states', lengths', stack'] using hstorage'
@@ -178,8 +183,12 @@ theorem evaluateTreeLoop_spec (B : Nat) (M : EncodedAutomaton)
       have hpotential : EvalPotential M sigma =
           nodeCoefficient M * (M.1.getD symbol 0 + 1) +
             EvalPotential M sigma' := by
-        rw [EvalPotential, EvalPotential, hinp, hinp']
-        simp [rankSum]
+        rw [EvalPotential, EvalPotential, hW, hW']
+        rcases hfields with ⟨_, _, _, _, _, _, _, _, _, hn⟩
+        rcases hfields' with ⟨_, _, _, _, _, _, _, _, _, hn'⟩
+        rw [hn, hn', hnode, hnode']
+        rw [hword]
+        simp [rankSum, Nat.add_sub_add_left]
         ring
       change 4 + (nodeCoreCost M (M.1.getD symbol 0) + 20) +
         EvalPotential M sigma' ≤ EvalPotential M sigma
@@ -188,20 +197,25 @@ theorem evaluateTreeLoop_spec (B : Nat) (M : EncodedAutomaton)
       exact hinv
     · intro sigma hinv
       rcases hinv with ⟨processed, remaining, stack, states, lengths,
-        hword, hnode, hinp, hfields, hstorage, hstack, hsafe, hstackLen,
+        hword, hnode, hW, hfields, hstorage, hstack, hsafe, hstackLen,
         hstatesLen, hlengthsLen, hstatesB, hlengthsB⟩
-      rw [EvalPotential, hinp]
+      rw [EvalPotential, hW]
+      rcases hfields with ⟨_, _, _, _, _, _, _, _, _, hn⟩
+      rw [hn, hnode, hword]
+      simp only [List.drop_left, List.length_append, Nat.add_sub_cancel_left]
       have hmeasure : remaining.length + rankSum M.1 remaining ≤
           word.length + rankSum M.1 word := by
         rw [hword, rankSum_append]
         simp
         omega
-      exact Nat.add_le_add_right (Nat.mul_le_mul_left _ hmeasure) 4
+      have hcharged := Nat.add_le_add_right
+        (Nat.mul_le_mul_left (nodeCoefficient M) hmeasure) 4
+      simpa [hword] using hcharged
   exact hloop.post (by
     intro sigma sigma' hinv ⟨hinv', hfalse⟩
     have hinvCopy := hinv'
     rcases hinv' with ⟨processed, remaining, stack, states, lengths,
-      hword, hnode, hinp, hfields, hstorage, hstack, hsafe, hstackLen,
+      hword, hnode, hW, hfields, hstorage, hstack, hsafe, hstackLen,
       hstatesLen, hlengthsLen, hstatesB, hlengthsB⟩
     rcases hfields with ⟨_, _, _, _, _, _, _, _, _, hn⟩
     have hfalse' : processed.length < B ∧ word.length ≤ processed.length := by

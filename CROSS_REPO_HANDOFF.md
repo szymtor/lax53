@@ -1,126 +1,46 @@
-# Cross-repository handoff: Lax-53 and Lax-58
+# Lax-53 / Lax-58 boundary
 
-Last updated: 2026-09-02
+Updated: 2026-09-06. Read the two current-state documents first:
 
-This is the durable handoff for the coordinated work under:
+- [Lax-53](CURRENT_STATE.md): charged intrinsic-formula compiler and RAM evaluator.
+- [Lax-58](../canonical-encodings/CURRENT_STATE.md): structural provenance and immutable arena.
 
-```text
-/Users/szymtor/Dropbox/nauka/gits/laxSubmissions
-```
+## Ownership
 
-On resumption, read this file together with both repositories'
-`FORMALIZATION_STATE.md` files and `MSO-automata-trees/AGENTS.md`. Preserve
-both dirty working trees and all untracked user artifacts.
+Intrinsic mathematical values → closed constructor derivation → neutral
+`Raw` structure → distinguished immutable word arena → charged Lax-53
+runtime refinement and evaluation.
 
-## Agreed architecture
+Lax-58 owns the structural vocabulary, fail-closed derivation, and exact arena
+contents/footprint. Its low-level `FieldEncoding` is not a certificate.
+The generator establishes constructor provenance and the kernel checks the
+expanded laws; private constructor visibility alone provides no guarantee.
+`CertifiedDerivation` contains only agreement definitions;
+`CertifiedDerivationElab` contains the closed tooling. Both are explicitly
+labeled infrastructure under Lax's current all-modules-are-concepts rule.
 
-The implemented boundary is:
+Lax-53 owns its four datatype derivation invocations, presentations, value-level
+translations, and all specialized mutable storage and machine programs.
+Compiling a runtime input formula must happen in the measured RAM execution.
+The pure compiler is a semantic specification, not free runtime preprocessing.
+Its public complexity theorems use Lax-58's `RamComputableWithinUsing` wrapper;
+their proof modules retain the expanded width/resource premises and discharge
+the wrapper by definitional reduction.
 
-```text
-mathematical Lax-53 values and translations
-                    |
-                    v
-datatype-specific constructor certificates
-                    |
-                    v
-Lax-58 neutral structural Raw presentation
-                    |
-                    v
-Lax-58 distinguished immutable word arena
-                    |
-                    v
-Lax-53 specialized RAM layout and verified evaluator
-```
+## Cross-repository changes
 
-Lax-58 contains no generic binary serialization, prefix parser, codec-based
-computability interface, mutable heap, or runtime model. It supplies a small
-structural vocabulary and one exact linear-footprint arena. Complete
-constructor equations in the owning downstream submission are the
-kernel-checked no-advice certificate.
+For a shared encoding/API change, run Lax-58's regression suite and replay,
+Lax-53's focused suite and expanded certificate report, then its full proof
+root. Preserve raw layout unless a representation change is explicitly intended.
+The procedures and compiler checklist are in each repository's `WORKFLOW.md`.
 
-Lax-53 keeps the mathematical formula/automaton translations at value level.
-It separately certifies structural presentations of its finite automaton data,
-raw formulas, and ranked trees. Its fixed-width transition table and
-one-symbol-per-node postorder tree word remain a specialized RAM refinement,
-not the generic representation.
+Local Lake overrides support simultaneous development. They do not bypass
+the installed Lax CLI's archive-record checks. Current archive blockers and
+exact Lax62Proofs pins are recorded only in Lax-53's current state to avoid
+duplicated, drifting status. Never publish or register merely to unblock a
+local build; registration belongs to the user.
 
-No bare `Computable` statement over an arbitrary hidden coding is currently
-exposed. Adding one now would choose an unrelated `Primcodable` witness and
-recreate the abstraction loophole. A future effectiveness theorem should be
-stated in a dedicated computation/refinement layer tied to the certified
-structural representation. The existing Lean translations are concrete total
-functions, and the reverse compiler is used by the RAM proof.
-
-For the fixed-sentence theorem, sentence preprocessing is outside the measured
-execution because the sentence is fixed. If the formula becomes runtime input,
-the conversion cost must be included.
-
-## Lax-58 status
-
-Repository: `canonical-encodings`; the structural rewrite is committed as
-`0994f68f21d33c6a065fd3bb4578b4bd9efb8e96`.
-
-- Concepts: `StructuralPresentation`, `StructuralCombinators`, `WordArena`.
-- Proofs for all grouped structural and arena claims compile.
-- Full `lax build . --no-color` passes.
-- `Presentation.Canonical` and the complete former serialization layer are
-  removed.
-- The arena encoder determines all stored words; density separately excludes
-  unreachable blocks.
-- Preserve untracked `Archive.zip` and `lax58_inmemory_patch/`.
-- Do not run `lax register`.
-
-## Lax-53 status
-
-Repository: `MSO-automata-trees`; current HEAD before the uncommitted rewrite:
-`3118d74`.
-
-Concept changes:
-
-- `EffectiveTranslations` uses direct `RawFormula` syntax and states two
-  uniform value-level, alphabet- and language-preserving translations.
-- `StructuralRepresentations` defines named presentations for ranked alphabet
-  codes, transition codes, automaton bodies, encoded automata, raw formulas,
-  encoded sentences, and ranked trees. Formula and tree laws cover every
-  constructor; the tree uses a fixed constructor tag, explicit symbol field,
-  and recursively ordered children.
-- `TreeModelCheckingEncoding` is explicitly a specialized RAM layout.
-- `MSOLinearTime` states the fixed-parameter preprocessing boundary and does
-  not pretend formula compilation is free for a uniform runtime input.
-
-Proof changes:
-
-- New proofs discharge the three structural certificate groups and the pure
-  value-level translation theorem.
-- The formula compiler now consumes `RawFormula` directly.
-- Obsolete raw-formula token parser/serializer computability modules were
-  removed from the proof package.
-- The revised `Lax53Proofs.MSOLinearTime` target builds successfully through
-  3022 jobs, and the final `Lax53Proofs` root builds successfully through 3038
-  jobs. The `Lax53` concept root builds successfully through 909 jobs.
-- Source audit finds no `sorry`, `admit`, or proof-package axioms. The inactive
-  legacy formula serializer/parser blocks were removed entirely.
-
-## Local dependency and validation caveat
-
-The Lax authors confirmed that simultaneous local development should use a
-local package override pointing to the dependency submission directory. The
-generated Lake manifests and package-overrides in Lax-53 point `Lax58` at the
-local `canonical-encodings/concepts` directory, and direct Lake builds work.
-
-The installed Lax CLI/spec still resolves every declared cross-submission
-dependency against the Archive database before Lake is invoked. Since Lax-58
-has no content-bearing Archive record, `lax build` rejects it despite the
-local override. Do not publish merely to bypass this local tooling mismatch.
-Record direct `lake build` results and report the Lax validation blocker
-honestly.
-
-## Preservation and next action
-
-- Never reset or discard either dirty working tree.
-- Never run `lax register`; do not submit or publish without an explicit user
-  request.
-- Preserve unrelated files and the two named Lax-58 artifacts.
-- The implementation is ready for user review. The next technical step after
-  any requested revisions is full Lax-53 validation once its local-draft
-  dependency can pass Lax resolution.
+Both working trees already contain substantial user work. Preserve unrelated
+changes and Lax-58's `Archive.zip`. Historical decisions remain in each
+repository's `SESSION_HISTORY.md`; `FORMALIZATION_STATE.md` is a compatibility
+pointer, not another independently maintained status document.

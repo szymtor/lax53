@@ -2,7 +2,7 @@ import Lax53Proofs.EncodedAutomataOperations
 
 namespace Lax53Proofs.EncodedAutomataComputability
 
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53Proofs.EncodedAutomataOperations
 open Lax53Proofs.FiniteAutomatonEncoding
 

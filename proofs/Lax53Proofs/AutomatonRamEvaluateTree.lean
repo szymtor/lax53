@@ -8,7 +8,7 @@ open Classical
 open Lax13Proofs.Imp
 open Lax13Proofs.Reasoning
 open Lax53.RankedTree
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.TreeModelCheckingEncoding
 open Lax53Proofs.AutomatonRamProgram
 open Lax53Proofs.EncodedAutomatonWordEvaluation
@@ -34,12 +34,34 @@ theorem treeSize_pos (alphabet : RankedAlphabetCode)
   | node a children =>
       simp [treeSize, encodeTree]
 
-def EvaluateTreeContext (M : EncodedAutomaton) (word : CodeString)
+def EvaluateTreeContext (B : Nat) (M : EncodedAutomaton) (word : CodeString)
     (sigma : Env) : Prop :=
-  EvalFields M word.length sigma ∧ sigma.inp = word ∧
+  EvalFields M word.length sigma ∧ sigma.arrs "W" = word ∧
     sigma.arrs "S" = List.replicate (word.length * M.2.2.1.length) 0 ∧
     sigma.arrs "L" = List.replicate word.length 0 ∧
-    (sigma.arrs "O").length = M.2.2.1.length
+    (sigma.arrs "O").length = M.2.2.1.length ∧
+    (sigma.arrs "W").length * M.2.2.1.length < B
+
+theorem evalLoopInv_init (B : Nat) (M : EncodedAutomaton) (word : CodeString)
+    (sigma : Env) (h0 : 0 < B) (hsafe : SafeEval M.1 M.2 word [])
+    (hctx : EvaluateTreeContext B M word sigma) :
+    EvalLoopInv B M word ((sigma.setVar "node" 0).setVar "depth" 0) := by
+  rcases hctx with ⟨hfields, hW, hS, hL, hO, hcapacity⟩
+  refine ⟨[], word, [],
+    List.replicate (word.length * M.2.2.1.length) 0,
+    List.replicate word.length 0, by simp, by simp, ?_, ?_, ?_, by simp [evalWord],
+    hsafe, by simp, by simp, by simp, ?_, ?_⟩
+  · simpa using hW
+  · simpa [EvalFields] using hfields
+  · simp [EvalStorage, RowsRep, hS, hL, hO]
+  · intro v hv
+    simp only [List.mem_replicate] at hv
+    rcases hv with ⟨-, rfl⟩
+    exact h0
+  · intro v hv
+    simp only [List.mem_replicate] at hv
+    rcases hv with ⟨-, rfl⟩
+    exact h0
 
 theorem evaluateTree_spec (B : Nat) (M : EncodedAutomaton)
     (word : CodeString)
@@ -54,7 +76,7 @@ theorem evaluateTree_spec (B : Nat) (M : EncodedAutomaton)
     (hworkB : M.1.length + 4 + M.2.2.1.length * (maximumRank M.1 + 3) +
       (maximumRank M.1 + 3) < B)
     (hsafe : SafeEval M.1 M.2 word []) :
-    Spec B (EvaluateTreeContext M word) evaluateTree
+    Spec B (EvaluateTreeContext B M word) evaluateTree
       (fun _ sigma' => EvalLoopInv B M word sigma' ∧
         sigma'.vars "node" = word.length)
       (nodeCoefficient M * (word.length + rankSum M.1 word) + 20) := by
@@ -63,9 +85,14 @@ theorem evaluateTree_spec (B : Nat) (M : EncodedAutomaton)
   unfold evaluateTree seqs
   run_vcg [hloop]
   all_goals try assumption
+  all_goals try apply evalLoopInv_init B M word <;> assumption
   all_goals simp_all [EvaluateTreeContext, EvalLoopInv, EvalFields, EvalStorage,
     RowsRep, evalWord]
   all_goals try exact hsafe
+  all_goals try
+    have hWlen : (σ.arrs "W").length = word.length := by aesop
+    rw [hWlen]
+    exact hstatesCapacityB
   all_goals try aesop
   all_goals omega
 

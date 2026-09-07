@@ -5,7 +5,7 @@ import Lax53Proofs.MarkedTrees
 
 namespace Lax53Proofs.MarkedAlphabetEncoding
 
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.RankedTree
 open Lax53Proofs.MarkedTrees
 open Lax53Proofs.EncodedProjection

@@ -2,7 +2,7 @@ import Lax53.RankedTree
 
 /-!
 ---
-title: Bottom-up finite tree automata
+title: Bottom-up tree automata
 type: definition
 ---
 
@@ -25,8 +25,9 @@ open Lax53.RankedTree
 
 universe u v
 
-/-- A bottom-up tree automaton with state type `Q`. Finiteness of `Q` is imposed
-when discussing finite tree automata and recognizable languages. -/
+/-- A bottom-up tree automaton with state type `Q`. This basic structure allows
+arbitrary state types; recognizable languages and the main theorems explicitly
+require finitely many states. -/
 structure Automaton (A : RankedAlphabet.{u}) (Q : Type v) where
   transition : (a : A.Symbol) → Q → (Fin (A.rank a) → Q) → Bool
   accept : Q → Bool
@@ -59,7 +60,7 @@ def Deterministic {A : RankedAlphabet.{u}} {Q : Type v} (M : Automaton A Q) : Pr
 
 end Automaton
 
-/-- A tree language is recognizable by a finite tree automaton. -/
+/-- Recognizability by a tree automaton with finitely many states. -/
 def Recognizable {A : RankedAlphabet.{u}} (L : TreeLanguage A) : Prop :=
   ∃ Q : Type, ∃ _ : Fintype Q, ∃ M : Automaton A Q, M.language = L
 

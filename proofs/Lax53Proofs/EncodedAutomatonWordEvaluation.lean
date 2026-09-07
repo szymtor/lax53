@@ -1,9 +1,10 @@
 import Lax53Proofs.EncodedAutomatonEvaluation
+import Lax53Proofs.RuntimeLayout
 
 namespace Lax53Proofs.EncodedAutomatonWordEvaluation
 
 open Lax53.RankedTree
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.TreeModelCheckingEncoding
 open Lax53Proofs.EncodedAutomatonEvaluation
 

@@ -5,7 +5,7 @@ namespace Lax53Proofs.AutomatonRamCorrectness
 set_option maxHeartbeats 1000000
 open Classical
 
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.TreeModelCheckingEncoding
 open Lax53Proofs.AutomatonTableEncoding
 open Lax53Proofs.EncodedAutomatonEvaluation

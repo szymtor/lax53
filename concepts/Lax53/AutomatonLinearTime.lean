@@ -1,46 +1,76 @@
-import Lax13.Ram
+import Lax58.RamComplexity
 import Lax53.TreeModelCheckingEncoding
 
 /-!
 ---
-title: Linear-time model checking for finite tree automata
+title: Word-RAM evaluation of tree automata
 type: theorem
 ---
 
-Acceptance by a finite bottom-up tree automaton is decidable in linear time in
-the number of nodes of the input tree on a word RAM. The algorithm is uniform:
-the encoded ranked alphabet and automaton are part of the input. There are one
-word-RAM program and one absolute constant `C` such that, for every encoded
-automaton `M` and ranked tree `t`, the program decides acceptance within
-`C (|M| + 1)² |t|` instructions. Thus the constant multiplying the tree size
-is explicitly quadratic in the length of the automaton's word representation.
+Finite bottom-up tree-automaton acceptance has one uniform implementation on
+the Lax word RAM. The program is chosen before the automaton, tree, and word
+width. Its actual machine instruction count is bounded by a fixed constant
+times a quadratic function of the automaton workload and a linear function of
+the number of tree nodes. The workload is the certified constructor size plus
+the largest symbol rank; the latter is relevant because a node may have that
+many ordered children even though a rank is one primitive natural payload.
 
-The word-length hypothesis explicitly ensures that the input entries,
-addresses, and claimed running time fit into machine words. The program is
-chosen before the word length and works at every word length satisfying this
-hypothesis.
+The only physical input admitted by the theorem is the distinguished
+constructor-certified `lax-58` arena input. Lax58's reusable complexity
+predicate supplies the program quantifier and requires correctness at every
+word width satisfying payload, arena-address, and implementation-capacity
+bounds. The natural output is one word: zero for rejection and one for
+acceptance.
 -/
 
 namespace Lax53.AutomatonLinearTime
 
-open Lax13.Ram
 open Lax53.RankedTree
 open Lax53.TreeAutomaton
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.TreeModelCheckingEncoding
+open Lax58.RamComplexity
+
+/-- Intrinsic workload of an automaton for the simple uniform evaluator. It
+keeps constructor count separate from the magnitude of its largest arity. -/
+def automatonWorkSize (M : EncodedAutomaton) : Nat :=
+  automatonSize M + maximumRank M.1
+
+/-- Public instruction bound for the uniform evaluator. -/
+def uniformTimeBound (constant : Nat) (M : EncodedAutomaton)
+    (t : Tree M.1.toRankedAlphabet) : Nat :=
+  constant * (automatonWorkSize M + 1) ^ 2 * (treeSize t + 1)
+
+/-- Explicit word-resource bound. Besides structural workload it includes the
+largest primitive payload because machine values and the fixed compiler layout
+must both fit in one word. -/
+def uniformWordBound (constant : Nat) (M : EncodedAutomaton)
+    (t : Tree M.1.toRankedAlphabet) : Nat :=
+  constant * (automatonWorkSize M + 1) ^ 2 *
+    (inputStructuralSize M t + inputPayloadMax M t + 1)
 
 open Classical in
-/-- One uniform word-RAM program decides acceptance in time quadratic in the
-automaton representation times the number of tree nodes. -/
-axiom exists_uniform_linearTime_automatonAcceptance :
-  ∃ (program : Program) (constant : Nat),
-    ∀ (M : EncodedAutomaton) (t : Tree M.1.toRankedAlphabet) (w : Nat),
-      let parameterSize := (encodeAutomaton M).length
-      let c := constant * (parameterSize + 1) ^ 2
-      let input := automatonInput M t
-      (∀ v ∈ input, c * (input.length + v + 1) ≤ 2 ^ w) →
-        ∃ time ≤ c * treeSize t,
-          RunsTo w program input
-            (if M.2.toAutomaton M.1 |>.Accepts t then [1] else [0]) time
+/-- One program handles every certified automaton/tree input and every
+sufficiently large word width. The reusable predicate contains the program
+and width quantifiers and all three input/resource-fit premises. -/
+axiom exists_uniform_automatonAcceptance :
+  ∃ timeConstant wordConstant : Nat,
+    RamComputableWithinUsing automatonAcceptancePresentation natOutput
+      (fun input => if input.automaton.2.toAutomaton input.automaton.1 |>.Accepts
+        input.tree then 1 else 0)
+      (fun input => uniformTimeBound timeConstant input.automaton input.tree)
+      (fun input => uniformWordBound wordConstant input.automaton input.tree)
+
+open Classical in
+/-- With the automaton fixed before program choice, acceptance is linear in
+the number of tree nodes. This existential specialization claim does not
+assert an effective program-producing function. -/
+axiom exists_fixed_automatonAcceptance (M : EncodedAutomaton) :
+  ∃ timeCoefficient wordCoefficient : Nat,
+    RamComputableWithinUsing (fixedAutomatonPresentation M) natOutput
+      (fun t => if M.2.toAutomaton M.1 |>.Accepts t then 1 else 0)
+      (fun t => timeCoefficient * (treeSize t + 1))
+      (fun t => wordCoefficient * inputMagnitudeUsing
+        (fixedAutomatonPresentation M) t)
 
 end Lax53.AutomatonLinearTime

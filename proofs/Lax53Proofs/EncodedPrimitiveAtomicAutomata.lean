@@ -4,7 +4,7 @@ import Mathlib.Data.List.GetD
 
 namespace Lax53Proofs.EncodedPrimitiveAtomicAutomata
 
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53Proofs.FiniteAutomatonEncoding
 open Lax53Proofs.FiniteWordStates
 open Lax53Proofs.MarkedAlphabetEncoding

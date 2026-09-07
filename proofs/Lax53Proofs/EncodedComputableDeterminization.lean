@@ -3,7 +3,7 @@ import Lax53Proofs.FiniteWordStates
 
 namespace Lax53Proofs.EncodedComputableDeterminization
 
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.RankedTree
 open Lax53.TreeAutomaton
 open Lax53Proofs.FiniteAutomatonEncoding

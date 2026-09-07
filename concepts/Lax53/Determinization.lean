@@ -3,12 +3,13 @@ import Lax53.TreeAutomaton
 
 /-!
 ---
-title: Determinization of finite tree automata
+title: Determinization of tree automata
 type: theorem
 ---
 
-Every bottom-up finite tree automaton has an equivalent deterministic finite
-tree automaton over the same ranked alphabet.
+Every bottom-up tree automaton with finitely many states has an equivalent
+deterministic tree automaton with finitely many states over the same ranked
+alphabet.
 -/
 
 namespace Lax53.Determinization

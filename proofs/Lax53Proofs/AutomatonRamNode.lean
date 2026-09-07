@@ -7,7 +7,7 @@ open Classical
 
 open Lax13Proofs.Imp
 open Lax13Proofs.Reasoning
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.TreeModelCheckingEncoding
 open Lax53Proofs.AutomatonRamProgram
 open Lax53Proofs.EncodedAutomatonWordEvaluation

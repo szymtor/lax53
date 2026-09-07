@@ -1,5 +1,5 @@
 import Lax13Proofs.Transfer
-import Lax13Proofs.Refine.Codegen.Harness
+import Lax53Proofs.ArrayInput
 import Lax53Proofs.EncodedAutomatonWordEvaluation
 
 namespace Lax53Proofs.AutomatonRamProgram
@@ -7,7 +7,7 @@ namespace Lax53Proofs.AutomatonRamProgram
 open Lax13.Ram
 open Lax13Proofs.Imp
 open Lax13Proofs.Compile
-open Lax13Proofs.Codegen
+open Lax53Proofs.ArrayInput
 
 /-- Right-associated sequencing, used only to keep the concrete evaluator
 readable. -/
@@ -43,6 +43,11 @@ def readHeader : Com := seqs [
     (add (var "records") (mul (var "T") (var "width"))),
   .assign "F" (get "P" (var "acceptBase")),
   .read "n"]
+
+/-- Copy the postorder symbol word into random-access storage. This remains
+part of the proof-only legacy framing; the structural-arena front end below
+will populate the same array directly. -/
+def readTreeWord : Com := readArr "W" "wi" "n" "wv"
 
 /-- Search the reachable-state list of the current `j`-th child for the
 transition state `cq`. -/
@@ -141,7 +146,7 @@ def installParent : Com := seqs [
 
 /-- Process all `n` symbols of the postorder tree block. -/
 def evaluateTreeBody : Com := seqs [
-  .read "sym",
+  .assign "sym" (get "W" (var "node")),
   .assign "k" (get "P" (add (var "sym") (lit 1))),
   scanTransitions,
   installParent,
@@ -184,7 +189,8 @@ def scanAccepting : Com := seqs [
   .write (var "answer")]
 
 /-- Uniform IMP+ implementation of sparse bottom-up evaluation. -/
-def evaluator : Com := seqs [readParameter, readHeader, evaluateTree, scanAccepting]
+def evaluator : Com := seqs [readParameter, readHeader, readTreeWord,
+  evaluateTree, scanAccepting]
 
 /-- The evaluator uses one parameter array, one reachable-state array, and one
 stack-row-length array. -/
@@ -193,15 +199,15 @@ def layout : Layout where
     "acceptBase", "F", "n", "node", "depth", "sym", "k", "scratchLen", "tr",
     "base", "tsym", "parent", "arity", "valid", "j", "cq", "childRow",
     "childLen", "z", "found", "addr", "state", "target", "src", "dst",
-    "answer", "rootLen", "f", "acceptState"]
-  arrays := ["P", "S", "L", "O"]
+    "answer", "rootLen", "f", "acceptState", "wi", "wv"]
+  arrays := ["P", "W", "S", "L", "O"]
   temps := 8
 
 /-- The concrete uniform word-RAM program. -/
 def program : Program := compileProgram layout evaluator
 
 theorem evaluator_ok : Com.Ok layout evaluator := by
-  simp [evaluator, readParameter, readHeader, evaluateTree, scanAccepting,
+  simp [evaluator, readParameter, readHeader, readTreeWord, evaluateTree, scanAccepting,
     evaluateTreeLoop, evaluateTreeBody, scanAcceptingOuterLoop,
     scanAcceptingOuterBody, scanAcceptingInnerLoop, scanAcceptingInnerBody,
     scanTransitions, scanTransitionsLoop, scanTransitionsBody,

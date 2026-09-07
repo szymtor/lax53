@@ -4,7 +4,7 @@ import Lax53Proofs.AtomicMarkedTrees
 
 namespace Lax53Proofs.EncodedAtomicAutomata
 
-open Lax53.EffectiveTranslations
+open Lax53.ValueTranslations
 open Lax53.RankedTree
 open Lax53.TreeAutomaton
 open Lax53Proofs.FiniteAutomatonEncoding
