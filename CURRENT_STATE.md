@@ -1,6 +1,6 @@
 # Lax-53 current state
 
-Updated: 2026-09-07. Validated source on `main`; publication is the next step.
+Updated: 2026-09-07. Validated and submitted as the public Lax-53 draft.
 The public RAM statements now use Lax-58's reusable
 `RamComputableWithinUsing` predicate. Their encodings, algorithms, bounds, and
 quantifier order are unchanged: the concise proofs unfold the predicate and
@@ -142,13 +142,10 @@ equivalence statement.
 
 ## Publication
 
-The user requested commit and submission. Validation and preview are complete.
-Publish the current source at `https://github.com/szymtor/lax53`, bind it to
-the existing control issue 53 through the CLI, and submit it as a draft.
-Issue 53 was initialized on August 10 but has no submit command/source snapshot;
-the Archive record is still `init` and the live page is absent. Monitor the
-exact submit handle through the Archive's independent build/replay and
-publication result. Do not register.
+The validated source is public at `https://github.com/szymtor/lax53` and is
+bound to control issue 53. The Archive rebuilt the submitted commit in 21m56s,
+wrote the public record, and published the replaceable draft at
+`https://laxarchive.org/lax-53/`. The submission is deliberately not registered.
 
 The dependency mismatch is resolved: Lax58 and Lax58Proofs pin the published
 `szymtor/lax58@83d795f06ae20b48ceed34a9f1284975d305b9c4`; Lax62Proofs is no
