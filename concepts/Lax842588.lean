@@ -1,0 +1,10 @@
+import Lax842588.RankedTree
+import Lax842588.TreeStructure
+import Lax842588.TreeAutomaton
+import Lax842588.Determinization
+import Lax842588.MSOTreeAutomataEquivalence
+import Lax842588.ValueTranslations
+import Lax842588.StructuralRepresentations
+import Lax842588.TreeModelCheckingEncoding
+import Lax842588.AutomatonLinearTime
+import Lax842588.MSOLinearTime

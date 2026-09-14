@@ -1,0 +1,35 @@
+specVersion: "1"
+id: lax-842588
+leanVersion: "v4.33.0"
+mathlibVersion: "db584cd6d46c92f209a44c0f1c829460d327499d"
+title: "MSO and tree automata on finite ranked trees"
+authors:
+  - name: "Szymon Toruńczyk"
+    github: "szymtor"
+  - name: "Codex 5.6"
+bibEntries:
+  - |
+    @article{ThatcherWright1968,
+      author  = {Thatcher, James W. and Wright, Jesse B.},
+      title   = {Generalized finite automata theory with an application to a
+                 decision problem of second-order logic},
+      journal = {Mathematical Systems Theory},
+      volume  = {2},
+      pages   = {57--81},
+      year    = {1968},
+      doi     = {10.1007/BF01691346}
+    }
+  - |
+    @article{Doner1970,
+      author  = {Doner, John},
+      title   = {Tree acceptors and some of their applications},
+      journal = {Journal of Computer and System Sciences},
+      volume  = {4},
+      number  = {5},
+      pages   = {406--451},
+      year    = {1970},
+      doi     = {10.1016/S0022-0000(70)80041-1}
+    }
+issue:
+  repositoryId: 1320232165
+  number: 53
