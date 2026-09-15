@@ -94,7 +94,7 @@ theorem realize_closeSO {A : RankedAlphabet.{u}} {n m : Nat}
       · intro h
         exact ⟨fun i => Fin.elim0 i, h⟩
       · rintro ⟨V, h⟩
-        simpa only [Subsingleton.elim V (fun i : Fin 0 => Fin.elim0 i)] using h
+        simpa only [Subsingleton.elim V (fun i : Fin 0 => Fin.elim0 i)] using! h
   | succ m ih =>
       rw [closeSO, ih]
       simp only [MSOSemantics.realize_exSO]
@@ -498,7 +498,7 @@ omit [Fintype Q] in theorem runsTo_iff_exists_labeling
             rw [funext hroot]
             exact hstep
         | inChild i p =>
-            simpa [labeling, Node.label, Node.child] using hlocal i p
+            simpa [labeling, Node.label, Node.child] using! hlocal i p
       · rintro ⟨r, hroot, hlocal⟩
         let childStates : Fin (A.rank a) → Q :=
           fun i => r (Node.child (Node.root : Node (.node a children)) i)
@@ -506,7 +506,7 @@ omit [Fintype Q] in theorem runsTo_iff_exists_labeling
         · have h := hlocal (Node.root : Node (.node a children))
           change r (Node.root : Node (.node a children)) = q at hroot
           rw [hroot] at h
-          simpa [childStates, Node.label] using h
+          simpa [childStates, Node.label] using! h
         · intro i
           apply (ih i (childStates i)).mpr
           let childLabeling : Node (children i) → Q := fun p => r (Node.inChild i p)
@@ -514,7 +514,7 @@ omit [Fintype Q] in theorem runsTo_iff_exists_labeling
           · rfl
           · intro p
             have h := hlocal (Node.inChild i p)
-            simpa [childLabeling, childStates, Node.label, Node.child] using h
+            simpa [childLabeling, childStates, Node.label, Node.child] using! h
 
 omit [Fintype Q] in theorem exists_acceptingLabeling_iff_accepts
     (M : Automaton A Q) (t : Tree A) :

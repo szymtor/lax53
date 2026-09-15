@@ -2,6 +2,8 @@ import Lax842588Proofs.IntrinsicCompilerOutput
 
 /-! At empty scope the compiler's symbol numbers are the original alphabet's numbers. -/
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.IntrinsicSentenceCorrectness
 
 open Lax146103.MSOSyntax Lax842588.RankedTree Lax842588.TreeStructure Lax842588.ValueTranslations

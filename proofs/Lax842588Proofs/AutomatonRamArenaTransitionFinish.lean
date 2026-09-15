@@ -89,7 +89,7 @@ theorem finishTransition_spec (B : Nat) (I : WordImage)
     Lax842588Proofs.ArenaSemantics.Represents.list_cons hrep
   have hrestRep' : I.Represents restCursor
       ((derivedPresentation : Presentation (List TransitionCode)).toRaw rest) := by
-    simpa [derivedPresentation] using hrestRep
+    simpa [derivedPresentation] using! hrestRep
   have hcursorValid := Lax842588Proofs.ArenaSemantics.Represents.valid hrep
   have hcursorLen :=
     Lax842588Proofs.ArenaSemantics.ValidAddress.lt_arenaWords_length hcursorValid

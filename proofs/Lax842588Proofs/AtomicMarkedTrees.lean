@@ -2,6 +2,8 @@ import Lax842588Proofs.MSOSemantics
 import Lax842588Proofs.TreeAutomataClosure
 import Lax842588Proofs.ValidMarkedTrees
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.AtomicMarkedTrees
 
 open FirstOrder

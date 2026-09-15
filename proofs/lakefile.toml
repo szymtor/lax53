@@ -22,13 +22,13 @@ subDir = "word-ram-v4-33/proofs"
 [[require]]
 name = "Lax560851Proofs"
 git = "https://github.com/szymtor/lax58"
-rev = "83d795f06ae20b48ceed34a9f1284975d305b9c4"
+rev = "091d4fe67804863dac4001f7bc1ac72d8597a7e4"
 subDir = "proofs"
 
 [[require]]
 name = "Lax560851"
 git = "https://github.com/szymtor/lax58"
-rev = "83d795f06ae20b48ceed34a9f1284975d305b9c4"
+rev = "091d4fe67804863dac4001f7bc1ac72d8597a7e4"
 subDir = "concepts"
 
 [[lean_lib]]

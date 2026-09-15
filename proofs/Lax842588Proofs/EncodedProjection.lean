@@ -1,5 +1,7 @@
 import Lax842588Proofs.EncodedAutomataOperations
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.EncodedProjection
 
 open Lax842588.ValueTranslations
@@ -328,7 +330,7 @@ theorem pullback_accepts_iff (source target : RankedAlphabetCode)
         (if h : a < source.length then (symbolMap ⟨a, h⟩).val else 0)
         q children) (accepting M)).toAutomaton source).accept q = true at hq
     rw [FiniteAutomatonEncoding.accept_encode] at hq
-    simpa [accepting_eq_accept] using hq
+    simpa [accepting_eq_accept] using! hq
   · rintro ⟨q, hq, hrun⟩
     refine ⟨q, ?_, (pullback_runsTo_iff source target symbolMap rankMap M t q).mpr hrun⟩
     change ((FiniteAutomatonEncoding.encode source M.1
@@ -336,6 +338,6 @@ theorem pullback_accepts_iff (source target : RankedAlphabetCode)
         (if h : a < source.length then (symbolMap ⟨a, h⟩).val else 0)
         q children) (accepting M)).toAutomaton source).accept q = true
     rw [FiniteAutomatonEncoding.accept_encode]
-    simpa [accepting_eq_accept] using hq
+    simpa [accepting_eq_accept] using! hq
 
 end Lax842588Proofs.EncodedProjection

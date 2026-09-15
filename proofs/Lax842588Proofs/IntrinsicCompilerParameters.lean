@@ -114,7 +114,7 @@ theorem fits_of_allowance (c : Code) (B : Nat) (alphabet : RankedAlphabetCode)
       headerPackBound (parameterSize alphabet φ) := Nat.pow_le_pow_left (by omega) 2
   have hpair : (encode alphabet + encode ((postorder alphabet φ).map fields) + 1) ^ 2 ≤
       inputCodeBound (parameterSize alphabet φ) := by
-    simpa only [Nat.pow_two, pairCap] using pairCap_mono hα hr
+    simpa only [Nat.pow_two, pairCap] using! pairCap_mono hα hr
   have hw := materialize_words_le c alphabet φ
   unfold compilerAllowance at hB
   refine ⟨by omega, ?_, by have := hshape.alphabetLength; omega, by omega,

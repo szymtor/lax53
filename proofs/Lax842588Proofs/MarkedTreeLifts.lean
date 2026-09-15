@@ -71,7 +71,7 @@ def liftSOTreeNodeFrom {A : RankedAlphabet.{u}} {n m : Nat} :
       cases p with
       | root => rfl
       | inChild i p =>
-          simpa only [liftFOTreeNodeFrom, liftFOTreeNodeTo] using congrArg
+          simpa only [liftFOTreeNodeFrom, liftFOTreeNodeTo] using! congrArg
             (@Node.inChild (MarkedAlphabet A (n + 1) m)
               (MarkedAlphabet.liftFO s (mark .root))
               (fun j => liftFOTreeWith (children j) (fun q => mark (.inChild j q))) i)
@@ -94,7 +94,7 @@ def liftSOTreeNodeFrom {A : RankedAlphabet.{u}} {n m : Nat} :
       cases p with
       | root => rfl
       | inChild i p =>
-          simpa only [liftSOTreeNodeFrom, liftSOTreeNodeTo] using congrArg
+          simpa only [liftSOTreeNodeFrom, liftSOTreeNodeTo] using! congrArg
             (@Node.inChild (MarkedAlphabet A n (m + 1))
               (MarkedAlphabet.liftSO s (mark .root))
               (fun j => liftSOTreeWith (children j) (fun q => mark (.inChild j q))) i)
@@ -178,7 +178,7 @@ theorem liftFOTreeNodeTo_child_exists {A : RankedAlphabet.{u}} {n m : Nat}
       let j : Fin (A.rank
           (liftFOTreeNodeTo mark
             (Node.root : Node (liftFOTreeWith (.node s children) mark))).label.1) :=
-        ⟨i.val, by simpa only [liftFOTreeNodeTo_label, MarkedAlphabet.dropFO] using i.isLt⟩
+        ⟨i.val, by simpa only [liftFOTreeNodeTo_label, MarkedAlphabet.dropFO] using! i.isLt⟩
       refine ⟨j, rfl, ?_⟩
       have hji : j = i := Fin.ext rfl
       rw [hji]
@@ -204,7 +204,7 @@ theorem liftSOTreeNodeTo_child_exists {A : RankedAlphabet.{u}} {n m : Nat}
       let j : Fin (A.rank
           (liftSOTreeNodeTo mark
             (Node.root : Node (liftSOTreeWith (.node s children) mark))).label.1) :=
-        ⟨i.val, by simpa only [liftSOTreeNodeTo_label, MarkedAlphabet.dropSO] using i.isLt⟩
+        ⟨i.val, by simpa only [liftSOTreeNodeTo_label, MarkedAlphabet.dropSO] using! i.isLt⟩
       refine ⟨j, rfl, ?_⟩
       have hji : j = i := Fin.ext rfl
       rw [hji]

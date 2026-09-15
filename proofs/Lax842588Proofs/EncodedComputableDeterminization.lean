@@ -1,6 +1,8 @@
 import Lax842588Proofs.EncodedAutomataComputability
 import Lax842588Proofs.FiniteWordStates
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.EncodedComputableDeterminization
 
 open Lax842588.ValueTranslations
@@ -127,7 +129,7 @@ theorem childrenAgree_subsetFin_iff {n k : Nat}
     rw [hchild, hq]
     change subsetMember n (subsetFin n (sets j)).val r.val = true
     rw [subsetMember_subsetFin]
-    exact decide_eq_true (by simpa [j] using h j)
+    exact decide_eq_true (by simpa [j] using! h j)
 
 theorem nextMember_subsetFin_iff (alphabet : RankedAlphabetCode)
     (M : AutomatonCode) (a : alphabet.toRankedAlphabet.Symbol)
@@ -240,12 +242,12 @@ theorem determinize_accept_subset (alphabet : RankedAlphabetCode)
         (⟨q, hq⟩ : Fin M.1).val = true at hmem
       rw [subsetMember_subsetFin] at hmem
       exact of_decide_eq_true hmem
-    exact ⟨⟨q, hq⟩, hm, by simpa [accepting_eq_accept] using haccept⟩
+    exact ⟨⟨q, hq⟩, hm, by simpa [accepting_eq_accept] using! haccept⟩
   · rintro ⟨q, hmem, haccept⟩
     refine ⟨q.val, q.isLt, ?_, ?_⟩
     · rw [subsetMember_subsetFin]
       exact decide_eq_true hmem
-    · simpa [accepting_eq_accept] using haccept
+    · simpa [accepting_eq_accept] using! haccept
 
 theorem determinize_transition_decodes (alphabet : RankedAlphabetCode)
     (M : AutomatonCode) (a : alphabet.toRankedAlphabet.Symbol)

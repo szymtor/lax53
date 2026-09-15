@@ -133,7 +133,7 @@ theorem follow_ok (L : Layout) (path : List Bool) (root : Expr) (d : Nat)
       apply ih
       · simpa [Expr.Ok, ha, Nat.add_assoc] using
           (show Expr.Ok L root (d + path.length + 1) ∧ d + path.length < L.temps from
-            ⟨by simpa using hroot, by simpa using Nat.lt_of_succ_lt ht⟩)
+            ⟨by simpa using! hroot, by simpa using Nat.lt_of_succ_lt ht⟩)
       · simpa using Nat.lt_of_succ_lt ht
 
 theorem load_ok (L : Layout) (path : List Bool) (src dst : String)

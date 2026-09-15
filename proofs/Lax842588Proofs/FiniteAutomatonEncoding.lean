@@ -2,6 +2,8 @@ import Mathlib.Computability.Primrec.List
 import Mathlib.Data.List.GetD
 import Lax842588.ValueTranslations
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.FiniteAutomatonEncoding
 
 open Lax842588.ValueTranslations
@@ -201,7 +203,7 @@ theorem radixWord_radixValue (base : Nat) (digits : List Nat)
               base ^ digits.length = radixValue base digits := by
         rw [Nat.mul_comm digit, Nat.mul_add_mod,
           Nat.mod_eq_of_lt hvalueLt]
-      simp only [radixValue, radixWord]
+      simp only [List.length_cons, radixValue, radixWord]
       rw [hdiv, hmod, ih htail]
 
 theorem ofFn_mem_words {n k : Nat} (f : Fin k → Fin n) :

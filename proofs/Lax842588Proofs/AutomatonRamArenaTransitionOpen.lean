@@ -77,7 +77,7 @@ theorem openTransition_spec (B : Nat) (I : WordImage) (base R : Nat)
     Lax842588Proofs.ArenaSemantics.Represents.list_cons hrep
   have htransitionRep' : I.Represents transitionRoot
       ((prod nat (prod nat (list nat))).toRaw transition) := by
-    simpa [derivedPresentation] using htransitionRep
+    simpa [derivedPresentation] using! htransitionRep
   obtain ⟨symbolAddress, transitionTail, htransitionTag, hsymbolWord,
       htailWord, hsymbolRep, htailRep⟩ :=
     Lax842588Proofs.ArenaSemantics.Represents.prod_fields htransitionRep'
@@ -90,7 +90,7 @@ theorem openTransition_spec (B : Nat) (I : WordImage) (base R : Nat)
     Lax842588Proofs.ArenaSemantics.Represents.nat_payload hparentRep
   have hchildRep' : I.Represents childAddress
       ((derivedPresentation : Presentation (List Nat)).toRaw transition.2.2) := by
-    simpa [derivedPresentation] using hchildRep
+    simpa [derivedPresentation] using! hchildRep
   have hcursorValid := Lax842588Proofs.ArenaSemantics.Represents.valid hrep
   have htransitionValid :=
     Lax842588Proofs.ArenaSemantics.Represents.valid htransitionRep

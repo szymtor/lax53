@@ -32,11 +32,15 @@ example (alphabet : RankedAlphabetCode) (a : alphabet.toRankedAlphabet.Symbol)
 #guard_msgs in
 #print axioms termStructure.certified
 
-/-- info: 'Lax842588.StructuralRepresentations.relationStructure.certified' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'Lax842588.StructuralRepresentations.relationStructure.certified' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
 #guard_msgs in
 #print axioms relationStructure.certified
 
-/-- info: 'Lax842588.StructuralRepresentations.formulaStructure.certified' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'Lax842588.StructuralRepresentations.formulaStructure.certified' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
 #guard_msgs in
 #print axioms formulaStructure.certified
 

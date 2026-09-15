@@ -111,7 +111,7 @@ theorem treeTraversalLoop_spec (B : Nat) (I : WordImage)
     omega
   have hmul := Nat.mul_le_mul_left
     (1 + treeLoopCondition.size + 250) hpotential
-  simpa only [Nat.add_assoc] using
+  simpa only [Nat.add_assoc] using!
     Nat.add_le_add_right hmul (1 + treeLoopCondition.size)
 
 /-- On loop exit the postorder word is complete and the logical traversal

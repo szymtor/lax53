@@ -4,6 +4,8 @@ import Lax842588Proofs.EncodedAutomatonEvaluation
 import Lax842588Proofs.TreeAutomataClosure
 import Lax842588Proofs.Determinization
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.EncodedAutomataOperations
 
 open Lax842588.ValueTranslations
@@ -295,11 +297,11 @@ theorem determinize_accept_subset (alphabet : RankedAlphabetCode)
   · rintro ⟨q, hq, hmem, haccept⟩
     have hm : (⟨q, hq⟩ : Fin M.1) ∈ states := by
       simpa [subsetMember, decodeSubset, hq] using hmem
-    exact ⟨⟨q, hq⟩, hm, by simpa [accepting_eq_accept] using haccept⟩
+    exact ⟨⟨q, hq⟩, hm, by simpa [accepting_eq_accept] using! haccept⟩
   · rintro ⟨q, hmem, haccept⟩
     refine ⟨q.val, q.isLt, ?_, ?_⟩
     · simpa [subsetMember, decodeSubset, q.isLt] using hmem
-    · simpa [accepting_eq_accept] using haccept
+    · simpa [accepting_eq_accept] using! haccept
 
 theorem determinize_transition_decodes (alphabet : RankedAlphabetCode)
     (M : AutomatonCode) (a : alphabet.toRankedAlphabet.Symbol)

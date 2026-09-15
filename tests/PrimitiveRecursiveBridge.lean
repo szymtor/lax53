@@ -95,7 +95,9 @@ example : ∃ c : Code, ∀ n : Nat,
 #guard_msgs in
 #print axioms correct_pair
 
-/-- info: 'Lax842588Proofs.PrimitiveRecursiveCorrectness.compile_correct' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'Lax842588Proofs.PrimitiveRecursiveCorrectness.compile_correct' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
 #guard_msgs in
 #print axioms compile_correct
 

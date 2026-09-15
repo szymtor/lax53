@@ -11,6 +11,8 @@ This module proves that the smaller, directly generable code has the same
 automaton semantics.
 -/
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.SparseDeterministicAutomaton
 
 open Lax842588.ValueTranslations

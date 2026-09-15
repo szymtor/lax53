@@ -160,7 +160,7 @@ theorem scanInstall_spec (B : Nat) (M : EncodedAutomaton)
     refine ⟨sigma', hrun.mono ?_, ?_⟩
     · exact Nat.add_le_add_right (Nat.mul_le_mul_left 34 houtputLen) 30
     · have hnewRep := rowsRep_after_install (k := k) (output := output) hrep
-        (by simpa using hsafe) (by simpa using htarget) houtputLen
+        (by simpa using! hsafe) (by simpa using htarget) houtputLen
         (by simpa using houtputSpan)
       rw [collapseRows_pushSymbol M.1 M.2 stack symbol hsafe] at hnewRep
       have hpushLen : (pushSymbol M.1 M.2 stack symbol).length =

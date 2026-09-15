@@ -12,7 +12,7 @@ rev = "db584cd6d46c92f209a44c0f1c829460d327499d"
 [[require]]
 name = "Lax146103"
 git = "https://github.com/szymtor/MSO-automata"
-rev = "93d9b7c3ad77b383b9734cede0b95bfd17928575"
+rev = "b7b157e93741492b33a0fa84ec76e24a571e2a98"
 subDir = "concepts"
 
 [[require]]
@@ -24,7 +24,7 @@ subDir = "word-ram-v4-33/concepts"
 [[require]]
 name = "Lax560851"
 git = "https://github.com/szymtor/lax58"
-rev = "83d795f06ae20b48ceed34a9f1284975d305b9c4"
+rev = "091d4fe67804863dac4001f7bc1ac72d8597a7e4"
 subDir = "concepts"
 
 [[lean_lib]]

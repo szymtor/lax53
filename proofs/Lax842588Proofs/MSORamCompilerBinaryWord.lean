@@ -19,6 +19,8 @@ per child row, with its uniquely determined parent state.  This is the order a
 single numeric RAM loop will generate.
 -/
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.MSORamCompilerBinaryWord
 
 open Lax842588.ValueTranslations
@@ -327,7 +329,6 @@ theorem binarySomewhere_accepts_iff_somewhereCodeP
       ((EncodedPrimitiveAtomicAutomata.somewhereCodeP alphabet n m pred).toAutomaton
         (MarkedAlphabetEncoding.code alphabet n m)).Accepts t := by
   rw [binarySomewhere_toAutomaton_eq_somewhereCodeP]
-  rfl
 
 /-! ### Charged materialization of one binary child row -/
 

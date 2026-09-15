@@ -189,7 +189,7 @@ theorem pushTreeNode_spec (B : Nat) (I : WordImage)
           (Raw.constructor "node"
             (nat.toRaw symbol.val ::
               List.ofFn fun i => treeStructure alphabet (children i))) := by
-        simpa [treeStructure] using htreeRep
+        simpa [treeStructure] using! htreeRep
       obtain ⟨nameAddress, fieldsAddress, htreeTag, hnameWord, hfieldsWord,
           hnameRep, hfieldsRep⟩ :=
         Lax842588Proofs.ArenaSemantics.Represents.pair_words htreeRep'

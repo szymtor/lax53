@@ -147,6 +147,6 @@ theorem recognizable_union (L K : TreeLanguage A)
   have hi := recognizable_intersection {t | t ∉ L} {t | t ∉ K} hcL hcK
   have hc := recognizable_complement ({t | t ∉ L} ∩ {t | t ∉ K}) hi
   simpa only [Set.mem_inter_iff, Set.mem_union, Set.mem_setOf_eq, not_and_or,
-    Classical.not_not] using hc
+    Classical.not_not] using! hc
 
 end Lax842588Proofs.TreeAutomataClosure

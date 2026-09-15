@@ -36,7 +36,7 @@ def emptyMarkNodeFrom {A : RankedAlphabet.{u}} :
       cases p with
       | root => rfl
       | inChild i p =>
-          simpa only [emptyMarkNodeFrom, emptyMarkNodeTo] using congrArg
+          simpa only [emptyMarkNodeFrom, emptyMarkNodeTo] using! congrArg
             (@Node.inChild (MarkedAlphabet A 0 0)
               (a, fun x => Fin.elim0 x, fun X => Fin.elim0 X)
               (fun j => emptyMark (children j)) i) (ih i p)

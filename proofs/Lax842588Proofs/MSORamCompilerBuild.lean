@@ -64,7 +64,7 @@ theorem beginCompiledAutomaton_spec (B maximumRank : Nat)
       "newAcceptingBase" acceptingPrefix.length).setVar
       "newAcceptingCount" 0)
   have hstackStarted : CompilerStackRep maximumRank stack startedSigma := by
-    simpa [startedSigma, CompilerStackRep, DescriptorWithinCursors] using hstack
+    simpa [startedSigma, CompilerStackRep, DescriptorWithinCursors] using! hstack
   unfold beginCompiledAutomaton Lax842588Proofs.AutomatonRamProgram.seqs
   run_vcg
   all_goals simp_all [AutomatonBuildStarted, preparedDescriptor,

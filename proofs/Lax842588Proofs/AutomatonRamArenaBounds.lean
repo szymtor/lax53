@@ -36,7 +36,7 @@ open Lax560851.StructuralCombinators
 presentation. -/
 private theorem derivedNat_size (n : Nat) :
     (derivedPresentation : Presentation Nat).structuralSize n = 1 := by
-  simpa [derivedPresentation] using sizeLaws.{0, 0}.nat n
+  simpa [derivedPresentation] using! sizeLaws.{0, 0}.nat n
 
 private theorem derivedNatList_size (xs : List Nat) :
     (derivedPresentation : Presentation (List Nat)).structuralSize xs =
@@ -259,7 +259,7 @@ private theorem automatonRaw_max_le_inputPayloadMax (M : EncodedAutomaton)
 private theorem alphabetRaw_max_le_automatonRaw (M : EncodedAutomaton) :
     ((derivedPresentation : Presentation RankedAlphabetCode).toRaw M.1).maxNat ≤
       (automatonPresentation.toRaw M).maxNat := by
-  simpa [automatonPresentation, derivedPresentation] using
+  simpa [automatonPresentation, derivedPresentation] using!
     prod_left_max_le
       (derivedPresentation : Presentation RankedAlphabetCode)
       (derivedPresentation : Presentation AutomatonCode) M.1 M.2
@@ -267,7 +267,7 @@ private theorem alphabetRaw_max_le_automatonRaw (M : EncodedAutomaton) :
 private theorem bodyRaw_max_le_automatonRaw (M : EncodedAutomaton) :
     ((derivedPresentation : Presentation AutomatonCode).toRaw M.2).maxNat ≤
       (automatonPresentation.toRaw M).maxNat := by
-  simpa [automatonPresentation, derivedPresentation] using
+  simpa [automatonPresentation, derivedPresentation] using!
     prod_right_max_le
       (derivedPresentation : Presentation RankedAlphabetCode)
       (derivedPresentation : Presentation AutomatonCode) M.1 M.2
@@ -289,7 +289,7 @@ theorem stateCount_le_inputPayloadMax (M : EncodedAutomaton)
   have hbody :
       (derivedPresentation : Presentation Nat).maxNat M.2.1 ≤
         (derivedPresentation : Presentation AutomatonCode).maxNat M.2 := by
-    simpa [derivedPresentation] using
+    simpa [derivedPresentation] using!
       prod_left_max_le
         (derivedPresentation : Presentation Nat)
         (derivedPresentation : Presentation
@@ -308,7 +308,7 @@ private theorem transitionRaw_max_le_automatonRaw (M : EncodedAutomaton)
       (derivedPresentation : Presentation (List TransitionCode)).maxNat M.2.2.1 ≤
         (derivedPresentation : Presentation
           (List TransitionCode × List Nat)).maxNat M.2.2 := by
-    simpa [derivedPresentation] using
+    simpa [derivedPresentation] using!
       prod_left_max_le
         (derivedPresentation : Presentation (List TransitionCode))
         (derivedPresentation : Presentation (List Nat)) M.2.2.1 M.2.2.2
@@ -316,7 +316,7 @@ private theorem transitionRaw_max_le_automatonRaw (M : EncodedAutomaton)
       (derivedPresentation : Presentation
         (List TransitionCode × List Nat)).maxNat M.2.2 ≤
         (derivedPresentation : Presentation AutomatonCode).maxNat M.2 := by
-    simpa [derivedPresentation] using
+    simpa [derivedPresentation] using!
       prod_right_max_le
         (derivedPresentation : Presentation Nat)
         (derivedPresentation : Presentation
@@ -331,7 +331,7 @@ theorem transitionSymbol_le_inputPayloadMax (M : EncodedAutomaton)
   have hfield :
       (derivedPresentation : Presentation Nat).maxNat transition.1 ≤
         (derivedPresentation : Presentation TransitionCode).maxNat transition := by
-    simpa [derivedPresentation] using
+    simpa [derivedPresentation] using!
       prod_left_max_le
         (derivedPresentation : Presentation Nat)
         (derivedPresentation : Presentation (Nat × List Nat))
@@ -348,7 +348,7 @@ theorem transitionParent_le_inputPayloadMax (M : EncodedAutomaton)
       (derivedPresentation : Presentation Nat).maxNat transition.2.1 ≤
         (derivedPresentation : Presentation (Nat × List Nat)).maxNat
           transition.2 := by
-    simpa [derivedPresentation] using
+    simpa [derivedPresentation] using!
       prod_left_max_le
         (derivedPresentation : Presentation Nat)
         (derivedPresentation : Presentation (List Nat))
@@ -356,7 +356,7 @@ theorem transitionParent_le_inputPayloadMax (M : EncodedAutomaton)
   have houter :
       (derivedPresentation : Presentation (Nat × List Nat)).maxNat transition.2 ≤
         (derivedPresentation : Presentation TransitionCode).maxNat transition := by
-    simpa [derivedPresentation] using
+    simpa [derivedPresentation] using!
       prod_right_max_le
         (derivedPresentation : Presentation Nat)
         (derivedPresentation : Presentation (Nat × List Nat))
@@ -379,7 +379,7 @@ theorem transitionChild_le_inputPayloadMax (M : EncodedAutomaton)
       (derivedPresentation : Presentation (List Nat)).maxNat transition.2.2 ≤
         (derivedPresentation : Presentation (Nat × List Nat)).maxNat
           transition.2 := by
-    simpa [derivedPresentation] using
+    simpa [derivedPresentation] using!
       prod_right_max_le
         (derivedPresentation : Presentation Nat)
         (derivedPresentation : Presentation (List Nat))
@@ -387,7 +387,7 @@ theorem transitionChild_le_inputPayloadMax (M : EncodedAutomaton)
   have houter :
       (derivedPresentation : Presentation (Nat × List Nat)).maxNat transition.2 ≤
         (derivedPresentation : Presentation TransitionCode).maxNat transition := by
-    simpa [derivedPresentation] using
+    simpa [derivedPresentation] using!
       prod_right_max_le
         (derivedPresentation : Presentation Nat)
         (derivedPresentation : Presentation (Nat × List Nat))
@@ -407,7 +407,7 @@ theorem acceptingState_le_inputPayloadMax (M : EncodedAutomaton)
       (derivedPresentation : Presentation (List Nat)).maxNat M.2.2.2 ≤
         (derivedPresentation : Presentation
           (List TransitionCode × List Nat)).maxNat M.2.2 := by
-    simpa [derivedPresentation] using
+    simpa [derivedPresentation] using!
       prod_right_max_le
         (derivedPresentation : Presentation (List TransitionCode))
         (derivedPresentation : Presentation (List Nat)) M.2.2.1 M.2.2.2
@@ -415,7 +415,7 @@ theorem acceptingState_le_inputPayloadMax (M : EncodedAutomaton)
       (derivedPresentation : Presentation
         (List TransitionCode × List Nat)).maxNat M.2.2 ≤
         (derivedPresentation : Presentation AutomatonCode).maxNat M.2 := by
-    simpa [derivedPresentation] using
+    simpa [derivedPresentation] using!
       prod_right_max_le
         (derivedPresentation : Presentation Nat)
         (derivedPresentation : Presentation

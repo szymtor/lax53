@@ -3,6 +3,8 @@ import Lax842588Proofs.EncodedProjection
 import Lax842588Proofs.FiniteWordStates
 import Lax842588Proofs.MarkedTrees
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.MarkedAlphabetEncoding
 
 open Lax842588.ValueTranslations

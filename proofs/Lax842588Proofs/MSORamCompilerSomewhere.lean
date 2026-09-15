@@ -2297,7 +2297,7 @@ theorem finishEqualityAutomaton_spec (B : Nat)
         acceptingBase := acceptingPrefix.length
         acceptingCount := M.2.2.length } := by
       apply Descriptor.ext
-      · simpa [M, preparedDescriptor] using
+      · simpa [M, preparedDescriptor] using!
           (hvars "newStates" (by decide)).trans
             (congrArg Descriptor.states hdescriptor)
       · exact (hvars "newTransitionBase" (by decide)).trans
@@ -2307,7 +2307,7 @@ theorem finishEqualityAutomaton_spec (B : Nat)
             (congrArg Descriptor.transitionCount hdescriptor)
       · exact (hvars "newAcceptingBase" (by decide)).trans
           (congrArg Descriptor.acceptingBase hdescriptor)
-      · simpa [M] using hcount
+      · simpa [M] using! hcount
     change BuiltAutomaton (maximumRank alphabet) stack transitionPrefix
       acceptingPrefix M sigma''
     refine ⟨compilerStackRep_of_agrees hagrees hstack,
@@ -2907,7 +2907,7 @@ theorem finishSomewhereAutomaton_spec (B : Nat)
         acceptingBase := acceptingPrefix.length
         acceptingCount := M.2.2.length } := by
       apply Descriptor.ext
-      · simpa [M, preparedDescriptor] using
+      · simpa [M, preparedDescriptor] using!
           (hvars "newStates" (by decide)).trans
             (congrArg Descriptor.states hdescriptor)
       · exact (hvars "newTransitionBase" (by decide)).trans
@@ -2917,7 +2917,7 @@ theorem finishSomewhereAutomaton_spec (B : Nat)
             (congrArg Descriptor.transitionCount hdescriptor)
       · exact (hvars "newAcceptingBase" (by decide)).trans
           (congrArg Descriptor.acceptingBase hdescriptor)
-      · simpa [M] using hcount
+      · simpa [M] using! hcount
     change BuiltAutomaton (maximumRank alphabet) stack transitionPrefix
       acceptingPrefix M sigma''
     refine ⟨compilerStackRep_of_agrees hagrees hstack,
@@ -3229,11 +3229,11 @@ theorem compileLabelAtomicAutomaton_spec (B : Nat)
           (LabelAtomContext B n x label) sigma' ∧
         sigma'.vars "binarySymbol" = symbolCount alphabet n m)
       (somewhereSymbolsLoopCost alphabet n m 120) := by
-    simpa only [LabelSymbolsInv] using
+    simpa only [LabelSymbolsInv] using!
       labelSymbolsLoop_spec B alphabet n m x label 0 stack
         transitionPrefix acceptingPrefix
   simpa only [LabelAtomicReady, compileLabelAtomicAutomaton,
-      labelAtomicAutomatonCost] using
+      labelAtomicAutomatonCost] using!
     (compileSomewhereAtomicAutomaton_spec B alphabet n m stack
       transitionPrefix acceptingPrefix
       (fun symbol => decide (baseSymbol n m symbol = label) &&
@@ -3294,11 +3294,11 @@ theorem compileMembershipAtomicAutomaton_spec (B : Nat)
           (MembershipAtomContext B n m x X) sigma' ∧
         sigma'.vars "binarySymbol" = symbolCount alphabet n m)
       (somewhereSymbolsLoopCost alphabet n m 170) := by
-    simpa only [MembershipSymbolsInv] using
+    simpa only [MembershipSymbolsInv] using!
       membershipSymbolsLoop_spec B alphabet n m x X 0 stack
         transitionPrefix acceptingPrefix
   simpa only [MembershipAtomicReady, compileMembershipAtomicAutomaton,
-      membershipAtomicAutomatonCost] using
+      membershipAtomicAutomatonCost] using!
     (compileSomewhereAtomicAutomaton_spec B alphabet n m stack
       transitionPrefix acceptingPrefix
       (fun symbol => foMarked n m symbol x && soMarked m symbol X)

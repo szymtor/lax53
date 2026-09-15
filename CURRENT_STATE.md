@@ -1,13 +1,41 @@
 # Lean 4.33 draft migration
 
-Original draft: lax-53. New local draft: lax-842588.
-User authorized a separate draft with a link to the original, without supersedes.
-Sources are copied from the original published commit; namespaces, toolchain,
-mathlib and dependency names have been updated. Dependency commit pins for
-other new drafts are pending their validation and publication. No Lean 4.33
-validation has passed yet. No archive submission or registration performed.
+Original draft: lax-53. New local draft: lax-842588; branch lean-4.33.
+Independent draft with an abstract link to the original, without supersedes.
+All dependencies now point to published Lean 4.33 versions: MSO words
+lax-146103, canonical encodings lax-560851, RAM/TM lax-759944, word RAM lax-865980.
 
-Next: build, fix compatibility errors, validate/replay and submit in dependency order.
+The concepts build passed (1m36s). CertifiedRepresentations regression passed
+with unchanged expected background axioms; two expected messages needed new
+line wrapping because of longer namespaces. The certificate report passed and
+is saved at ../migration-tools/trees-certificate-report.log. Concept source
+files have not needed compatibility changes after the namespace migration.
+The full Lean 4.33 proof build passed (3218 jobs), including both unchanged
+headline runtime theorems and all preserved bespoke compiler modules.
+All prescribed compiler regressions pass. Independent Lax kernel replay is
+currently running.
+
+Validation completed for this port:
+- All ten concept files match the original published source exactly after
+  namespace replacements.
+- Full scripts/check-certified.sh passes.
+- Certificate report passes (trees-certificate-report.log).
+- PrimitiveRecursiveBridge regression and background-axiom guards pass
+  (trees-primitive-retest.log); its expected compile_correct message needed
+  line wrapping only, with the same three axioms.
+- Full proof build passed (3218 jobs).
+- ArrayInput, IntrinsicCompilerBridge, IntrinsicPublicCompiler,
+  IntrinsicParameterBounds, FixedSentenceModelChecking,
+  RamComplexityStatements and TreeAutomataEquivalence regressions pass.
+  Three further axiom-message expectations needed line wrapping only; all
+  expected axiom sets remain [propext, Classical.choice, Quot.sound].
+- Independent Lax kernel replay is running (trees-validation.log).
+
+Current build log: ../migration-tools/trees-proof-build.log; compatibility
+runner progress: ../migration-tools/trees-compat-progress.log.
+
+Next: finish full kernel replay, then push and publish the independent draft.
+No registration performed. Logs are under ../migration-tools/trees-*.log.
 
 ## Historical record from the original (not validation of this port)
 

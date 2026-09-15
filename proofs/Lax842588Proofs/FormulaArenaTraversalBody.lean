@@ -468,7 +468,7 @@ private theorem exFOPushBody_spec (B : Nat) (I : WordImage)
   have hchildPost : child ∈ postorder alphabet body := by
     have hmem := occurrence_mem_framePending alphabet
       (initialFrame alphabet body)
-    simpa [child] using hmem
+    simpa [child] using! hmem
   have hchildPending : child ∈ pending alphabet (current :: outer) := by
     simp only [pending, List.flatMap_cons, List.mem_append]
     left
@@ -576,7 +576,7 @@ private theorem exSOPushBody_spec (B : Nat) (I : WordImage)
   have hchildPost : child ∈ postorder alphabet body := by
     have hmem := occurrence_mem_framePending alphabet
       (initialFrame alphabet body)
-    simpa [child] using hmem
+    simpa [child] using! hmem
   have hchildPending : child ∈ pending alphabet (current :: outer) := by
     simp only [pending, List.flatMap_cons, List.mem_append]
     left

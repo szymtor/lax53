@@ -1,5 +1,7 @@
 import Lax842588.TreeStructure
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.TreeNodes
 
 open Lax842588.RankedTree
@@ -57,7 +59,7 @@ theorem root_or_exists_parent {A : RankedAlphabet.{u}} {t : Tree A} (p : Node t)
         refine ⟨ChildIndex.ofSymbolIndex a j, Node.root, j, rfl, ?_⟩
         rfl
       · refine ⟨i, Node.inChild j parent, k, ?_, ?_⟩
-        · simpa [Node.label] using hk
-        · simpa [Node.child] using congrArg (Node.inChild j) hp
+        · simpa [Node.label] using! hk
+        · simpa [Node.child] using! congrArg (Node.inChild j) hp
 
 end Lax842588Proofs.TreeNodes

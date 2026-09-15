@@ -15,6 +15,8 @@ Its correctness proof follows the same intrinsic formula recursion, so no
 duplicate formula syntax appears even in the proof interface.
 -/
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.IntrinsicFormulaCompiler
 
 open FirstOrder
@@ -274,7 +276,7 @@ theorem mapTree_zero_eq (alphabet : RankedAlphabetCode)
         Tree.node.injEq, true_and]
       apply heq_of_eq
       funext i
-      simpa using ih (Fin.cast (rank_zeroSymbolMap alphabet a) i)
+      simpa using! ih (Fin.cast (rank_zeroSymbolMap alphabet a) i)
 
 /-- Direct formula-to-automaton translation on an intrinsic sentence. -/
 def compileSentence (alphabet : RankedAlphabetCode)

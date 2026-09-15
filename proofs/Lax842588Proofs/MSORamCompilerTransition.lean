@@ -87,7 +87,7 @@ theorem appendTransitionChildBody_spec (B maximumRank : Nat)
     currentWords, value, index, TransitionHeapRep]
   all_goals
     constructor
-    · simpa [CompilerStackRep, DescriptorWithinCursors] using hstack'
+    · simpa [CompilerStackRep, DescriptorWithinCursors] using! hstack'
     · omega
 
 def transitionChildrenLoopCost (maximumRank : Nat) : Nat :=
@@ -192,7 +192,7 @@ theorem beginTransitionRecord_spec (B maximumRank : Nat)
   all_goals
     constructor
     · exact hstack3.1
-    · simpa [CompilerStackRep, DescriptorWithinCursors] using hstack3.2
+    · simpa [CompilerStackRep, DescriptorWithinCursors] using! hstack3.2
 
 def transitionRecordCost (maximumRank : Nat) : Nat :=
   100 + transitionChildrenLoopCost maximumRank
@@ -279,7 +279,7 @@ theorem appendEncodedTransition_spec (B maximumRank : Nat)
           TransitionHeapRep
             (priorWords ++ encodeTransitionFixed maximumRank transition) sigma')
       (transitionRecordCost maximumRank) := by
-  simpa [EncodedTransitionReady, transitionRecordWords_eq] using
+  simpa [EncodedTransitionReady, transitionRecordWords_eq] using!
     appendTransitionRecord_spec B maximumRank stack priorWords
       transition.1 transition.2.1 transition.2.2.length
       (preparedChildren maximumRank transition) h0

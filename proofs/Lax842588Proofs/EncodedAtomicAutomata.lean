@@ -2,6 +2,8 @@ import Lax842588Proofs.FiniteWordStates
 import Lax842588Proofs.MarkedAlphabetEncoding
 import Lax842588Proofs.AtomicMarkedTrees
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.EncodedAtomicAutomata
 
 open Lax842588.ValueTranslations

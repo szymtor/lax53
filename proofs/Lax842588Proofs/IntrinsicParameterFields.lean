@@ -52,7 +52,7 @@ theorem childIndex_le_rank (alphabet : RankedAlphabetCode)
   obtain ⟨a, ha⟩ := i.property
   have hr := AutomatonTableEncoding.maximumRank_ge alphabet a.val a.isLt
   have hi : i.val < alphabet.getD a.val 0 := by
-    simpa [RankedAlphabetCode.toRankedAlphabet, List.getD_eq_getElem] using ha
+    simpa [RankedAlphabetCode.toRankedAlphabet, List.getD_eq_getElem, a.isLt] using! ha
   omega
 
 theorem fields_le (alphabet : RankedAlphabetCode) (o : Occurrence alphabet) :

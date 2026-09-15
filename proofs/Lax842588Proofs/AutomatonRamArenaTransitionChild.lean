@@ -66,7 +66,7 @@ theorem transitionChildCondition_value (B : Nat) (I : WordImage)
       some (!rest.isEmpty) := by
   simpa [representedListCondition, WordImage.pairTag, derivedPresentation] using
     (representedListCondition_value B I nat rest cursor "childCursor" sigma
-      h1 hmemB hloaded hcursor (by simpa [derivedPresentation] using hrep))
+      h1 hmemB hloaded hcursor (by simpa [derivedPresentation] using! hrep))
 
 theorem transitionChildCondition_defined (B : Nat) (I : WordImage)
     (base R : Nat) (children prefixBefore : List Nat)
@@ -141,7 +141,7 @@ theorem transitionChildBody_spec (B : Nat) (I : WordImage)
       have hchildGetDB := hgetOptB (valueAddress + 1)
       have hrestRep' : I.Represents restAddress
           ((derivedPresentation : Presentation (List Nat)).toRaw rest) := by
-        simpa [derivedPresentation] using hrestRep
+        simpa [derivedPresentation] using! hrestRep
       have hdoneLength : done.length < children.length := by
         have hlength := congrArg List.length hchildren
         simp only [List.length_append, List.length_cons] at hlength

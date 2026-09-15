@@ -78,7 +78,7 @@ theorem exists_uniform_msoModelChecking_proof :
   by_cases hsatisfies : t ∈ sentenceLanguage phi <;>
     simpa [modelCheckingPresentation, modelCheckingInstanceRaw,
       modelCheckingInput, natOutput, Lax560851.WordArena.encode,
-      Lax560851.StructuralPresentation.presentationOf, hsatisfies] using
+      Lax560851.StructuralPresentation.presentationOf, hsatisfies] using!
         h alphabet phi t w hpayload harena hword
 
 end Lax842588Proofs.IntrinsicUniformModelChecking

@@ -59,7 +59,9 @@ example : Lax865980Proofs.Reasoning.Spec 512
 #guard_msgs in
 #print axioms compileRows_prim
 
-/-- info: 'Lax842588Proofs.IntrinsicCompilerFields.intrinsicCompiler_ram' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'Lax842588Proofs.IntrinsicCompilerFields.intrinsicCompiler_ram' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
 #guard_msgs in
 #print axioms intrinsicCompiler_ram
 

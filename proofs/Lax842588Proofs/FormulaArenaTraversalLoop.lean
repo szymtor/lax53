@@ -143,7 +143,7 @@ theorem formulaTraversalLoop_spec (B : Nat) (I : WordImage)
     omega
   have hmul := Nat.mul_le_mul_left
     (1 + formulaLoopCondition.size + 600) hpotential
-  simpa only [Nat.add_assoc] using
+  simpa only [Nat.add_assoc] using!
     Nat.add_le_add_right hmul (1 + formulaLoopCondition.size)
 
 /-- At loop exit the postorder occurrence arrays are complete and the

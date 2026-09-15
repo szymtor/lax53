@@ -163,7 +163,7 @@ theorem alphabetBody_spec (B : Nat) (I : WordImage)
       have hrestValid := Lax842588Proofs.ArenaSemantics.Represents.valid hrestRep
       have hrestRep' : I.Represents restAddress
           ((derivedPresentation : Presentation RankedAlphabetCode).toRaw rest) := by
-        simpa [derivedPresentation] using hrestRep
+        simpa [derivedPresentation] using! hrestRep
       have hcursorLen :=
         Lax842588Proofs.ArenaSemantics.ValidAddress.lt_arenaWords_length hcursorValid
       have hvalueLen :=

@@ -23,10 +23,14 @@ example (c d : Lax842588Proofs.PrimitiveRecursiveCode.Code)
 /-- info: 'Lax842588Proofs.IntrinsicParameterEncoding.input_code_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Lax842588Proofs.IntrinsicParameterEncoding.input_code_le
-/-- info: 'Lax842588Proofs.IntrinsicCompilerParameters.fits_of_allowance' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'Lax842588Proofs.IntrinsicCompilerParameters.fits_of_allowance' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
 #guard_msgs in
 #print axioms Lax842588Proofs.IntrinsicCompilerParameters.fits_of_allowance
-/-- info: 'Lax842588Proofs.IntrinsicCompiledTableBounds.exists_table_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'Lax842588Proofs.IntrinsicCompiledTableBounds.exists_table_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
 #guard_msgs in
 #print axioms Lax842588Proofs.IntrinsicCompiledTableBounds.exists_table_bound
 /-- info: 'Lax842588Proofs.IntrinsicInputBounds.input_size_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/

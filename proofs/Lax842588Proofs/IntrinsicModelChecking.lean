@@ -104,7 +104,7 @@ theorem exists_modelChecker : ∃ c : Code, ∀ (B : Nat) (alphabet : RankedAlph
   have hα : (compiled alphabet φ).1 = alphabet := rfl
   obtain ⟨ρ, hbackend, hout⟩ := automatonBackend_spec B (compiled alphabet φ) t
     (by have := hfit.eight; omega) (by have := hfit.eight; omega) hparameter hplen
-    (by simpa only [hα] using show treeSize t < B by omega) hstates hfit.width
+    (by simpa only [hα] using! show treeSize t < B by omega) hstates hfit.width
     (by omega) (by omega) (by simpa only [hα] using show
       alphabet.length + 4 + (compiled alphabet φ).2.2.1.length * (maximumRank alphabet + 3) +
         (maximumRank alphabet + 3) < B by omega) υ hcontext

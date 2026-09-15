@@ -1,5 +1,7 @@
 import Lax842588.MSOTreeAutomataEquivalence
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.MarkedTrees
 
 open FirstOrder
@@ -197,7 +199,7 @@ def liftSONode {A : RankedAlphabet.{u}} {n m : Nat} :
       cases p with
       | root => rfl
       | inChild i p =>
-          simpa only [dropFONode, liftFONode] using congrArg
+          simpa only [dropFONode, liftFONode] using! congrArg
             (@Node.inChild (MarkedAlphabet A n m) (MarkedAlphabet.dropFO s)
               (fun j => dropFOTree (children j)) i) (ih i p)
 
@@ -218,7 +220,7 @@ def liftSONode {A : RankedAlphabet.{u}} {n m : Nat} :
       cases p with
       | root => rfl
       | inChild i p =>
-          simpa only [dropSONode, liftSONode] using congrArg
+          simpa only [dropSONode, liftSONode] using! congrArg
             (@Node.inChild (MarkedAlphabet A n m) (MarkedAlphabet.dropSO s)
               (fun j => dropSOTree (children j)) i) (ih i p)
 

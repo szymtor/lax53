@@ -92,7 +92,7 @@ theorem initializeFormulaTraversal_spec (B : Nat) (I : WordImage)
       ((sigma.arrs "FormulaFOStack").set 0 0)
       ((sigma.arrs "FormulaSOStack").set 0 0)
       ((sigma.arrs "FormulaPhaseStack").set 0 0) := by
-    simpa only [initialFrame] using hstack
+    simpa only [initialFrame] using! hstack
   unfold initializeFormulaTraversal
     Lax842588Proofs.AutomatonRamProgram.seqs
   run_vcg

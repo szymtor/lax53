@@ -2,6 +2,8 @@ import Lax842588Proofs.EncodedComputableDeterminization
 import Lax842588Proofs.EncodedAtomicAutomata
 import Mathlib.Data.List.GetD
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Lax842588Proofs.EncodedPrimitiveAtomicAutomata
 
 open Lax842588.ValueTranslations
@@ -643,7 +645,7 @@ theorem occurrenceStep_valid {k : Nat} (parent : OccurrenceCount)
       refine ⟨i', ?_, ?_⟩
       · apply occurrenceFin.injective
         apply Fin.ext
-        simpa [i', hlen] using hi
+        simpa [i', hlen] using! hi
       intro j hji
       let j' : Fin (List.ofFn fun i => (occurrenceFin (children i)).val).length :=
         Fin.cast hlen.symm j

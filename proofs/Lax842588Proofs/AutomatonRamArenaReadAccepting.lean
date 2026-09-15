@@ -72,7 +72,7 @@ theorem acceptingCondition_value (B : Nat) (I : WordImage)
   simpa [acceptingCondition, representedListCondition, WordImage.pairTag,
     derivedPresentation] using
     (representedListCondition_value B I nat rest cursor "acceptCursor" sigma
-      h1 hmemB hloaded hcursor (by simpa [derivedPresentation] using hrep))
+      h1 hmemB hloaded hcursor (by simpa [derivedPresentation] using! hrep))
 
 theorem acceptingCondition_defined (B : Nat) (I : WordImage) (base : Nat)
     (accepting prefixBefore : List Nat) (h1 : 1 < B)
@@ -145,7 +145,7 @@ theorem acceptingBody_spec (B : Nat) (I : WordImage) (base : Nat)
       have hrestGetDB := hgetOptB (cursor + 2)
       have hrestRep' : I.Represents restAddress
           ((derivedPresentation : Presentation (List Nat)).toRaw rest) := by
-        simpa [derivedPresentation] using hrestRep
+        simpa [derivedPresentation] using! hrestRep
       have hdoneLt : done.length < accepting.length := by
         have hlength := congrArg List.length haccepting
         simp only [List.length_append, List.length_cons] at hlength
@@ -230,7 +230,7 @@ theorem acceptingLoop_spec (B : Nat) (I : WordImage) (base : Nat)
     Nat.sub_le _ _
   have hmul := Nat.mul_le_mul_left
     (1 + acceptingCondition.size + 100) hsub
-  simpa only [Nat.add_assoc] using
+  simpa only [Nat.add_assoc] using!
     Nat.add_le_add_right hmul (1 + acceptingCondition.size)
 
 theorem acceptingLoop_completed_spec (B : Nat) (I : WordImage)

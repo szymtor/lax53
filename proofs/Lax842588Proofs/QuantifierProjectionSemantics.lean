@@ -289,6 +289,6 @@ theorem formulaLanguage_exSO {A : RankedAlphabet.{u}} {n m : Nat}
         funext X
         exact Fin.cases rfl (fun _ => rfl) X
       have ht := (Lax842588Proofs.MSOSemantics.realize_equiv e phi v V).mpr hphi
-      simpa only [targetv, hVmap] using ht
+      simpa only [targetv, hVmap] using! ht
 
 end Lax842588Proofs.QuantifierProjectionSemantics

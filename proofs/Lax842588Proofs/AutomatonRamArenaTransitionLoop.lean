@@ -76,7 +76,7 @@ theorem transitionCondition_value (B : Nat) (I : WordImage)
     (representedListCondition_value B I
       (derivedPresentation : Presentation TransitionCode) rest cursor
       "transitionCursor" sigma h1 hmemB hloaded hcursor
-      (by simpa [derivedPresentation] using hrep))
+      (by simpa [derivedPresentation] using! hrep))
 
 theorem transitionCondition_defined (B : Nat) (I : WordImage)
     (R records : Nat) (transitions : List TransitionCode)
@@ -234,7 +234,7 @@ theorem transitionLoop_spec (B : Nat) (I : WordImage)
     Nat.sub_le _ _
   have hmul := Nat.mul_le_mul_left
     (1 + transitionCondition.size + stepBudget) hsub
-  simpa only [Nat.add_assoc] using
+  simpa only [Nat.add_assoc] using!
     Nat.add_le_add_right hmul (1 + transitionCondition.size)
 
 /-- On exit, the entire represented transition list has become the exact

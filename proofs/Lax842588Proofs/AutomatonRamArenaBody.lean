@@ -78,7 +78,7 @@ theorem openAutomatonBody_spec (B : Nat) (I : WordImage)
   have hbodyRep' : I.Represents root
       ((prod nat (prod (list (derivedPresentation : Presentation TransitionCode))
         (list nat))).toRaw body) := by
-    simpa [derivedPresentation] using hbodyRep
+    simpa [derivedPresentation] using! hbodyRep
   obtain ⟨qAddress, tailAddress, hrootTag, hqWord, htailWord,
       hqRep, htailRep⟩ :=
     Lax842588Proofs.ArenaSemantics.Represents.prod_fields hbodyRep'
@@ -160,10 +160,10 @@ theorem openAutomatonBody_spec (B : Nat) (I : WordImage)
     exact hgetB _
   have htransitionRep' : I.Represents transitionAddress
       ((derivedPresentation : Presentation (List TransitionCode)).toRaw body.2.1) := by
-    simpa [derivedPresentation] using htransitionRep
+    simpa [derivedPresentation] using! htransitionRep
   have hacceptRep' : I.Represents acceptAddress
       ((derivedPresentation : Presentation (List Nat)).toRaw body.2.2) := by
-    simpa [derivedPresentation] using hacceptRep
+    simpa [derivedPresentation] using! hacceptRep
   unfold openAutomatonBody AutomatonRamProgram.seqs
   run_vcg
   all_goals simp_all [AutomatonBodyOpened, AlphabetRead, ArenaLoaded]

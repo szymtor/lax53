@@ -1408,3 +1408,19 @@ measured RAM run.
   (exit 0). No process from that test run remains active.
 - No commit, public repository, or Lax submission was created before the
   interruption, and none was made as part of this terminology-only task.
+
+
+## 2026-09-15 — Lean 4.33 migration, continued
+
+All upstream drafts are published and dependency pins updated. Concepts build,
+full structural certification and certificate report pass. All ten concept
+sources exactly match published original 91e66a9f14c67cf1baac7cf711ff80bb11f78965
+after namespace migration. PrimitiveRecursiveBridge regression passed after
+updating expected message wrapping, preserving the axiom set.
+
+Proof migration uses using!, local backward.isDefEq.respectTransparency false,
+explicit list/index simplification hypotheses and removal of redundant final
+tactics. Public compiler, materialization, formula input and tree-automata
+equivalence modules now build. Full proof build, headline regressions, kernel
+replay and publication remain pending. Logs live under ../migration-tools.
+Original drafts and main branches are untouched; no registration performed.
