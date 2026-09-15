@@ -1424,3 +1424,16 @@ tactics. Public compiler, materialization, formula input and tree-automata
 equivalence modules now build. Full proof build, headline regressions, kernel
 replay and publication remain pending. Logs live under ../migration-tools.
 Original drafts and main branches are untouched; no registration performed.
+
+
+### Validation completed
+
+Full proof build passed (3218 jobs). All eight named regressions, structural
+certification and certificate report pass. Full Lax replay passed: kernel
+37m53s, total 38m17s, 10 concepts and 15 annotated proofs. Nine proof assumption
+lists are empty; six reference four already-proved canonical-encoding concepts.
+Checked each against the published dependency's assumption-free proof records.
+Both headline MSO runtime theorems have empty assumption lists. No unresolved
+mathematical assumptions remain. The 343 inherited unused helpers are retained
+intentionally alongside two proof-package and four draft-package warnings.
+Publication of the independent draft remains next; no registration.

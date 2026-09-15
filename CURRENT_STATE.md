@@ -1,41 +1,34 @@
 # Lean 4.33 draft migration
 
-Original draft: lax-53. New local draft: lax-842588; branch lean-4.33.
-Independent draft with an abstract link to the original, without supersedes.
-All dependencies now point to published Lean 4.33 versions: MSO words
-lax-146103, canonical encodings lax-560851, RAM/TM lax-759944, word RAM lax-865980.
+Updated 2026-09-15. Original draft lax-53; new independent draft lax-842588
+on branch lean-4.33. The abstract links to the original; no supersedes claim
+or registration. Publication is the next step.
 
-The concepts build passed (1m36s). CertifiedRepresentations regression passed
-with unchanged expected background axioms; two expected messages needed new
-line wrapping because of longer namespaces. The certificate report passed and
-is saved at ../migration-tools/trees-certificate-report.log. Concept source
-files have not needed compatibility changes after the namespace migration.
-The full Lean 4.33 proof build passed (3218 jobs), including both unchanged
-headline runtime theorems and all preserved bespoke compiler modules.
-All prescribed compiler regressions pass. Independent Lax kernel replay is
-currently running.
-
-Validation completed for this port:
-- All ten concept files match the original published source exactly after
-  namespace replacements.
-- Full scripts/check-certified.sh passes.
-- Certificate report passes (trees-certificate-report.log).
-- PrimitiveRecursiveBridge regression and background-axiom guards pass
-  (trees-primitive-retest.log); its expected compile_correct message needed
-  line wrapping only, with the same three axioms.
-- Full proof build passed (3218 jobs).
-- ArrayInput, IntrinsicCompilerBridge, IntrinsicPublicCompiler,
-  IntrinsicParameterBounds, FixedSentenceModelChecking,
+All local validation passed:
+- Full proof build: 3218 jobs.
+- Full Lax validation: 38m17s, including independent kernel replay 37m53s.
+- Statement inspection: 10 concepts and 15 annotated proofs.
+- Both MSO runtime headlines have empty assumption lists. Nine proofs are
+  directly assumption-free; six auxiliary proofs refer to four canonical
+  encoding concepts, all discharged by assumption-free proofs in the published
+  dependency lax-560851. No unresolved mathematical assumptions remain.
+- Full structural certification and certificate report pass.
+- PrimitiveRecursiveBridge, ArrayInput, IntrinsicCompilerBridge,
+  IntrinsicPublicCompiler, IntrinsicParameterBounds, FixedSentenceModelChecking,
   RamComplexityStatements and TreeAutomataEquivalence regressions pass.
-  Three further axiom-message expectations needed line wrapping only; all
-  expected axiom sets remain [propext, Classical.choice, Quot.sound].
-- Independent Lax kernel replay is running (trees-validation.log).
+- All ten concept files exactly match the original published source after
+  namespace renaming. Test changes only adjust expected axiom-message wrapping.
 
-Current build log: ../migration-tools/trees-proof-build.log; compatibility
-runner progress: ../migration-tools/trees-compat-progress.log.
+Dependencies pin published Lean 4.33 drafts lax-146103, lax-560851 and
+lax-759944, and registered word-RAM lax-865980. Lax reports 349 informational
+warnings: two proof-package dependencies, four draft-package dependencies and
+343 unused helpers. The inherited helpers and bespoke alternative compiler
+modules are intentionally retained, as required by WORKFLOW.md.
 
-Next: finish full kernel replay, then push and publish the independent draft.
-No registration performed. Logs are under ../migration-tools/trees-*.log.
+Next: push lean-4.33, run lax submit from concepts/ targeting .., commit and
+push the new issue binding, rerun submit, and wait for archive publication.
+The old issue-53 binding has been removed from the new manifest.
+Logs: ../migration-tools/trees-*.log. Original draft and main are untouched.
 
 ## Historical record from the original (not validation of this port)
 
