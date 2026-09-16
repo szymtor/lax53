@@ -127,7 +127,7 @@ theorem exists_uniform_automatonAcceptance_expanded :
   rw [← hsingleton, ← houtFinal]
   simpa [program] using hruns
 
-/-- Expanded fixed-automaton form, used to certify the concise wrapper. -/
+/-- Expanded fixed-automaton form, retained as an internal implementation corollary. -/
 theorem exists_fixed_automatonAcceptance_expanded (M : EncodedAutomaton) :
     ∃ (program : Program) (timeCoefficient wordCoefficient : Nat),
       ∀ (t : Tree M.1.toRankedAlphabet) (w : Nat),
@@ -185,9 +185,6 @@ theorem exists_uniform_automatonAcceptance_proof :
         htarget
 
 /--
----
-conclusion: Lax842588.AutomatonLinearTime.exists_fixed_automatonAcceptance
----
 The fixed-automaton statement is the quantifier-order specialization of the
 uniform implementation. Its coefficients absorb the automaton workload; it
 does not claim a separate effective program generator.
@@ -199,19 +196,19 @@ theorem exists_fixed_automatonAcceptance_proof (M : EncodedAutomaton) :
         (fun t => timeCoefficient * (treeSize t + 1))
         (fun t => wordCoefficient * inputMagnitudeUsing
           (fixedAutomatonPresentation M) t) := by
-  obtain ⟨program, timeCoefficient, wordCoefficient, h⟩ :=
-    exists_fixed_automatonAcceptance_expanded M
-  refine ⟨timeCoefficient + 1, wordCoefficient,
-    Lax759944Proofs.LegacyRamBridge.embedProgram program, ?_⟩
+  obtain ⟨timeConstant, wordConstant, program, huniform⟩ :=
+    Lax842588.AutomatonLinearTime.exists_uniform_automatonAcceptance
+  refine ⟨timeConstant * (automatonWorkSize M + 1) ^ 2,
+    wordConstant * (automatonWorkSize M + 1) ^ 2, program, ?_⟩
   intro t w hpayload harena hword
-  have htarget := CheckedRamAdapter.computesInTime
-    (U := fun _ => (timeCoefficient + 1) * (treeSize t + 1))
-    (h t w hpayload harena hword) (fun _ _ =>
-      CheckedRamAdapter.add_one_le_scaled timeCoefficient (treeSize t + 1) (by omega))
-  by_cases haccepts : M.2.toAutomaton M.1 |>.Accepts t <;>
-    simpa [fixedAutomatonPresentation, automatonInput, inputMagnitudeUsing,
-      natOutput, Lax560851.WordArena.encode,
-      Lax560851.StructuralPresentation.presentationOf, haccepts] using
-        htarget
+  have hword' : uniformWordBound wordConstant M t ≤ 2 ^ w := by
+    simpa [uniformWordBound, inputMagnitudeUsing, fixedAutomatonPresentation,
+      inputStructuralSize, inputPayloadMax,
+      Lax560851.StructuralPresentation.presentationOf, Nat.mul_assoc] using hword
+  simpa [automatonAcceptancePresentation, automatonAcceptanceRaw,
+    fixedAutomatonPresentation, uniformTimeBound,
+    Lax560851.WordArena.encode,
+    Lax560851.StructuralPresentation.presentationOf, Nat.mul_assoc] using
+      huniform ⟨M, t⟩ w hpayload harena hword'
 
 end Lax842588Proofs.AutomatonLinearTime

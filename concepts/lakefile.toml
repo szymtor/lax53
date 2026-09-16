@@ -12,14 +12,14 @@ rev = "db584cd6d46c92f209a44c0f1c829460d327499d"
 [[require]]
 name = "Lax146103"
 git = "https://github.com/szymtor/MSO-automata"
-rev = "b7b157e93741492b33a0fa84ec76e24a571e2a98"
+rev = "a850aa03d9cb3bff8aec3990269c99942ac56aff"
 subDir = "concepts"
 
 
 [[require]]
 name = "Lax560851"
 git = "https://github.com/szymtor/lax58"
-rev = "8ec635640f3fd05271fa5cb7b1d3ae9e59400d7b"
+rev = "2748fdc0afc0b4f729b7775ca6475ba08129418a"
 subDir = "concepts"
 
 [[lean_lib]]

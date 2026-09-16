@@ -5,6 +5,13 @@ encoding and tree submissions, now Lax-560851 and Lax-842588. References to
 Lax-58 and Lax-53 below identify their original drafts. It is not a concept
 module.
 
+The public interface now has nine claims. Generated structurality and input
+length facts remain ordinary helper lemmas. Both fixed-parameter runtime
+results also remain ordinary lemmas: fixed-automaton acceptance specializes
+the uniform public contract, while tree-only fixed-sentence model checking
+retains its direct checked implementation. The existing concrete compilers
+and encodings are unchanged.
+
 ## Removed serialization surface
 
 Lax-58 no longer exposes the former binary-codec modules:

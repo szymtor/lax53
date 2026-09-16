@@ -109,13 +109,6 @@ def modelCheckingInput (alphabet : RankedAlphabetCode)
     (t : Tree alphabet.toRankedAlphabet) : List Nat :=
   (encodeRaw (msoTreeRaw alphabet phi t)).toInput
 
-/-- Exact footprint of the uniform model-checking input. -/
-axiom modelCheckingInput_length (alphabet : RankedAlphabetCode)
-    (phi : Sentence (treeSignature alphabet.toRankedAlphabet))
-    (t : Tree alphabet.toRankedAlphabet) :
-    (modelCheckingInput alphabet phi t).length =
-      3 * inputStructuralSize alphabet phi t + 1
-
 /-- The actual instruction allowance for the uniform model checker. The
 computable coefficient absorbs sentence compilation and the automaton
 workload; the remaining dependence is linear in tree nodes. -/
@@ -166,19 +159,5 @@ alphabet and sentence. -/
 def treeInput (alphabet : RankedAlphabetCode)
     (t : Tree alphabet.toRankedAlphabet) : List Nat :=
   (encodeRaw (treeStructure alphabet t)).toInput
-
-open Classical in
-/-- Once the alphabet and sentence are fixed before program choice, the
-specialized program receives only a tree and has linear tree-node time. This
-existential statement makes no effective program-generation claim. -/
-axiom exists_fixed_sentence_modelChecking
-    (alphabet : RankedAlphabetCode)
-    (phi : Sentence (treeSignature alphabet.toRankedAlphabet)) :
-  ∃ timeCoefficient wordCoefficient : Nat,
-    RamComputableWithinUsing (treePresentation alphabet) natOutput
-      (fun t => if t ∈ sentenceLanguage phi then 1 else 0)
-      (fun t => timeCoefficient * (treeSize t + 1))
-      (fun t => wordCoefficient * inputMagnitudeUsing
-        (treePresentation alphabet) t)
 
 end Lax842588.MSOLinearTime

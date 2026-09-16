@@ -1,4 +1,100 @@
-# RAM model correction: drafts retained; local validation complete
+# Finalization authorized — in progress (2026-09-16)
+
+The user explicitly requested submission, consistent GPT author credits, and
+final registration of the current submissions. This supersedes the earlier
+keep-draft restriction and repository instructions against registration for
+this release. Preserve the model/version suffixes in the author names.
+
+Publish and register in dependency order, updating downstream pins to each
+accepted final source commit. Register only after verifying the Archive has
+accepted that exact commit and the intended metadata and proof obligations.
+The local tree preview was reviewed before this authorization.
+
+Next: complete validation, publish the updated draft, verify it, and register.
+The records below describe earlier checkpoints; none implies this release is
+already published or registered.
+
+## Previous status
+
+# Nine-claim interface: validated locally; preview ready for review
+
+Updated 2026-09-16. User authorized implementing the agreed interface cleanup,
+with a local preview for review **before submission**. Do not submit or register.
+
+- Six public axioms/annotations are removed; their ordinary proof lemmas remain:
+  formula/tree structurality, the two input-length facts, fixed-automaton
+  acceptance, and fixed-sentence model checking. Nine public claims remain.
+- Abstract complementation uses the public determinization contract; equivalence
+  uses the two public directional contracts. The fixed-automaton helper now
+  specializes uniform acceptance. The tree-only fixed-sentence proof is retained.
+- Concept root build passed (960 jobs), using the explicit local dependency
+  overrides in `../migration-tools/ram-808846-local-overrides.json`.
+- Full proof root build passed (3222 jobs). The fixed-automaton specialization
+  required unfolding `WordArena.encode` to identify the two input tapes.
+  Final log: `../migration-tools/trees-interface-proof-build-final.log`.
+- Five focused regressions passed: certified representations, logical
+  equivalence/dependencies, intrinsic parameter bounds, tree-only fixed-sentence
+  model checking, and the uniform/fixed-automaton statement types and axioms.
+  Results: `../migration-tools/trees-interface-regressions.json`.
+- The type/axiom audit passed for all nine retained public claims and four
+  canonical discharge proofs. Four local annotated proofs have empty
+  non-background assumption sets; five use exactly the expected public
+  contracts. The dependency graph is closed. Log:
+  `../migration-tools/trees-interface-audit.log`.
+- Fresh official Lax static validation and inspection judging passed with
+  zero violations: ten concept modules, nine statements, nine annotated proofs.
+  Inspection reports 362 unused-helper warnings; those implementation helpers
+  are intentionally retained. Static checks retain the two proof-package
+  dependency warnings. Log: `../migration-tools/trees-interface-inspection.log`.
+- Normal Archive resolution remains blocked by unpublished draft dependencies.
+  This run used local Lake builds and official Lax static/inspection phases;
+  it did not rerun independent kernel replay or obtain Archive acceptance.
+
+## Local preview and exact next action
+
+[Open the proof network](http://localhost:8138/lax-842588/#proof-network).
+The URL was opened through the OS, and the preview server is running.
+
+- Preview data is in `../migration-tools/trees-interface-preview/`, with
+  current inspector reports and hashes of every local source/module artifact.
+  It has no capture or local-build acceptance metadata. The repository's
+  previous `build-output.json` remains historical; use this dedicated preview.
+- The official Lax renderer receives the corrected canonical and RAM/Turing
+  local draft outputs in memory. No Archive record is changed. The preview
+  homepage and local dependency homepages explicitly identify local drafts.
+- HTTP/HTML and embedded network checks passed: all ten concept pages exist,
+  all nine local statements are proven, all nine local proofs have zero
+  outstanding assumptions, and the canonical RAM page references `Lax808846`.
+  See `../migration-tools/trees-interface-preview-verification.json`.
+- A user-reported graph rendering failure is now fixed in the generated local
+  preview assets. The renderer rounded fixed ports to 0.001px independently
+  of the node envelope, so e.g. `100.016 > 100.01599999999999` triggered a strict
+  bounds error. The envelope now includes the rounded port coordinates;
+  port positions and the strict geometry validator are preserved.
+  `../migration-tools/graph-port-envelope-fix.mjs` applies after each render,
+  without modifying the installed renderer or mathematical submission data.
+- The regression reproduces the original error and passes 3000 fractional
+  geometry cases plus four real graph views. Isolated headless Chrome
+  152.0.7977.84 checks all eleven tree pages / thirteen graphs without page
+  errors. The proof-network screenshot matches the original successful
+  Chromium rendering; the original failure depends on browser font metrics.
+  Tests and screenshot: `../migration-tools/graph-port-envelope-test.log`,
+  `graph-preview-browser-after.json`, and `graph-preview-after.png`.
+  In-app browser automation still has a missing installed service path;
+  the isolated browser test provides actual rendering verification.
+- Source changes are uncommitted for review. Nothing was submitted or registered.
+
+To regenerate after another successful local build, from the workspace root:
+
+```sh
+node migration-tools/trees-interface-preview.mjs
+node migration-tools/serve-trees-interface-preview.mjs
+```
+
+**Next action:** wait for the user's review of the local preview before any
+submission. Draft dependencies still prevent normal Archive publication.
+
+## Earlier completed RAM model correction
 
 Updated 2026-09-16. The user requested rebasing the submissions on
 [`Lax808846.Ram`](https://laxarchive.org/lax-808846/Lax808846.Ram.html).

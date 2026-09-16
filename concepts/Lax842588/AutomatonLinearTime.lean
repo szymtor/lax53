@@ -61,16 +61,4 @@ axiom exists_uniform_automatonAcceptance :
       (fun input => uniformTimeBound timeConstant input.automaton input.tree)
       (fun input => uniformWordBound wordConstant input.automaton input.tree)
 
-open Classical in
-/-- With the automaton fixed before program choice, acceptance is linear in
-the number of tree nodes. This existential specialization claim does not
-assert an effective program-producing function. -/
-axiom exists_fixed_automatonAcceptance (M : EncodedAutomaton) :
-  ∃ timeCoefficient wordCoefficient : Nat,
-    RamComputableWithinUsing (fixedAutomatonPresentation M) natOutput
-      (fun t => if M.2.toAutomaton M.1 |>.Accepts t then 1 else 0)
-      (fun t => timeCoefficient * (treeSize t + 1))
-      (fun t => wordCoefficient * inputMagnitudeUsing
-        (fixedAutomatonPresentation M) t)
-
 end Lax842588.AutomatonLinearTime

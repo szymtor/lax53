@@ -1,6 +1,4 @@
 import Lax842588.MSOTreeAutomataEquivalence
-import Lax842588Proofs.TreeAutomataToMSO
-import Lax842588Proofs.MSOToTreeAutomata
 
 namespace Lax842588Proofs.MSOTreeAutomataEquivalence
 
@@ -24,9 +22,9 @@ theorem recognizable_iff_msoDefinable_proof {A : RankedAlphabet.{u}}
   · rintro ⟨Q, hQ, M, hM⟩
     letI := hQ
     obtain ⟨phi, hphi⟩ :=
-      Lax842588Proofs.TreeAutomataToMSO.automaton_definable_by_mso_proof M
+      Lax842588.MSOTreeAutomataEquivalence.automaton_definable_by_mso M
     exact ⟨phi, hM.symm.trans hphi⟩
   · rintro ⟨phi, rfl⟩
-    exact Lax842588Proofs.MSOToTreeAutomata.mso_definable_is_recognizable_proof phi
+    exact Lax842588.MSOTreeAutomataEquivalence.mso_definable_is_recognizable phi
 
 end Lax842588Proofs.MSOTreeAutomataEquivalence

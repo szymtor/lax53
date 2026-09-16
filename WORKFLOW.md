@@ -4,6 +4,25 @@ Read [CURRENT_STATE.md](CURRENT_STATE.md) first. Keep Lax-58 limited to neutral
 structural encodings and its arena; charged compiler refinements belong here.
 Use intrinsic Lax-52 formulas directly, not a second serialized syntax.
 
+## Public interface after the nine-claim cleanup
+
+The public claims are determinization; both MSO/automata directions and their
+equivalence; finite value translations; tree and sentence round-trip laws;
+uniform automaton acceptance; and uniform MSO model checking.
+
+Keep formula/tree structurality, both input-length facts, and both
+fixed-parameter runtime results as ordinary proof-package lemmas. Abstract
+complementation uses the public determinization statement; equivalence uses
+the public directional statements. The fixed-automaton helper specializes the
+public uniform acceptance statement. The tree-only fixed-sentence helper
+retains its checked direct implementation; a generic input-specialization
+lemma is outside this cleanup.
+
+For the current draft dependency pins, all local Lake commands require
+`--packages=../../migration-tools/ram-808846-local-overrides.json` when run
+inside `concepts/` or `proofs/`. Do not replace the ignored manifests by hand.
+Show the fresh local preview for user review before submitting these changes.
+
 ## Accepted simplification: generic execution bridge
 
 Keep the approved concepts and certified input unchanged. Build a proof-side
@@ -21,10 +40,11 @@ The acceptance sequence is:
    an existential pure code or an unchecked evaluation example.
 4. Runtime translation of the certified formula arena into private internal
    data, full compilation, and materialization for the existing evaluator.
-5. Computable parameter-only bounds and both unchanged headline theorems.
+5. Computable parameter-only bounds, uniform model checking, and its
+   fixed-sentence companion.
 
 Steps 1–5 now have Lean proofs, including actual RAM intersection, the complete
-public-input model checker, and both unchanged headline theorems. The uniform
+public-input model checker, and both runtime results. The uniform
 program chooses its compiler/layout before runtime inputs and charges arena
 reading, full formula compilation, materialization, and evaluation. Its
 parameter-only coefficients discharge the lower-level resource premises.
@@ -139,7 +159,8 @@ The internal one-word RAM theorem is not the public theorem. The public
 composition is now separately checked by `tests/IntrinsicPublicCompiler.lean`;
 its explicit premises are not a substitute for the headline parameter bounds.
 `tests/IntrinsicParameterBounds.lean` and `tests/FixedSentenceModelChecking.lean`
-check both unchanged headline types and their background-only axiom sets.
+check the uniform public type, the fixed-sentence helper's tree-only type,
+and their background-only axiom sets.
 The word coefficients cover the RAM layout span as well as IMP values.
 At an integration milestone, from `proofs/`:
 

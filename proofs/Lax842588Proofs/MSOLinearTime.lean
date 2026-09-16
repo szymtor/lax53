@@ -11,9 +11,6 @@ open Lax842588.MSOLinearTime
 open Lax560851.WordArena
 
 /--
----
-conclusion: Lax842588.MSOLinearTime.modelCheckingInput_length
----
 The exact input footprint is inherited from the distinguished Lax-58 arena;
 no formula serialization layer intervenes.
 -/

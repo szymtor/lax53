@@ -81,18 +81,9 @@ noncomputable def treePresentation (alphabet : RankedAlphabetCode) :
     Presentation (Tree alphabet.toRankedAlphabet) :=
   Lax560851.StructuralPresentation.presentationOf (treeStructure alphabet)
 
-/-- The complete generated formula laws use only certified fields, including
-the generated term and relation encodings. -/
-axiom formula_structural (alphabet : RankedAlphabetCode) :
-  ∀ {n m : Nat}, formulaStructure.Laws alphabet (n := n) (m := m)
-
-/-- The tree encoder agrees pointwise with the complete constructor fold
-generated from the dependent ranked-tree datatype. -/
-axiom tree_structural (alphabet : RankedAlphabetCode) :
-  treeStructure.Laws alphabet
-
 /-- The recursive tree presentation is a genuine round-tripping
-presentation. Advice-freedom is stated separately by `tree_structural`. -/
+presentation. Constructor-structurality is supplied by the generated
+`treeStructure.certified.checked` certificate. -/
 axiom tree_lawful (alphabet : RankedAlphabetCode) :
   (StructuralRepresentations.treePresentation alphabet).Lawful
 

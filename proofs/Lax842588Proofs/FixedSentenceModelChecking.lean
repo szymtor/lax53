@@ -3,7 +3,7 @@ import Lax842588Proofs.IntrinsicTimeBounds
 import Lax842588Proofs.IntrinsicSentenceCorrectness
 import Lax842588Proofs.CheckedRamAdapter
 
-/-! The fixed-sentence headline, with only the certified tree on the input tape. -/
+/-! The fixed-sentence corollary, with only the certified tree on the input tape. -/
 
 namespace Lax842588Proofs.FixedSentenceModelChecking
 
@@ -133,9 +133,6 @@ theorem exists_fixed_sentence_modelChecking_expanded
     apply_ite (fun v : Nat => [v])] using hh
 
 /--
----
-conclusion: Lax842588.MSOLinearTime.exists_fixed_sentence_modelChecking
----
 Specialize the pure automaton before program choice, then materialize it
 within a counted tree-only run from zero memory. The checked embedding into
 `Lax808846` includes the terminal instruction. The reusable predicate

@@ -1,5 +1,5 @@
 import Mathlib.Data.Fintype.Prod
-import Lax842588Proofs.Determinization
+import Lax842588.Determinization
 
 namespace Lax842588Proofs.TreeAutomataClosure
 
@@ -129,15 +129,15 @@ theorem recognizable_complement (L : TreeLanguage A) (hL : Recognizable L) :
     Recognizable {t | t ∉ L} := by
   rcases hL with ⟨Q, hQ, M, hML⟩
   letI := hQ
-  let D := Lax842588Proofs.Determinization.determinize M
-  refine ⟨Finset Q, inferInstance, flipAccept D, ?_⟩
+  obtain ⟨R, hR, D, hD, hDM⟩ :=
+    Lax842588.Determinization.exists_deterministic_equivalent M
+  letI := hR
+  refine ⟨R, inferInstance, flipAccept D, ?_⟩
   ext t
   change (flipAccept D).Accepts t ↔ t ∉ L
-  rw [flipAccept_accepts_iff_not D
-    (Lax842588Proofs.Determinization.determinize_deterministic M)]
-  rw [Lax842588Proofs.Determinization.determinize_accepts_iff]
-  change ¬ t ∈ M.language ↔ t ∉ L
-  rw [hML]
+  rw [flipAccept_accepts_iff_not D hD]
+  change ¬ t ∈ D.language ↔ t ∉ L
+  rw [hDM, hML]
 
 theorem recognizable_union (L K : TreeLanguage A)
     (hL : Recognizable L) (hK : Recognizable K) :

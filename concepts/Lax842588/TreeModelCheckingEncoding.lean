@@ -3,7 +3,7 @@ import Lax842588.StructuralRepresentations
 /-!
 ---
 title: Distinguished structural inputs for tree-automaton evaluation
-type: definition and theorem
+type: definition
 ---
 
 An automaton together with a ranked tree is represented by one fixed
@@ -93,10 +93,5 @@ def inputPayloadMax (M : EncodedAutomaton)
 def automatonInput (M : EncodedAutomaton)
     (t : Tree M.1.toRankedAlphabet) : List Nat :=
   (encodeRaw (automatonTreeRaw M t)).toInput
-
-/-- Exact footprint of the distinguished structural machine input. -/
-axiom automatonInput_length (M : EncodedAutomaton)
-    (t : Tree M.1.toRankedAlphabet) :
-    (automatonInput M t).length = 3 * inputStructuralSize M t + 1
 
 end Lax842588.TreeModelCheckingEncoding

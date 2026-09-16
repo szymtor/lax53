@@ -256,20 +256,12 @@ private theorem treeStructure_injective (alphabet : RankedAlphabetCode) :
           subst otherChildren
           rfl
 
-/--
----
-conclusion: Lax842588.StructuralRepresentations.formula_structural
----
--/
+/-- Supporting representation lemma. -/
 theorem formula_structural_proof (alphabet : RankedAlphabetCode) :
     ∀ {n m : Nat}, formulaStructure.Laws alphabet (n := n) (m := m) :=
   fun {n m} => (formulaStructure.certified alphabet (n := n) (m := m)).checked
 
-/--
----
-conclusion: Lax842588.StructuralRepresentations.tree_structural
----
--/
+/-- Supporting representation lemma. -/
 theorem tree_structural_proof (alphabet : RankedAlphabetCode) :
     treeStructure.Laws alphabet :=
   (treeStructure.certified alphabet).checked

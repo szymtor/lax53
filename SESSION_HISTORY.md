@@ -1676,3 +1676,95 @@ or further Archive publication was attempted. Canonical pin
 `7010243df12cdda03abc5f63ec8de2c0963d4052` remain unchanged. The corrected
 tree branch is ready for the coordinator's commit/push; the tree agent has
 performed neither action.
+
+
+## 2026-09-16 — Nine-claim interface implemented; local preview before submission
+
+User authorized the agreed cleanup and required a local preview before
+submission. Six axioms and their proof annotations were removed: formula/tree
+structurality, both input-length statements, fixed-automaton acceptance, and
+fixed-sentence model checking. All six results remain ordinary helper theorems.
+The existing existential determinization statement remains unchanged.
+
+Abstract complementation now uses public determinization. The equivalence
+proof uses both public directional statements. The fixed-automaton helper
+specializes public uniform acceptance and absorbs the automaton workload in
+the coefficients; unfolding `WordArena.encode` establishes the identical
+physical input tape. The tree-only fixed-sentence theorem retains its direct
+checked implementation. No generic input-specialization theorem was added.
+
+Validation used `LEAN_NUM_THREADS=2` and the existing explicit local package
+overrides. The concept root passed (960 jobs). The first full proof build
+identified the missing encoding unfold in the fixed-automaton helper; after
+that correction the full root passed (3222 jobs). Five focused regressions
+passed: CertifiedRepresentations, TreeAutomataEquivalence, IntrinsicParameterBounds,
+FixedSentenceModelChecking, and RamComplexityStatements. The test changes
+check the demoted helpers' original full types and preserve exact axiom guards;
+the logical test also guards the new public dependency edges.
+
+`../migration-tools/trees-interface-audit.lean` checked all nine retained
+proof/conclusion types and exact axiom sets, plus four canonical discharge
+proofs. The local split is four empty and five nonempty sets; the canonical
+proofs have empty non-background sets. Fresh official Lax static/inspection
+phases passed with zero violations and found ten concept modules, nine public
+statements, and nine annotated proofs. The 362 unused-helper warnings reflect
+retained implementation lemmas. No independent kernel replay was repeated for
+this interface change; prior RAM-rebase replay is recorded separately.
+
+Preview generation uses `../migration-tools/trees-interface-preview.mjs` and
+the official inspector/judge/emitter. Its development-only output has no
+capture or local-build acceptance metadata. The separate preview server uses
+the official Lax renderer with the corrected canonical and RAM/Turing local
+draft outputs substituted in memory; no Archive records are changed. The
+sandbox initially blocked listening on the preview port; the authorized
+escalated server start succeeded.
+
+Preview: http://localhost:8138/lax-842588/#proof-network . The URL was opened
+through the OS. HTTP/HTML and network data checks confirm nine proven local
+statements, nine proofs with zero outstanding assumptions, all ten concept
+pages, and the corrected `Lax808846` canonical RAM page. Browser automation
+could not initialize because an installed service-module path was missing;
+no automated visual check is claimed. The server is left running for review.
+
+Logs and reports are in `../migration-tools/trees-interface-*`, including
+`proof-build-final.log`, `regressions.json`, `audit.log`, `inspection.log`, and
+`preview-verification.json`. Source/artifact hashes accompany the preview.
+Changes are uncommitted. No submission or registration occurred. Next action:
+user review of the local preview; normal publication still has draft-dependency
+blockers.
+
+
+## 2026-09-16 — Local proof-network rendering repair
+
+The user reported four `fixed-position: Fixed port offset is outside its
+measured node` diagnostics. The installed Lax renderer rounded port coordinates
+to 0.001px but calculated the containing envelope separately. Valid fractional
+metrics can therefore put the rounded port outside its envelope (for example
+100.016 versus 100.01599999999999); separate rounding can also differ by 0.001px.
+
+Added a scoped local preview fix in `../migration-tools/graph-port-envelope-fix.mjs`:
+reserve the maximum of the computed node bounds and its rounded port positions.
+The preview server applies it to the generated `graph-node-size.js` after every
+render. No installed renderer files, Archive records, Lean sources, statement
+data, or proof dependencies were changed. The strict geometry validator and
+port coordinates are unchanged. The server was restarted on port 8138.
+
+`check-graph-port-envelope.mjs` reproduces the original failure, then validates
+3000 fractional metric cases and four real graph views. The in-app browser
+integration still could not initialize (missing installed service module), so
+an isolated headless Chrome test used Playwright Core 1.62.1 installed under
+`../migration-tools/graph-preview-check`. Its temporary profile is separate
+from user browser state; requests were restricted to localhost.
+
+Chrome 152.0.7977.84 rendered the original main page successfully: this defect
+depends on browser/font metrics. The patched browser run passes all eleven
+tree pages and thirteen graph containers, with no page errors. Its main proof
+network screenshot is byte-identical to the original successful Chromium
+screenshot. The regression covers the fractional metrics which triggered the
+failure in the original sizing code. Browser report and screenshots are under
+`../migration-tools/graph-preview-*`; the geometry regression log is
+`../migration-tools/graph-port-envelope-test.log`.
+
+The repaired preview remains at http://localhost:8138/lax-842588/#proof-network .
+Next action remains user review before submission. Nothing was submitted or
+registered; no Lean rebuild was needed for this renderer-only repair.

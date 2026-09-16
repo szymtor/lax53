@@ -17,8 +17,9 @@ program before the runtime alphabet, intrinsic sentence, and tree, and charges
 formula compilation as part of its execution. Both use distinguished
 `lax-58` arena inputs and its reusable word-RAM complexity predicate, which
 packages the common sufficient-word-width premises while bounding actual
-`lax-808846` instructions. A companion
-specialization fixes the alphabet and sentence before program choice and is
-linear in the tree size with a sentence-dependent coefficient.
+`lax-808846` instructions. An ordinary proof-package corollary fixes the
+alphabet and sentence before program choice, receives only the tree, and is
+linear in the tree size with a sentence-dependent coefficient. The public
+runtime statements are the two uniform results.
 
 This is a Lean 4.33 port of [the original Lean 4.30 draft](https://laxarchive.org/lax-53/).
