@@ -18,10 +18,13 @@ public uniform acceptance statement. The tree-only fixed-sentence helper
 retains its checked direct implementation; a generic input-specialization
 lemma is outside this cleanup.
 
-For the current draft dependency pins, all local Lake commands require
-`--packages=../../migration-tools/ram-808846-local-overrides.json` when run
-inside `concepts/` or `proofs/`. Do not replace the ignored manifests by hand.
-Show the fresh local preview for user review before submitting these changes.
+The final release uses exact Archive pins for the registered word-MSO,
+canonical-encoding, RAM/Turing, and dedicated-input/output RAM dependencies.
+Full Lax validation has regenerated both package manifests, so ordinary Lake
+commands now use those pins without development overrides. Do not replace the
+ignored manifests by hand. The user reviewed the nine-claim local preview and
+then explicitly authorized submission and permanent registration on 2026-09-16.
+Future mathematical changes to the registered source require a new submission.
 
 ## Accepted simplification: generic execution bridge
 
