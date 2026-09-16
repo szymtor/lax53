@@ -11,12 +11,12 @@ run_meta do
 -- Computability is proved for the numerical envelopes; no executable
 -- advice field or parameter-dependent uniform program is introduced.
 example (c d : Lax842588Proofs.PrimitiveRecursiveCode.Code)
-    (L : Lax865980Proofs.Compile.Layout) :
+    (L : Lax759944Proofs.Legacy.Compile.Layout) :
     Computable (Lax842588Proofs.IntrinsicUniformModelChecking.timeCoefficient L c d) :=
   (Lax842588Proofs.IntrinsicUniformModelChecking.timeCoefficient_prim L c d).to_comp
 
 example (c d : Lax842588Proofs.PrimitiveRecursiveCode.Code)
-    (L : Lax865980Proofs.Compile.Layout) :
+    (L : Lax759944Proofs.Legacy.Compile.Layout) :
     Computable (Lax842588Proofs.IntrinsicWordBounds.wordCoefficient L c d) :=
   (Lax842588Proofs.IntrinsicWordBounds.wordCoefficient_prim L c d).to_comp
 

@@ -4,7 +4,7 @@ import Lax842588Proofs.IntrinsicCompilerFromArena
 
 namespace Lax842588Proofs.IntrinsicCompilerFrame
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 open Lax842588Proofs.PrimitiveRecursiveCode Lax842588Proofs.PrimitiveRecursiveCompile
 open Lax842588Proofs.PrimitiveRecursivePairing Lax842588Proofs.IntrinsicCompilerFromArena
 open Lax842588Proofs.AutomatonRamArenaCorrectness Lax560851.WordArena

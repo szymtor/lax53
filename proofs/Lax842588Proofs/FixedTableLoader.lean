@@ -8,7 +8,7 @@ the counted run. It adds no input tape and assumes no initialized table.
 
 namespace Lax842588Proofs.FixedTableLoader
 
-open Encodable Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Encodable Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 
 def program (xs : List Nat) : Com :=
   .seq (.assign "unpackCode" (.lit (encode xs))) (CompilerArrayUnpacking.program "P")

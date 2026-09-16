@@ -1,10 +1,10 @@
-import Lax865980Proofs.Compile
+import Lax759944Proofs.Legacy.Compile
 
 /-! Every finite IMP command admits a finite, input-independent RAM layout. -/
 
 namespace Lax842588Proofs.ImpLayout
 
-open Lax865980Proofs.Imp Lax865980Proofs.Compile
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Compile
 
 def Extends (L K : Layout) : Prop :=
   (∀ s ∈ L.scalars, s ∈ K.scalars) ∧

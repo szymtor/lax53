@@ -11,7 +11,7 @@ namespace Lax842588Proofs.IntrinsicFieldExtraction
 
 set_option maxHeartbeats 3000000
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning Lax865980Proofs.Compile
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning Lax759944Proofs.Legacy.Compile
 open Lax842588.ValueTranslations Lax842588.TreeStructure Lax842588.StructuralRepresentations
 open Lax842588Proofs.ArenaSemantics Lax842588Proofs.ArenaFieldAccess
 open Lax842588Proofs.IntrinsicFieldPaths Lax842588Proofs.IntrinsicCompilerFields

@@ -5,7 +5,7 @@ import Lax842588Proofs.AutomatonRamArenaReadTree
 
 namespace Lax842588Proofs.IntrinsicEvaluatorPrepare
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 open Lax842588.RankedTree Lax842588.ValueTranslations Lax842588.StructuralRepresentations
 open Lax842588.TreeModelCheckingEncoding Lax560851.WordArena
 open Lax842588Proofs.ArenaSemantics Lax842588Proofs.AutomatonRamArenaCorrectness

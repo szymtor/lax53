@@ -10,7 +10,7 @@ arena front end; it does not supply a compiled automaton or a numeric formula.
 
 namespace Lax842588Proofs.IntrinsicCompilerFromArena
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 open Lax842588.ValueTranslations Lax560851.WordArena
 open Lax842588Proofs.ArenaSemantics Lax842588Proofs.FormulaArenaTraversalModel
 open Lax842588Proofs.IntrinsicCompilerFields Lax842588Proofs.PrimitiveRecursiveCode
@@ -122,22 +122,22 @@ theorem program_noWrite (c : Code) : (program c).NoWrite := by
 @[simp] theorem program_warrs (c : Code) : (program c).warrs = ["P"] := by
   simp [program, Com.warrs, IntrinsicCompilerMaterialize.materialize_warrs]
 
-theorem program_ok (c : Code) (L : Lax865980Proofs.Compile.Layout) (ht : 9 ≤ L.temps)
+theorem program_ok (c : Code) (L : Lax759944Proofs.Legacy.Compile.Layout) (ht : 9 ≤ L.temps)
     (hp : "P" ∈ L.arrays)
     (hf : ∀ s ∈ IntrinsicFormulaInput.scalars, s ∈ L.scalars)
     (hfa : ∀ a ∈ IntrinsicFormulaInput.arrays, a ∈ L.arrays)
     (ha : ∀ s ∈ IntrinsicAlphabetInput.scalars, s ∈ L.scalars)
     (hc : ∀ j, j < space c → reg j ∈ L.scalars)
     (hu : ∀ s ∈ CompilerArrayUnpacking.scalars, s ∈ L.scalars) :
-    Lax865980Proofs.Compile.Com.Ok L (program c) := by
+    Lax759944Proofs.Legacy.Compile.Com.Ok L (program c) := by
   have hα := IntrinsicAlphabetInput.program_ok L (by omega) hp ha
   have hφ := IntrinsicFormulaInput.program_ok L ht hf hfa
   have hm := IntrinsicCompilerMaterialize.materialize_ok c "P" L (by omega) hp hc hu
   have hpack := ha "packCode" (by simp [IntrinsicAlphabetInput.scalars])
   have hrows := hf "rowsCode" (by simp [IntrinsicFormulaInput.scalars])
   have hreg := hc 0 (by have := space_ge_three c; omega)
-  simp [program, inputProgram, pairProgram, Lax865980Proofs.Compile.Com.Ok,
-    Lax865980Proofs.Compile.Cond.Ok, Lax865980Proofs.Compile.Expr.Ok, Lax865980Proofs.Compile.condExpr,
+  simp [program, inputProgram, pairProgram, Lax759944Proofs.Legacy.Compile.Com.Ok,
+    Lax759944Proofs.Legacy.Compile.Cond.Ok, Lax759944Proofs.Legacy.Compile.Expr.Ok, Lax759944Proofs.Legacy.Compile.condExpr,
     hα, hφ, hm, hpack, hrows, hreg]
   omega
 

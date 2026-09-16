@@ -5,7 +5,7 @@ import Lax842588Proofs.IntrinsicCompilerFrame
 
 namespace Lax842588Proofs.IntrinsicPublicCompiler
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 open Lax146103.MSOSyntax Lax842588.RankedTree Lax842588.TreeStructure Lax842588.ValueTranslations
 open Lax842588.MSOLinearTime Lax842588Proofs.ArenaSemantics
 open Lax842588Proofs.FormulaArenaTraversalModel Lax842588Proofs.IntrinsicCompilerFields

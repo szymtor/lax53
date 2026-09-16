@@ -11,9 +11,9 @@ namespace Lax842588Proofs.AutomatonRamArenaBounds
 set_option maxRecDepth 5000
 set_option maxHeartbeats 3000000
 
-open Lax865980Proofs.Imp
-open Lax865980Proofs.Compile
-open Lax865980Proofs.Transfer
+open Lax759944Proofs.Legacy.Imp
+open Lax759944Proofs.Legacy.Compile
+open Lax759944Proofs.Legacy.Transfer
 open Lax842588.ValueTranslations
 open Lax842588.RankedTree
 open Lax842588.StructuralRepresentations

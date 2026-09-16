@@ -1,4 +1,5 @@
 import Lax842588Proofs.ArrayInput
+import Lax842588Proofs.CheckedRamAdapter
 import Lax842588Proofs.MSOSemantics
 import Lax842588Proofs.TreeNodes
 import Lax842588Proofs.Determinization

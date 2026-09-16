@@ -1,9 +1,9 @@
 import Lax842588Proofs.ArrayInput
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning Lax865980Proofs.Reasoning.Lib
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning Lax759944Proofs.Legacy.Reasoning.Lib
 open Lax842588Proofs.ArrayInput
 
--- The localized reader is exactly the original Lax865980 command syntax.
+-- The localized reader retains the vendored legacy IMP command syntax.
 example (a x m tmp : String) : readArr a x m tmp =
     Com.seq (.assign x (.lit 0))
       (.while (.lt (.var x) (.var m)) (.seq (.read tmp) (Fill.put a x (.var tmp)))) := rfl

@@ -5,7 +5,7 @@ These tests audit the generic compiler and its first actual RAM application.
 The one-word interface remains internal; this is not yet the uniform MSO
 compiler accepting certified arenas. -/
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 open Lax842588Proofs.PrimitiveRecursiveCode Lax842588Proofs.PrimitiveRecursivePairing
 open Lax842588Proofs.PrimitiveRecursiveCompile Lax842588Proofs.PrimitiveRecursiveBounds
 open Lax842588Proofs.PrimitiveRecursiveCorrectness
@@ -30,14 +30,14 @@ example : Correct (.prec (.pair .left .right) (.comp .succ (.comp .right .right)
   compile_correct _
 
 -- An actual RAM theorem, including the zero-iteration boundary case.
-example : Lax865980.RamComputes.ComputesInTime 16 (program (.prec .zero .succ)) {[0]}
+example : Lax759944Proofs.Legacy.RamComputes.ComputesInTime 16 (program (.prec .zero .succ)) {[0]}
     (fun _ => [0]) (fun _ => timeBound (.prec .zero .succ) 0) :=
   code_computes (.prec .zero .succ) 0 16 (by decide)
 
 example (w : Nat)
     (hw : wordBound (.prec (.pair .left .right) (.comp .succ (.comp .right .right)))
       (Nat.pair 3 4) ≤ 2 ^ w) :
-    Lax865980.RamComputes.ComputesInTime w
+    Lax759944Proofs.Legacy.RamComputes.ComputesInTime w
       (program (.prec (.pair .left .right) (.comp .succ (.comp .right .right))))
       {[Nat.pair 3 4]} (fun _ => [7])
       (fun _ => timeBound (.prec (.pair .left .right) (.comp .succ (.comp .right .right)))

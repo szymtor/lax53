@@ -10,9 +10,9 @@ part of the single measured Lax-13 execution.
 
 namespace Lax842588Proofs.AutomatonRamArenaProgram
 
-open Lax865980.Ram
-open Lax865980Proofs.Imp
-open Lax865980Proofs.Compile
+open Lax759944Proofs.Legacy.Ram
+open Lax759944Proofs.Legacy.Imp
+open Lax759944Proofs.Legacy.Compile
 open Lax842588Proofs.ArrayInput
 open Lax842588Proofs.AutomatonRamProgram
 
@@ -287,7 +287,7 @@ theorem evaluator_ok : Com.Ok layout evaluator := by
     AutomatonRamProgram.searchChild,
     AutomatonRamProgram.searchStateLoop,
     AutomatonRamProgram.searchStateBody,
-    readArr, Lax865980Proofs.Reasoning.Lib.Fill.put,
+    readArr, Lax759944Proofs.Legacy.Reasoning.Lib.Fill.put,
     AutomatonRamProgram.seqs, seqs, inc, layout, AutomatonRamProgram.layout,
     Com.Ok, Cond.Ok, Expr.Ok, condExpr]
 

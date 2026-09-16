@@ -13,7 +13,7 @@ parameter-size envelopes are separate obligations.
 namespace Lax842588Proofs.IntrinsicModelChecking
 
 open Classical
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 open Lax146103.MSOSyntax Lax842588.RankedTree Lax842588.TreeStructure Lax842588.ValueTranslations
 open Lax842588.MSOLinearTime Lax842588.TreeModelCheckingEncoding Lax560851.WordArena
 open Lax842588Proofs.ArenaSemantics Lax842588Proofs.IntrinsicCompilerFields

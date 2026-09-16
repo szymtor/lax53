@@ -9,7 +9,7 @@ pairing intermediate, and recursive step cost.
 
 namespace Lax842588Proofs.PrimitiveRecursiveCorrectness
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 open Lax842588Proofs.PrimitiveRecursiveCode Lax842588Proofs.PrimitiveRecursivePairing
 open Lax842588Proofs.PrimitiveRecursiveCompile Lax842588Proofs.PrimitiveRecursiveBounds
 

@@ -11,7 +11,7 @@ retains ownership of reading the canonical arena and emitting its answer.
 
 namespace Lax842588Proofs.IntrinsicCompilerMaterialize
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning Lax865980Proofs.Compile
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning Lax759944Proofs.Legacy.Compile
 open Lax842588Proofs.PrimitiveRecursiveCode Lax842588Proofs.PrimitiveRecursiveCompile
 open Lax842588Proofs.PrimitiveRecursiveBounds Lax842588Proofs.PrimitiveRecursiveCorrectness
 open Lax842588Proofs.IntrinsicCompilerFields

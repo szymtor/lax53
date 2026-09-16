@@ -1,7 +1,9 @@
 # Structural RAM implementation notes
 
-This note records the implementation boundary for the coordinated Lax-58 and
-Lax-53 revision. It is not a concept module.
+This note records the implementation boundary for the coordinated canonical
+encoding and tree submissions, now Lax-560851 and Lax-842588. References to
+Lax-58 and Lax-53 below identify their original drafts. It is not a concept
+module.
 
 ## Removed serialization surface
 
@@ -49,7 +51,7 @@ The uniform automaton theorem has the order
 exists program constant, forall automaton tree wordWidth, ...
 ```
 
-so the same Lax-13 program works for every runtime automaton, tree, and
+so the same `Lax808846.Ram.Program` works for every runtime automaton, tree, and
 sufficient word width. The fixed-automaton corollary has the distinct order
 
 ```text
@@ -78,16 +80,26 @@ result; that specialization does not replace the uniform effectiveness claim.
 The proof package may use numeric arena tags, offsets, pointer arithmetic,
 temporary arrays, a pure reference evaluator, and IMP+ programs. Conversion
 from the distinguished arena to any evaluator-specific working layout must be
-verified and charged to the Lax-13 instruction count.
+verified and charged to the `Lax808846.Ram` instruction count.
 
-At the currently registered revisions, `Lax865980.RamComputes` supplies the public
-machine proposition, while the concrete IMP+ language, compiler, simulation,
-and transfer theorem remain in `Lax865980Proofs`. The verified input-array
-marshalling helper used by the existing evaluator, `Codegen.Harness`, moved to
-Lax-62 together with the higher refinement/autoref/code-generation tower.
-Lax-53 therefore has a proof-only Lax-62 dependency for that helper; the
-remaining higher-level tower is not part of the public concept or runtime
-claim.
+The public machine proposition is `Lax808846.RamComputes.ComputesInTime`,
+packaged by `Lax560851.RamComplexity.RamComputableWithinUsing`. The public RAM
+has dedicated input and output tapes, immutable indexed input, and a counted
+terminal instruction. The concrete IMP+ language, compiler, simulation, and
+transfer theorem are retained under `Lax759944Proofs.Legacy` as a proof-side
+intermediate. They no longer depend on the deleted Lax-865980 package.
+
+`Lax842588Proofs.CheckedRamAdapter` applies the proved instruction embedding
+from `Lax759944Proofs.LegacyRamBridge` to each implementation witness. The
+embedding preserves the exact supplied input and output lists, working-memory
+layout, and word width. It adds at most one instruction for the terminal
+charge; increasing the existential time coefficient by one covers that cost.
+The public bounds and quantifier order above remain the same.
+
+The input-array marshalling helper is local to
+`Lax842588Proofs.ArrayInput`, with attribution to the earlier Lax-62 harness.
+There is no Lax-62 dependency. The higher refinement and code-generation
+tower is not part of the public concept or runtime claim.
 
 Likely local helpers that may merit later extraction, after the first result
 is complete, are semantic/cost/word-bound lemmas for loading and traversing a

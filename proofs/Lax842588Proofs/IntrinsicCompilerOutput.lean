@@ -12,7 +12,7 @@ namespace Lax842588Proofs.IntrinsicCompilerFields
 
 open Lax842588.ValueTranslations Lax842588.TreeModelCheckingEncoding
 open Lax842588Proofs.PrimitiveRecursiveRam
-open Lax865980.Ram Lax865980.RamComputes
+open Lax759944Proofs.Legacy.Ram Lax759944Proofs.Legacy.RamComputes
 
 theorem maximumRank_prim : Primrec maximumRank := by
   exact Primrec.list_foldl (h := fun (_ : List Nat) sb => max sb.1 sb.2)

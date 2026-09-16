@@ -12,7 +12,7 @@ namespace Lax842588Proofs.IntrinsicCompilerPrepare
 set_option maxHeartbeats 3000000
 set_option maxRecDepth 4096
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 open Lax146103.MSOSyntax Lax842588.RankedTree Lax842588.TreeStructure Lax842588.ValueTranslations
 open Lax842588.StructuralRepresentations Lax842588.MSOLinearTime
 open Lax842588Proofs.ArenaSemantics Lax842588Proofs.AutomatonRamArenaCorrectness

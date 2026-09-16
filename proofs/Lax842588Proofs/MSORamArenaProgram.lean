@@ -9,7 +9,7 @@ and pointer offsets are charged implementation details.
 
 namespace Lax842588Proofs.MSORamArenaProgram
 
-open Lax865980Proofs.Imp
+open Lax759944Proofs.Legacy.Imp
 open Lax842588Proofs.AutomatonRamProgram
 open Lax842588Proofs.AutomatonRamArenaProgram
 open Lax560851.StructuralCombinators

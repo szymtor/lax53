@@ -1,4 +1,4 @@
-import Lax865980Proofs.Tactic
+import Lax759944Proofs.Legacy.Tactic
 import Mathlib.Data.Nat.Pairing
 import Mathlib.Tactic.Linarith
 
@@ -15,7 +15,7 @@ reserve fresh scratch space without introducing another memory convention.
 
 namespace Lax842588Proofs.PrimitiveRecursivePairing
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 
 def pairProgram (x y out : String) : Com :=
   .ite (.lt (.var x) (.var y))

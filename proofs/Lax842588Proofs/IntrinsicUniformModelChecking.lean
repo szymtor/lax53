@@ -1,12 +1,14 @@
 import Lax842588Proofs.IntrinsicModelCheckingRam
 import Lax842588Proofs.IntrinsicTimeBounds
 import Lax842588Proofs.IntrinsicWordBounds
+import Lax842588Proofs.CheckedRamAdapter
 
 /-! The uniform headline theorem on the unchanged certified public input. -/
 
 namespace Lax842588Proofs.IntrinsicUniformModelChecking
 
-open Classical Lax865980.Ram Lax865980.RamComputes Lax865980Proofs.Compile
+open Classical Lax759944Proofs.Legacy.Ram Lax759944Proofs.Legacy.RamComputes
+open Lax759944Proofs.Legacy.Compile
 open Lax146103.MSOSyntax Lax842588.RankedTree Lax842588.TreeStructure Lax842588.ValueTranslations
 open Lax842588.MSOLinearTime
 open Lax842588.TreeModelCheckingEncoding (treeSize)
@@ -20,8 +22,8 @@ def timeCoefficient (L : Layout) (c d : Code) (p : Nat) : Nat :=
 theorem timeCoefficient_prim (L : Layout) (c d : Code) : Primrec (timeCoefficient L c d) :=
   Primrec.nat_mul.comp (Primrec.const _) (impTimeCoefficient_prim c d)
 
-/-- Expanded implementation theorem retained behind the concise reusable
-RAM-complexity statement. -/
+/-- Expanded sequential-machine implementation, embedded into `Lax808846`
+by the concise reusable RAM-complexity theorem below. -/
 theorem exists_uniform_msoModelChecking_expanded :
     ∃ (program : Program) (timeCoefficient wordCoefficient : Nat → Nat),
       Computable timeCoefficient ∧ Computable wordCoefficient ∧
@@ -56,7 +58,8 @@ theorem exists_uniform_msoModelChecking_expanded :
 ---
 conclusion: Lax842588.MSOLinearTime.exists_uniform_msoModelChecking
 ---
-The formula compiler is executed within the counted run. Parameter-only
+The formula compiler is executed within the counted run. The checked embedding
+into `Lax808846` includes the terminal instruction in that count. Parameter-only
 computable envelopes cover its resources, the linear tree evaluator, and
 the finite layout's machine addresses. Lax560851's reusable predicate hides the
 expanded program and sufficient-width quantifiers without weakening them.
@@ -72,13 +75,21 @@ theorem exists_uniform_msoModelChecking_proof :
           input.sentence input.tree) := by
   obtain ⟨program, timeCoefficient, wordCoefficient, htimeComputable,
       hwordComputable, h⟩ := exists_uniform_msoModelChecking_expanded
-  refine ⟨timeCoefficient, wordCoefficient, htimeComputable, hwordComputable,
-    program, ?_⟩
+  have htimeSuccessor : Computable (fun p => timeCoefficient p + 1) :=
+    Computable.comp Primrec.succ.to_comp htimeComputable
+  refine ⟨(fun p => timeCoefficient p + 1), wordCoefficient,
+    htimeSuccessor, hwordComputable,
+    Lax759944Proofs.LegacyRamBridge.embedProgram program, ?_⟩
   rintro ⟨alphabet, phi, t⟩ w hpayload harena hword
+  have htarget := CheckedRamAdapter.computesInTime
+    (U := fun _ => uniformTimeBound (fun p => timeCoefficient p + 1) alphabet phi t)
+    (h alphabet phi t w hpayload harena hword) (fun _ _ =>
+      CheckedRamAdapter.add_one_le_scaled (timeCoefficient (parameterSize alphabet phi))
+        (treeSize t + 1) (by omega))
   by_cases hsatisfies : t ∈ sentenceLanguage phi <;>
     simpa [modelCheckingPresentation, modelCheckingInstanceRaw,
       modelCheckingInput, natOutput, Lax560851.WordArena.encode,
       Lax560851.StructuralPresentation.presentationOf, hsatisfies] using!
-        h alphabet phi t w hpayload harena hword
+        htarget
 
 end Lax842588Proofs.IntrinsicUniformModelChecking

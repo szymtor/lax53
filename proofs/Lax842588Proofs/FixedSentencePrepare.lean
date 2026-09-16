@@ -7,7 +7,7 @@ import Lax560851Proofs.WordArena
 
 namespace Lax842588Proofs.FixedSentencePrepare
 
-open Encodable Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Encodable Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 open Lax842588.RankedTree Lax842588.ValueTranslations Lax842588.StructuralRepresentations
 open Lax842588.TreeModelCheckingEncoding Lax560851.WordArena
 open Lax842588Proofs.IntrinsicEvaluatorPrepare Lax842588Proofs.AutomatonRamArenaCorrectness

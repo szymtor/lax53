@@ -1,12 +1,12 @@
-import Lax865980Proofs.Transfer
+import Lax759944Proofs.Legacy.Transfer
 import Lax842588Proofs.ArrayInput
 import Lax842588Proofs.EncodedAutomatonWordEvaluation
 
 namespace Lax842588Proofs.AutomatonRamProgram
 
-open Lax865980.Ram
-open Lax865980Proofs.Imp
-open Lax865980Proofs.Compile
+open Lax759944Proofs.Legacy.Ram
+open Lax759944Proofs.Legacy.Imp
+open Lax759944Proofs.Legacy.Compile
 open Lax842588Proofs.ArrayInput
 
 /-- Right-associated sequencing, used only to keep the concrete evaluator
@@ -215,7 +215,7 @@ theorem evaluator_ok : Com.Ok layout evaluator := by
     checkTransition, loadTransition, validateTransition, appendParent,
     checkChildren, checkChildrenLoop, checkChildrenBody,
     searchChild, searchStateLoop, searchStateBody,
-    readArr, Lax865980Proofs.Reasoning.Lib.Fill.put, seqs, inc, layout, Com.Ok,
+    readArr, Lax759944Proofs.Legacy.Reasoning.Lib.Fill.put, seqs, inc, layout, Com.Ok,
     Cond.Ok, Expr.Ok, condExpr]
 
 end Lax842588Proofs.AutomatonRamProgram

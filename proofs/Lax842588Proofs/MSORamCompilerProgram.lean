@@ -5,7 +5,7 @@ import Lax842588Proofs.MSORamArenaProgram
 
 namespace Lax842588Proofs.MSORamCompilerProgram
 
-open Lax865980Proofs.Imp
+open Lax759944Proofs.Legacy.Imp
 open Lax842588Proofs.AutomatonRamProgram
 
 private abbrev lit (n : Nat) : Expr := .lit n

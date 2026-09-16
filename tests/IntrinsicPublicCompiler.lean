@@ -6,8 +6,8 @@ import Lax842588Proofs.IntrinsicParameterFields
 #guard ¬ Lax842588Proofs.IntrinsicEvaluatorPrepare.program.reads
 
 example (c : Lax842588Proofs.PrimitiveRecursiveCode.Code) :
-    ∃ L : Lax865980Proofs.Compile.Layout,
-      Lax865980Proofs.Compile.Com.Ok L (Lax842588Proofs.IntrinsicModelChecking.program c) :=
+    ∃ L : Lax759944Proofs.Legacy.Compile.Layout,
+      Lax759944Proofs.Legacy.Compile.Com.Ok L (Lax842588Proofs.IntrinsicModelChecking.program c) :=
   Lax842588Proofs.ImpLayout.exists_layout _
 
 example : (Lax842588Proofs.IntrinsicFormulaCompiler.zeroSymbolMap [0, 2, 1]

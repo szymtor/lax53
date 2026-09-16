@@ -1,8 +1,128 @@
-# Lean 4.33 draft migration
+# RAM model correction: drafts retained; local validation complete
+
+Updated 2026-09-16. The user requested rebasing the submissions on
+[`Lax808846.Ram`](https://laxarchive.org/lax-808846/Lax808846.Ram.html).
+The previous Lean-version migration and publication record below describes
+the earlier source, not validation of this correction.
+
+## Implemented
+
+- Public tree runtime witnesses are now programs for `Lax808846`, through
+  the corrected canonical `RamComputableWithinUsing` predicate.
+- `CheckedRamAdapter` applies the checked instruction embedding from
+  `Lax759944Proofs.LegacyRamBridge`. It preserves the supplied input and output
+  lists, word width, and workspace layout. The terminal instruction contributes
+  at most one additional instruction; increasing each existential time
+  coefficient by one covers that charge, including the computable uniform
+  MSO coefficient. All public input and word-resource bounds are unchanged.
+- The existing IMP compiler and expanded implementation theorems use the
+  vendored `Lax759944Proofs.Legacy` definitions as a proof-side intermediate.
+  The deleted `lax-865980` package is no longer their intended dependency.
+- Both automaton wrappers and the uniform/fixed-sentence MSO wrappers use
+  the checked embedding. Regression references now use the vendored namespace.
+  The proof root imports `CheckedRamAdapter` explicitly.
+
+## Dependency release pins
+
+- The proof package now pins `Lax759944Proofs` to RAM/Turing commit
+  `7010243df12cdda03abc5f63ec8de2c0963d4052`. That revision passed full local
+  Lax validation and independent kernel replay: seven concepts and four
+  annotated proofs, whose assumption lists are all empty. The commit is pushed.
+- All three canonical concept/proof requirements now pin
+  `8ec635640f3fd05271fa5cb7b1d3ae9e59400d7b`. That revision passed full Lax
+  validation and independent kernel replay: 12 concepts and 18 annotated
+  proofs with empty assumption lists, in 7m08s. The commit is pushed, but its
+  Archive draft update failed at the dependency gate: the remote validator
+  rejects draft `Lax759944` and `Lax759944Proofs` dependencies. That revision
+  has not been published. The local tree checks below used the corrected
+  local sources through explicit package overrides.
+- The MSO-word dependency remains
+  `b7b157e93741492b33a0fa84ec76e24a571e2a98`; the public RAM model remains
+  `Lax808846` at `9394e531cc51cb67a0214bca3f9264dfe97ba5c7`.
+
+## Validation and exact next action
+
+- The instruction embedding and its edge-case regressions pass Lean 4.33
+  checking in the RAM/Turing submission; its axiom audit contains only
+  `propext` and `Quot.sound`.
+- `CheckedRamAdapter.lean` independently compiles with Lean 4.33 against that
+  checked bridge. Its temporary output is `/private/tmp/CheckedRamAdapter.olean`.
+- The local Lake build also passes for `CheckedRamAdapter` and both public
+  tree statement modules. The adapter axiom audit reports only the permitted
+  background axioms; see `../migration-tools/trees-808846-adapter-audit.log`.
+- `CertifiedRepresentations.lean` and `CertificateReport.lean` both pass
+  against the explicit local correction overrides; see
+  `../migration-tools/trees-808846-certification.log`.
+- `ArrayInput.lean`, `IntrinsicCompilerBridge.lean`, and
+  `TreeAutomataEquivalence.lean` also pass with the corrected local overrides.
+  Logs: `trees-808846-array-input.log` and `trees-808846-early-regressions.log`
+  in `../migration-tools/`.
+- `PrimitiveRecursiveAutomata` builds and `PrimitiveRecursiveBridge.lean`
+  passes; see `../migration-tools/trees-808846-primitive-regression.log`.
+- The selected endpoint build passes (3198 jobs), including all three edited
+  public proof modules and all four rebased runtime theorems. Log:
+  `../migration-tools/trees-808846-endpoints.log`.
+- All eight implementation/equivalence regressions now pass. The remaining
+  four were `IntrinsicPublicCompiler.lean`, `IntrinsicParameterBounds.lean`,
+  `FixedSentenceModelChecking.lean`, and `RamComplexityStatements.lean`.
+  They check exact public statement types and the expected axiom sets. Logs:
+  `trees-808846-public-compiler.log` and `trees-808846-endpoint-regressions.log`
+  in `../migration-tools/`.
+- The full `Lax842588Proofs` root build passes (3222 jobs), including every
+  retained helper module. Log: `../migration-tools/trees-808846-full-proof.log`.
+- The final-source local proof build passes all 3222 jobs in 47m12s with the
+  explicit dependency overrides; see
+  `../migration-tools/trees-808846-local-final-build.log`. The concept root
+  `Lax842588` also passes (960 jobs, 11.6s), logged in
+  `../migration-tools/trees-808846-local-concepts.log`.
+- The fresh annotation audit passes for all 15 tree proofs and the four
+  canonical proofs that discharge their encoding assumptions. It checks
+  current declaration kinds, exact statement types, and exact non-background
+  axiom sets: nine tree proofs have empty sets, six use the four canonical
+  statements, and all four canonical discharge proofs have empty sets.
+  The final log names all 19 checked proofs; the logging-only rerun passes
+  in 18.7s. Log: `../migration-tools/trees-808846-final-audit.log`.
+- Stock Lean 4.33.0's kernel checker passes in 29m31s (exit 0) in the same
+  Lake environment:
+
+  ```sh
+  env LEAN_NUM_THREADS=2 lake --packages=../../migration-tools/ram-808846-local-overrides.json env leanchecker --verbose Lax842588 Lax842588Proofs
+  ```
+
+  This single replay covers exactly both package prefixes: ten concept
+  modules and their root, plus 161 proof modules and their root (173 unique
+  modules, with no missing or extra modules against the source inventory).
+  The separate checker log is `../migration-tools/trees-808846-local-kernel.log`.
+  All 179 source/configuration file hashes match before and after validation;
+  the snapshots are `trees-808846-validated-source-hashes.json` and
+  `trees-808846-validated-source-hashes-after.json` in `../migration-tools/`.
+  This is direct local proof validation, not Lax or Archive validation.
+  These local commands require the explicit `--packages` override shown
+  above. Ignored `lake-manifest.json` cache files still contain the retired
+  dependency and are superseded by that override; ordinary Lake commands
+  need regenerated manifests before use. The tracked source and lakefiles
+  no longer depend on the retired package. No manifests were regenerated
+  during the final validation.
+- **The user chose to keep the submissions as drafts and declined registration.**
+  No registration or further Archive publication will be attempted. There is
+  no outstanding approval request. The canonical dependency pin remains
+  `8ec635640f3fd05271fa5cb7b1d3ae9e59400d7b` even though the Archive rejected
+  that draft update.
+- **Exact-pin Lax validation/replay of this correction cannot run against the
+  unaccepted canonical revision.** The earlier successful Lax replay recorded
+  below applies to the previous published source. The current local builds,
+  regressions, and completed direct kernel replay must not be represented
+  as acceptance by the Archive or as completion of the blocked Lax pipeline.
+- The commit containing this record is the locally validated correction on
+  branch `lean-4.33`. No local proof-validation work remains. The workspace
+  `../RAM_808846_REBASE_STATUS.md` records its final commit and push status.
+  The public Archive draft remains at the earlier revision recorded below.
+
+## Earlier Lean 4.33 draft migration (historical)
 
 Updated 2026-09-15. Original draft lax-53; new independent draft lax-842588
 on branch lean-4.33. The abstract links to the original; no supersedes claim
-or registration. Publication is the next step.
+or registration. Published at https://laxarchive.org/lax-842588/.
 
 All local validation passed:
 - Full proof build: 3218 jobs.
@@ -25,9 +145,11 @@ warnings: two proof-package dependencies, four draft-package dependencies and
 343 unused helpers. The inherited helpers and bespoke alternative compiler
 modules are intentionally retained, as required by WORKFLOW.md.
 
-Next: push lean-4.33, run lax submit from concepts/ targeting .., commit and
-push the new issue binding, rerun submit, and wait for archive publication.
-The old issue-53 binding has been removed from the new manifest.
+Publication completed: archive issue 115, source commit
+828f03cc85308eb60ba345b0c815310157600f70. Archive rebuild 23m27s;
+public record written in 57s. All six Lean 4.33 migration drafts are published.
+No remaining migration work. No registration performed.
+
 Logs: ../migration-tools/trees-*.log. Original draft and main are untouched.
 
 ## Historical record from the original (not validation of this port)

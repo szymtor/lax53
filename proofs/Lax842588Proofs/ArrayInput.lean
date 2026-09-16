@@ -1,19 +1,19 @@
-import Lax865980Proofs.Lib.Fill
+import Lax759944Proofs.Legacy.Lib.Fill
 
 /-!
-Array input for the Lax865980 IMP+ backend.
+Array input for the Lax759944Proofs.Legacy IMP+ backend.
 
 Adapted from the list-entry and array-prelude sections of
 `Lax62Proofs.Refine.Codegen.Harness`, lax-archive/lax-submissions commit
 `3639289680141e252c0cfc3c3f29071815391ffd` (Apache-2.0).
 Only the reader and its supporting lemmas are retained, in this package's
 namespace. Their definitions, specifications, and proofs are unchanged.
-This keeps Lax842588's Lax865980 RAM model independent of Lax62's migration to Lax67.
+This keeps Lax842588's Lax759944Proofs.Legacy RAM model independent of Lax62's migration to Lax67.
 -/
 
 namespace Lax842588Proofs.ArrayInput
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning Lax865980Proofs.Reasoning.Lib
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning Lax759944Proofs.Legacy.Reasoning.Lib
 
 /-- An entry of a list, as the `getD` that `arrOf` produces. -/
 theorem getD_eq_getElem {l : List ℕ} {i : ℕ} (h : i < l.length) : l.getD i 0 = l[i] :=

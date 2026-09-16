@@ -10,7 +10,7 @@ or introducing a second alphabet array.
 
 namespace Lax842588Proofs.IntrinsicAlphabetInput
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning Lax865980Proofs.Compile
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning Lax759944Proofs.Legacy.Compile
 open Lax842588.ValueTranslations Lax560851.WordArena
 open Lax842588Proofs.CompilerArrayPacking Lax842588Proofs.PrimitiveRecursivePairing
 open Lax842588Proofs.AutomatonRamArenaCorrectness Lax842588Proofs.AutomatonRamCorrectness

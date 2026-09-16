@@ -1,5 +1,5 @@
-import Lax865980Proofs.Reasoning
-import Lax865980Proofs.Spec
+import Lax759944Proofs.Legacy.Reasoning
+import Lax759944Proofs.Legacy.Spec
 
 /-!
 Local operational bookkeeping for the structural frontend. IMP+ has no array
@@ -10,8 +10,8 @@ infrastructure in either concept package.
 
 namespace Lax842588Proofs
 
-open Lax865980Proofs.Imp
-open Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp
+open Lax759944Proofs.Legacy.Reasoning
 
 theorem bigStepB_arrayLength_eq {B : Nat} {command : Com} {sigma sigma' : Env}
     {cost : Nat} (run : BigStepB B command sigma sigma' cost) (array : String) :

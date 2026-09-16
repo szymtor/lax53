@@ -1,13 +1,13 @@
 import Lax842588Proofs.IntrinsicCompilerParameters
 import Lax842588Proofs.IntrinsicCompiledTableBounds
 import Lax842588Proofs.IntrinsicInputBounds
-import Lax865980Proofs.Compile
+import Lax759944Proofs.Legacy.Compile
 
 /-! One public word coefficient covers compiler values, tree workspaces, and layout addresses. -/
 
 namespace Lax842588Proofs.IntrinsicWordBounds
 
-open Lax865980Proofs.Compile
+open Lax759944Proofs.Legacy.Compile
 open Lax146103.MSOSyntax Lax842588.RankedTree Lax842588.TreeStructure Lax842588.ValueTranslations
 open Lax842588.MSOLinearTime Lax842588.TreeModelCheckingEncoding Lax560851.WordArena
 open Lax842588Proofs.IntrinsicParameterEncoding Lax842588Proofs.IntrinsicCompilerParameters

@@ -6,7 +6,7 @@ import Lax842588Proofs.IntrinsicInputBounds
 
 namespace Lax842588Proofs.IntrinsicTimeBounds
 
-open Lax865980Proofs.Imp
+open Lax759944Proofs.Legacy.Imp
 open Lax146103.MSOSyntax Lax842588.RankedTree Lax842588.TreeStructure Lax842588.ValueTranslations
 open Lax842588.MSOLinearTime Lax842588.TreeModelCheckingEncoding Lax560851.WordArena
 open Lax842588Proofs.IntrinsicParameterEncoding Lax842588Proofs.IntrinsicCompilerParameters

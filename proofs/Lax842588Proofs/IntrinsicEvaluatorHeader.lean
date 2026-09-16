@@ -4,7 +4,7 @@ import Lax842588Proofs.AutomatonRamEvaluateTree
 
 namespace Lax842588Proofs.IntrinsicEvaluatorHeader
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning Lax865980Proofs.Compile
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning Lax759944Proofs.Legacy.Compile
 open Lax842588.ValueTranslations Lax842588.TreeModelCheckingEncoding
 open Lax842588Proofs.AutomatonRamCorrectness Lax842588Proofs.AutomatonTableEncoding
 

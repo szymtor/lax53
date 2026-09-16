@@ -9,8 +9,8 @@ not input annotations or alternative encoders.
 
 namespace Lax842588Proofs.ArenaFieldAccess
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning
-open Lax865980Proofs.Compile
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
+open Lax759944Proofs.Legacy.Compile
 open Lax842588Proofs.ArenaSemantics Lax842588Proofs.AutomatonRamArenaCorrectness
 open Lax560851.StructuralPresentation Lax560851.WordArena
 

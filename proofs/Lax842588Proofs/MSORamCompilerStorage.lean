@@ -1,6 +1,6 @@
 import Lax842588Proofs.AutomatonRamArenaSegments
 import Lax842588Proofs.RuntimeLayout
-import Lax865980Proofs.Reasoning
+import Lax759944Proofs.Legacy.Reasoning
 
 /-!
 Proof-private storage contract for the charged intrinsic-formula compiler.
@@ -17,7 +17,7 @@ formulas.  It exists only inside the measured RAM execution.
 
 namespace Lax842588Proofs.MSORamCompilerStorage
 
-open Lax865980Proofs.Imp
+open Lax759944Proofs.Legacy.Imp
 open Lax842588.ValueTranslations
 open Lax842588.TreeModelCheckingEncoding
 open Lax842588Proofs.AutomatonRamArenaSegments

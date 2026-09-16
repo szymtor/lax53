@@ -39,13 +39,13 @@ example : Primrec fun p : RankedAlphabetCode × List (List Nat) => compileRows p
   compileRows_prim
 
 -- Empty and nonempty array prefixes, with no requirement on unused padding.
-example : Lax865980Proofs.Reasoning.Spec 16
+example : Lax759944Proofs.Legacy.Reasoning.Spec 16
     (fun σ => Lax842588Proofs.CompilerArrayPacking.Prefix "Data" [] σ ∧ σ.vars "N" = 0)
     (Lax842588Proofs.CompilerArrayPacking.program "Data" "N")
     (fun _ σ => σ.vars "packCode" = 0) 60 :=
   Lax842588Proofs.CompilerArrayPacking.program_spec 16 "Data" "N" [] (by decide)
 
-example : Lax865980Proofs.Reasoning.Spec 512
+example : Lax759944Proofs.Legacy.Reasoning.Spec 512
     (fun σ => Lax842588Proofs.CompilerArrayPacking.Prefix "Data" [2, 0] σ ∧ σ.vars "N" = 2)
     (Lax842588Proofs.CompilerArrayPacking.program "Data" "N")
     (fun _ σ => σ.vars "packCode" = Encodable.encode ([2, 0] : List Nat)) 180 :=
@@ -75,7 +75,7 @@ example : Lax865980Proofs.Reasoning.Spec 512
 
 -- A typed identity code exercises stripping the `some` tag and materializing
 -- empty/nonempty outputs. These are internal working data, not public inputs.
-example : Lax865980Proofs.Reasoning.Spec 512
+example : Lax759944Proofs.Legacy.Reasoning.Spec 512
     (fun σ => σ.vars (Lax842588Proofs.PrimitiveRecursiveCompile.reg 0) = 0 ∧
       (σ.arrs "P").length = 0)
     (Lax842588Proofs.IntrinsicCompilerMaterialize.materialize .succ "P")
@@ -84,7 +84,7 @@ example : Lax865980Proofs.Reasoning.Spec 512
   Lax842588Proofs.IntrinsicCompilerMaterialize.materialize_exact_spec .succ 512 0 "P" []
     rfl (by decide)
 
-example : Lax865980Proofs.Reasoning.Spec 4096
+example : Lax759944Proofs.Legacy.Reasoning.Spec 4096
     (fun σ => σ.vars (Lax842588Proofs.PrimitiveRecursiveCompile.reg 0) =
         Encodable.encode ([2, 0] : List Nat) ∧ (σ.arrs "P").length = 2)
     (Lax842588Proofs.IntrinsicCompilerMaterialize.materialize .succ "P")
@@ -113,14 +113,14 @@ example : Lax865980Proofs.Reasoning.Spec 4096
 #print axioms Lax842588Proofs.ArenaFieldAccess.load_spec
 
 -- Register packing works without an auxiliary array and counts every pairing.
-example : Lax865980Proofs.Reasoning.Spec 512
+example : Lax759944Proofs.Legacy.Reasoning.Spec 512
     (fun σ => [σ.vars "x", σ.vars "y"] = [2, 0])
     (Lax842588Proofs.CompilerArrayPacking.registerProgram "packed" ["x", "y"])
     (fun _ σ => σ.vars "packed" = Encodable.encode ([2, 0] : List Nat)) 75 :=
   Lax842588Proofs.CompilerArrayPacking.registerProgram_spec 512 "packed" ["x", "y"]
     [2, 0] (by decide) (by decide)
 
-example : Lax865980Proofs.Reasoning.Spec 16
+example : Lax759944Proofs.Legacy.Reasoning.Spec 16
     (fun σ => ([] : List String).map σ.vars = [])
     (Lax842588Proofs.CompilerArrayPacking.registerProgram "packed" [])
     (fun _ σ => σ.vars "packed" = Encodable.encode ([] : List Nat)) 25 :=
@@ -164,7 +164,7 @@ example (alphabet : RankedAlphabetCode) (os : List (Occurrence alphabet)) :
 #guard_msgs in
 #print axioms Lax842588Proofs.IntrinsicFormulaInput.program_spec
 
-example : Lax865980Proofs.Reasoning.Spec 64
+example : Lax759944Proofs.Legacy.Reasoning.Spec 64
     (fun σ => Lax842588Proofs.CompilerArrayPacking.Prefix "P" [0] σ ∧ σ.vars "A" = 0)
     Lax842588Proofs.IntrinsicAlphabetInput.program
     (fun _ σ => σ.vars "packCode" = 0) 450 :=

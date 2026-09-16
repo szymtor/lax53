@@ -15,8 +15,8 @@ open Classical
 
 open FirstOrder
 open Lax146103.MSOSyntax
-open Lax865980Proofs.Imp
-open Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp
+open Lax759944Proofs.Legacy.Reasoning
 open Lax842588.RankedTree
 open Lax842588.TreeStructure
 open Lax842588.ValueTranslations

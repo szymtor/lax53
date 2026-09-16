@@ -1437,3 +1437,242 @@ Both headline MSO runtime theorems have empty assumption lists. No unresolved
 mathematical assumptions remain. The 343 inherited unused helpers are retained
 intentionally alongside two proof-package and four draft-package warnings.
 Publication of the independent draft remains next; no registration.
+
+
+### Publication completed
+
+Published https://laxarchive.org/lax-842588/ as an independent Lean 4.33 draft.
+Archive issue 115, workflow 34950409101, source commit
+828f03cc85308eb60ba345b0c815310157600f70 on szymtor/lax53 branch lean-4.33.
+Archive rebuild 23m27s; publication 57s. All six requested migration drafts are
+now public. Original drafts and main branches preserved; none registered.
+
+## 2026-09-15: correction to the public RAM model
+
+The user identified `Lax808846.Ram` as the required RAM. It retains dedicated
+input/output tapes, adds immutable indexed input and EOF/length operations,
+and charges terminal instructions. The old `lax-865980` package was deleted
+upstream. Root coordinates replacing that dependency with the pure machine
+definitions and checked IMP machinery vendored into the RAM/Turing proof
+package as `Lax759944Proofs.Legacy`.
+
+Added `CheckedRamAdapter.lean`, importing the checked instruction embedding
+`Lax759944Proofs.LegacyRamBridge`. The adapter lifts a legacy execution bound
+`T` to any new bound at least `T + 1`. Changed the four public wrapper proofs
+in `AutomatonLinearTime`, `IntrinsicUniformModelChecking`, and
+`FixedSentenceModelChecking` to choose the embedded program and a time
+coefficient larger by one. The uniform MSO coefficient remains computable
+by composition with successor. Input encodings, output lists, word widths,
+and workspace capacity assumptions stay unchanged. Expanded legacy
+implementation theorems remain inspectable proof-side intermediates.
+
+Updated five regression files to use the vendored namespace, and imported
+the adapter in the proof root. No scripts referenced the old namespace.
+The adapter independently compiles under Lean 4.33 using the bridge check
+overlay and installed mathlib package paths; output
+`/private/tmp/CheckedRamAdapter.olean`. Full endpoint builds, prescribed
+regressions, Lax validation, and independent kernel replay are pending the
+coordinated dependency update. This correction has not been published or
+registered.
+
+The focused endpoint build is running with local package overrides:
+`env LEAN_NUM_THREADS=2 lake --packages=../../migration-tools/ram-808846-local-overrides.json build Lax842588Proofs.CheckedRamAdapter Lax842588Proofs.AutomatonLinearTime Lax842588Proofs.IntrinsicUniformModelChecking Lax842588Proofs.FixedSentenceModelChecking`.
+Log: `../migration-tools/trees-808846-endpoints.log`. The adapter and both
+corrected public statement modules have passed. An independent adapter axiom
+audit passed: the transfer theorem uses `propext` and `Quot.sound`; its
+arithmetic bound uses those and `Classical.choice`. Log:
+`../migration-tools/trees-808846-adapter-audit.log`.
+
+### RAM correction: structural regressions and implementation notes
+
+Both `CertifiedRepresentations.lean` and `CertificateReport.lean` pass with
+`lake --packages=../../migration-tools/ram-808846-local-overrides.json env lean`
+from `concepts/`. Log: `../migration-tools/trees-808846-certification.log`.
+This is local Lean validation against the corrected dependency graph, not
+full Lax validation or independent kernel replay. The focused endpoint build
+is still running. `IMPLEMENTATION_NOTES.md` now names the public
+`Lax808846.RamComputes.ComputesInTime`, the internal vendored compiler, the
+checked witness embedding and terminal charge, and the localized reader.
+The obsolete Lax-62 dependency claim has been removed.
+
+### RAM correction: early implementation regressions
+
+`ArrayInput.lean`, `IntrinsicCompilerBridge.lean`, and
+`TreeAutomataEquivalence.lean` pass with the same explicit local overrides.
+The checks cover the localized input reader, compiler/materialization
+interfaces, and the unchanged logical equivalence statement types. Logs:
+`../migration-tools/trees-808846-array-input.log` and
+`../migration-tools/trees-808846-early-regressions.log`. The endpoint rebuild
+and remaining headline/primitive-recursive regressions are still pending.
+
+The focused `Lax842588Proofs.PrimitiveRecursiveAutomata` build and
+`PrimitiveRecursiveBridge.lean` regression also pass with the correction
+overrides; log: `../migration-tools/trees-808846-primitive-regression.log`.
+The local build reports 3060 jobs, predominantly cached dependency replays.
+
+### RAM correction: all public endpoint proofs and regressions pass
+
+The selected corrected endpoint build passes all 3198 jobs, including
+`AutomatonLinearTime`, `IntrinsicUniformModelChecking`, and
+`FixedSentenceModelChecking`. No additional endpoint proof edits were needed.
+`IntrinsicPublicCompiler`, `IntrinsicParameterBounds`,
+`FixedSentenceModelChecking`, and `RamComplexityStatements` all pass with
+the same explicit local overrides. Combined with the earlier tests, every
+prescribed implementation/equivalence regression and both structural
+certification checks now pass. The MSO headline axiom guards remain
+background-only; all four public RAM proofs match their exact concept types.
+Logs: `trees-808846-endpoints.log`, `trees-808846-public-compiler.log`, and
+`trees-808846-endpoint-regressions.log` in `../migration-tools/`.
+
+The full `Lax842588Proofs` root build is running separately with the explicit
+local overrides; it includes the retained helper inventory beyond the
+selected headline dependency graph. Archive revision pinning, full Lax
+validation, independent kernel replay, and publication of this correction
+remain pending the coordinated corrected dependency releases.
+
+### RAM correction: complete local proof package passes
+
+The full `Lax842588Proofs` root build completed successfully (3222 jobs)
+with `env LEAN_NUM_THREADS=2 lake
+--packages=../../migration-tools/ram-808846-local-overrides.json build
+Lax842588Proofs` from `proofs/`. All retained helpers remain present. Log:
+`../migration-tools/trees-808846-full-proof.log`. Together with the selected
+endpoint build, all eight implementation/equivalence regressions, the
+structural certification test and the certificate report, this completes
+the local Lean checks for the correction. No registration or publication
+has been performed by the tree agent. The next action is to pin the actual
+corrected RAM/Turing and canonical archive revisions and run full Lax
+validation with independent kernel replay against those exact pins.
+
+### 2026-09-16: prepare the exact corrected RAM dependency pin
+
+Updated the proof package requirement for `Lax759944Proofs` to
+`7010243df12cdda03abc5f63ec8de2c0963d4052`. The RAM/Turing revision passed
+full local Lax validation and independent kernel replay with seven concepts,
+four annotated proofs, and empty assumption lists; its commit is pushed and
+the Archive draft update is in progress. All canonical dependencies remain
+at `091d4fe67804863dac4001f7bc1ac72d8597a7e4` pending the corrected canonical
+release revision. No builds, commits, pushes, or registration were performed
+for this preparation. Existing local tree proof and regression results remain
+complete. Exact dependency validation and replay await the corrected canonical
+pin and completion of the upstream Archive draft updates.
+
+### 2026-09-16: prepare the exact corrected canonical dependency pins
+
+Pinned all three tree requirements for `Lax560851` and `Lax560851Proofs`
+to `8ec635640f3fd05271fa5cb7b1d3ae9e59400d7b`. The canonical revision passed
+full Lax validation and independent kernel replay in 7m08s: 12 concepts and
+18 annotated proofs with empty assumption lists. Its commit is pushed,
+and the Archive draft update is still in progress. The RAM/Turing pin
+remains `7010243df12cdda03abc5f63ec8de2c0963d4052`; the MSO-word pin remains
+`b7b157e93741492b33a0fa84ec76e24a571e2a98`.
+
+The exact-pin tree replay command is prepared in `CURRENT_STATE.md` and will
+write `../migration-tools/trees-808846-validation.log`. It must wait for
+confirmation that the Archive accepted the corrected canonical revision.
+It will include the coordinator's prose-only updates from Lax-13/Lax-58 to
+Lax808846/Lax560851 in `concepts/Lax842588/MSOLinearTime.lean` and the RAM
+instruction reference in `abstract.md`. No code changes, builds, commits,
+pushes, or registration were performed for this pin preparation.
+
+### 2026-09-16: canonical Archive dependency gate failed
+
+Read-only monitoring of canonical Archive run
+https://github.com/lax-archive/lax/actions/runs/35064198245 found the
+`Validate` job failed its `Static gate` at 06:33:42 UTC. The submit log
+`../migration-tools/canonical-808846-submit.log` reports two
+`dependencies / draft-dependency` errors for `Lax759944` and
+`Lax759944Proofs`: the remote validator admits only registered dependencies.
+Publication jobs were skipped; canonical revision
+`8ec635640f3fd05271fa5cb7b1d3ae9e59400d7b` was not published.
+
+The local CLI specification read during preparation explicitly admits draft
+dependencies with a warning, and canonical local validation/replay had passed.
+This is a difference between the local and Archive validation policies, not
+a reported Lean proof failure. The tree exact-pin replay was not started.
+No registration was attempted. The coordinator was notified with the failed
+job identifier `104690889459` and the exact diagnostic; tree replay awaits
+resolution and confirmed canonical Archive acceptance.
+
+### 2026-09-16: keep drafts and finish independent local validation
+
+The user explicitly chose to keep the submissions as drafts and declined
+registration. No registration or further Archive publication will be
+attempted, and no approval remains pending. The canonical pin stays at
+`8ec635640f3fd05271fa5cb7b1d3ae9e59400d7b`; exact-pin tree Lax validation
+cannot proceed while the Archive has not accepted that revision.
+
+A final-source local `Lax842588Proofs` build is running with the existing
+explicit local overrides, logged separately in
+`../migration-tools/trees-808846-local-final-build.log`. It will be followed
+by stock `leanchecker --verbose Lax842588Proofs` in the same Lake environment
+with `LEAN_NUM_THREADS=2`, logged in `trees-808846-local-kernel.log`. This
+will be direct local proof validation, not a substitute Archive verdict.
+The checker does not implement `--help`; an exploratory help invocation
+started replaying the default module and was interrupted (exit 130). That
+interrupted invocation is not validation evidence. The final checker run
+will start only after the complete local build succeeds.
+
+After those local checks, the coordinator will commit/push the corrected
+tree source as a reviewable branch. The tree agent will not commit, push,
+register, or submit it.
+
+### 2026-09-16: extend final local replay to both package roots
+
+The final local validation sequence now builds both `Lax842588Proofs` and
+`Lax842588`, then runs the fresh annotation audit in
+`../migration-tools/trees-808846-final-audit.lean`. That audit checks all 15
+tree proof/statement pairs and their exact non-background axiom sets
+(nine empty and six using four canonical encoding statements), plus the
+four corresponding canonical discharge proofs and their empty axiom sets.
+
+After the audit, one stock kernel replay will select both prefixes with
+`leanchecker --verbose Lax842588 Lax842588Proofs`, using the same explicit
+local overrides and `LEAN_NUM_THREADS=2`. This replaces the planned
+proof-only replay. Its expected coverage is 173 modules: ten concept
+modules and their root, plus 161 proof modules and their root. The run will
+be checked against the current source inventory. This remains direct local
+validation; the blocked exact-pin Lax/Archive pipeline will not be run.
+
+### 2026-09-16: final local validation complete; retain drafts
+
+The final-source proof root build passed all 3222 jobs in 2832.4s (47m12s),
+and the concept root passed all 960 jobs in 11.6s. The checks used the
+explicit local overrides in `../migration-tools/ram-808846-local-overrides.json`.
+Logs are `trees-808846-local-final-build.log` and
+`trees-808846-local-concepts.log` in `../migration-tools/`.
+
+The fresh annotation audit passed for all 15 tree theorem/statement pairs
+and their exact non-background axiom sets: nine empty sets and six sets
+using the four canonical encoding statements. All four canonical discharge
+proofs have matching public statement types and empty non-background axiom
+sets. After the initial successful audit, its per-proof logging interpolation
+was corrected without changing any assertion. The named audit passed again
+in 18.7s and lists all 19 checked proofs in
+`../migration-tools/trees-808846-final-audit.log`; the initial log is retained
+as `trees-808846-final-audit-initial.log`.
+
+The single stock Lean 4.33.0 kernel replay
+`leanchecker --verbose Lax842588 Lax842588Proofs` passed (exit 0) in 1771.0s
+(29m31s), with `LEAN_NUM_THREADS=2` and the same explicit local overrides.
+Its log contains exactly the 173 expected unique modules: ten concept
+modules plus their root and 161 proof modules plus their root. No source
+module is missing and no extra module was replayed. All 179 captured source
+and configuration file hashes match before and after validation. Evidence:
+`trees-808846-local-kernel.log`, `trees-808846-validated-source-hashes.json`,
+and `trees-808846-validated-source-hashes-after.json` in `../migration-tools/`.
+
+The ignored `lake-manifest.json` cache files still contain the retired
+dependency; the explicit override superseded them for every final check.
+No cache manifests were regenerated. Ordinary Lake commands require updated
+manifests first; all tracked source and lakefiles already use the corrected
+dependencies.
+
+This completes direct local validation of the corrected source. It is not
+Archive acceptance or completion of the blocked exact-pin Lax pipeline.
+The user chose to retain drafts and declined registration, so no registration
+or further Archive publication was attempted. Canonical pin
+`8ec635640f3fd05271fa5cb7b1d3ae9e59400d7b` and RAM/Turing pin
+`7010243df12cdda03abc5f63ec8de2c0963d4052` remain unchanged. The corrected
+tree branch is ready for the coordinator's commit/push; the tree agent has
+performed neither action.

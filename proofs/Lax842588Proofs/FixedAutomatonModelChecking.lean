@@ -1,15 +1,15 @@
 import Lax842588Proofs.FixedSentencePrepare
 import Lax842588Proofs.AutomatonRamBackend
 import Lax842588Proofs.ImpLayout
-import Lax865980Proofs.Transfer
+import Lax759944Proofs.Legacy.Transfer
 import Lax842588.MSOLinearTime
 
 /-! Counted execution of a fixed automaton on a tree-only certified arena. -/
 
 namespace Lax842588Proofs.FixedAutomatonModelChecking
 
-open Classical Lax865980Proofs.Imp Lax865980Proofs.Reasoning
-open Lax865980Proofs.Compile Lax865980Proofs.Transfer Lax865980.RamComputes
+open Classical Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
+open Lax759944Proofs.Legacy.Compile Lax759944Proofs.Legacy.Transfer Lax759944Proofs.Legacy.RamComputes
 open Lax842588.RankedTree Lax842588.ValueTranslations Lax842588.StructuralRepresentations
 open Lax842588.TreeModelCheckingEncoding Lax560851.WordArena
 open Lax842588Proofs.IntrinsicEvaluatorPrepare Lax842588Proofs.AutomatonRamCorrectness

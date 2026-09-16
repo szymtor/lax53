@@ -1,4 +1,5 @@
 import Lax842588Proofs.AutomatonRamArenaBounds
+import Lax842588Proofs.CheckedRamAdapter
 
 namespace Lax842588Proofs.AutomatonLinearTime
 
@@ -6,11 +7,11 @@ set_option maxHeartbeats 3000000
 set_option maxRecDepth 5000
 open Classical
 
-open Lax865980.Ram
-open Lax865980.RamComputes
-open Lax865980Proofs.Imp
-open Lax865980Proofs.Compile
-open Lax865980Proofs.Simulation
+open Lax759944Proofs.Legacy.Ram
+open Lax759944Proofs.Legacy.RamComputes
+open Lax759944Proofs.Legacy.Imp
+open Lax759944Proofs.Legacy.Compile
+open Lax759944Proofs.Legacy.Simulation
 open Lax842588.RankedTree
 open Lax842588.ValueTranslations
 open Lax842588.TreeModelCheckingEncoding
@@ -24,8 +25,8 @@ open Lax842588Proofs.AutomatonRamArenaBounds
 open Lax560851.WordArena
 open Lax560851.RamComplexity
 
-/-- Expanded implementation theorem retained behind the concise public
-`RamComputableWithinUsing` statement. -/
+/-- Expanded sequential-machine implementation, embedded into `Lax808846`
+by the concise public `RamComputableWithinUsing` theorem below. -/
 theorem exists_uniform_automatonAcceptance_expanded :
     ∃ (program : Program) (timeConstant wordConstant : Nat),
       ∀ (M : EncodedAutomaton) (t : Tree M.1.toRankedAlphabet) (w : Nat),
@@ -114,7 +115,7 @@ theorem exists_uniform_automatonAcceptance_expanded :
         nlinarith
   have houtFinal : sigma'.out =
       [if M.2.toAutomaton M.1 |>.Accepts t then 1 else 0] := by
-    simpa [Lax865980Proofs.Imp.initEnv] using hout
+    simpa [Lax759944Proofs.Legacy.Imp.initEnv] using hout
   have hsingleton :
       [if M.2.toAutomaton M.1 |>.Accepts t then 1 else 0] =
         (if M.2.toAutomaton M.1 |>.Accepts t then [1] else [0]) := by
@@ -153,7 +154,8 @@ theorem exists_fixed_automatonAcceptance_expanded (M : EncodedAutomaton) :
 conclusion: Lax842588.AutomatonLinearTime.exists_uniform_automatonAcceptance
 ---
 The fixed compiled program first reads and materializes the distinguished
-structural arena and then runs the verified bottom-up evaluator. Lax560851's
+structural arena and then runs the verified bottom-up evaluator. Its checked
+embedding into `Lax808846` also charges the terminal instruction. Lax560851's
 reusable predicate packages the program and the three sufficient-width
 premises; the underlying expanded theorem above remains inspectable.
 -/
@@ -166,13 +168,21 @@ theorem exists_uniform_automatonAcceptance_proof :
         (fun input => uniformWordBound wordConstant input.automaton input.tree) := by
   obtain ⟨program, timeConstant, wordConstant, h⟩ :=
     exists_uniform_automatonAcceptance_expanded
-  refine ⟨timeConstant, wordConstant, program, ?_⟩
+  refine ⟨timeConstant + 1, wordConstant,
+    Lax759944Proofs.LegacyRamBridge.embedProgram program, ?_⟩
   rintro ⟨M, t⟩ w hpayload harena hword
+  have htarget := CheckedRamAdapter.computesInTime
+    (U := fun _ => uniformTimeBound (timeConstant + 1) M t)
+    (h M t w hpayload harena hword) (fun _ _ => by
+      simpa only [uniformTimeBound, Nat.mul_assoc] using
+        CheckedRamAdapter.add_one_le_scaled timeConstant
+          ((automatonWorkSize M + 1) ^ 2 * (treeSize t + 1))
+          (Nat.mul_pos (pow_pos (by omega) _) (by omega)))
   by_cases haccepts : M.2.toAutomaton M.1 |>.Accepts t <;>
     simpa [automatonAcceptancePresentation, automatonAcceptanceRaw,
       automatonInput, natOutput, Lax560851.WordArena.encode,
       Lax560851.StructuralPresentation.presentationOf, haccepts] using
-        h M t w hpayload harena hword
+        htarget
 
 /--
 ---
@@ -191,12 +201,17 @@ theorem exists_fixed_automatonAcceptance_proof (M : EncodedAutomaton) :
           (fixedAutomatonPresentation M) t) := by
   obtain ⟨program, timeCoefficient, wordCoefficient, h⟩ :=
     exists_fixed_automatonAcceptance_expanded M
-  refine ⟨timeCoefficient, wordCoefficient, program, ?_⟩
+  refine ⟨timeCoefficient + 1, wordCoefficient,
+    Lax759944Proofs.LegacyRamBridge.embedProgram program, ?_⟩
   intro t w hpayload harena hword
+  have htarget := CheckedRamAdapter.computesInTime
+    (U := fun _ => (timeCoefficient + 1) * (treeSize t + 1))
+    (h t w hpayload harena hword) (fun _ _ =>
+      CheckedRamAdapter.add_one_le_scaled timeCoefficient (treeSize t + 1) (by omega))
   by_cases haccepts : M.2.toAutomaton M.1 |>.Accepts t <;>
     simpa [fixedAutomatonPresentation, automatonInput, inputMagnitudeUsing,
       natOutput, Lax560851.WordArena.encode,
       Lax560851.StructuralPresentation.presentationOf, haccepts] using
-        h t w hpayload harena hword
+        htarget
 
 end Lax842588Proofs.AutomatonLinearTime

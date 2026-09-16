@@ -12,7 +12,7 @@ obligations; the pure source evaluator is never executed for free.
 
 namespace Lax842588Proofs.PrimitiveRecursiveCompile
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 open Lax842588Proofs.PrimitiveRecursiveCode Lax842588Proofs.PrimitiveRecursivePairing
 
 /-- An injective, proof-private naming convention for compiler registers. -/

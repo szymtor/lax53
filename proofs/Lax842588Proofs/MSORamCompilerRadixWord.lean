@@ -11,8 +11,8 @@ state count are supplied to the machine as advice.
 
 namespace Lax842588Proofs.MSORamCompilerRadixWord
 
-open Lax865980Proofs.Imp
-open Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp
+open Lax759944Proofs.Legacy.Reasoning
 open Lax842588.TreeModelCheckingEncoding
 open Lax842588Proofs.FiniteAutomatonEncoding
 open Lax842588Proofs.AutomatonRamArenaSegments

@@ -14,7 +14,7 @@ an arbitrary field encoder as part of the public model-checking input.
 
 namespace Lax842588Proofs.PrimitiveRecursiveAutomata
 
-open Lax865980.Ram Lax865980.RamComputes
+open Lax759944Proofs.Legacy.Ram Lax759944Proofs.Legacy.RamComputes
 open Lax842588.ValueTranslations
 open Lax842588Proofs.EncodedAutomataOperations Lax842588Proofs.EncodedAutomataComputability
 open Lax842588Proofs.PrimitiveRecursiveRam

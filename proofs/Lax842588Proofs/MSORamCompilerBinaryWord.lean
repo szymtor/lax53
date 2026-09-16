@@ -33,8 +33,8 @@ open Lax842588Proofs.MSORamCompilerProgram
 open Lax842588Proofs.MSORamCompilerTransition
 open Lax842588Proofs.MSORamCompilerStorage
 open Lax842588Proofs.MSORamCompilerHeap
-open Lax865980Proofs.Imp
-open Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp
+open Lax759944Proofs.Legacy.Reasoning
 
 /-- The binary word with canonical numeric index `state`, most significant
 digit first.  Only indices below `2 ^ length` are used by the compiler. -/

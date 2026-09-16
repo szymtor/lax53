@@ -12,7 +12,7 @@ type: definition and theorem
 One fixed word-RAM program decides monadic second-order satisfaction when the
 ranked alphabet, the intrinsically scoped Lax-52 sentence, and the ranked tree
 are all supplied at runtime. Their sole machine input is the distinguished
-constructor-certified Lax-58 arena. The actual Lax-13 instruction bound
+constructor-certified Lax560851 arena. The actual Lax808846 instruction bound
 includes all sentence-to-automaton compilation and tree-automaton evaluation.
 
 The resource coefficients are computable functions only of the constructor
@@ -102,7 +102,7 @@ def InputPayloadsFitInWord (alphabet : RankedAlphabetCode)
     (t : Tree alphabet.toRankedAlphabet) (w : Nat) : Prop :=
   (msoTreeRaw alphabet phi t).PayloadsFitInWord w
 
-/-- Distinguished Lax-13 input containing the alphabet, intrinsic sentence,
+/-- Distinguished Lax808846 input containing the alphabet, intrinsic sentence,
 and tree. -/
 def modelCheckingInput (alphabet : RankedAlphabetCode)
     (phi : Sentence (treeSignature alphabet.toRankedAlphabet))

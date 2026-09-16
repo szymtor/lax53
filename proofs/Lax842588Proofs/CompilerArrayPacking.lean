@@ -1,6 +1,6 @@
 import Lax842588Proofs.PrimitiveRecursivePairing
-import Lax865980Proofs.Frame
-import Lax865980Proofs.Compile
+import Lax759944Proofs.Legacy.Frame
+import Lax759944Proofs.Legacy.Compile
 import Mathlib.Logic.Equiv.List
 
 /-!
@@ -15,7 +15,7 @@ namespace Lax842588Proofs.CompilerArrayPacking
 
 set_option maxHeartbeats 1000000
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning Lax865980Proofs.Compile
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning Lax759944Proofs.Legacy.Compile
 open Lax842588Proofs.PrimitiveRecursivePairing
 open Encodable
 
@@ -154,7 +154,7 @@ theorem program_ok (arr length : String) (L : Layout)
     (hi : "packIndex" ∈ L.scalars) (hv : "packValue" ∈ L.scalars)
     (hc : "packCode" ∈ L.scalars) : Com.Ok L (program arr length) := by
   simp [program, loop, step, condition, pairProgram, Com.Ok, Cond.Ok, Expr.Ok,
-    Lax865980Proofs.Compile.condExpr, ha, hl, hi, hv, hc]
+    Lax759944Proofs.Legacy.Compile.condExpr, ha, hl, hi, hv, hc]
   omega
 
 /-- Fixed-register counterpart used for one six-field compiler row. The

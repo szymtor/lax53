@@ -1,6 +1,6 @@
 import Lax842588Proofs.PrimitiveRecursiveRecursion
 import Lax842588Proofs.PrimitiveRecursiveLayout
-import Lax865980Proofs.Transfer
+import Lax759944Proofs.Legacy.Transfer
 import Mathlib.Computability.Partrec
 
 /-!
@@ -15,14 +15,14 @@ Lax-53 inputs or move pure Lean evaluation outside the measured execution.
 
 namespace Lax842588Proofs.PrimitiveRecursiveRam
 
-open Lax865980.Ram Lax865980.RamComputes Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Ram Lax759944Proofs.Legacy.RamComputes Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 open Lax842588Proofs.PrimitiveRecursiveCode Lax842588Proofs.PrimitiveRecursiveCompile
 open Lax842588Proofs.PrimitiveRecursiveBounds Lax842588Proofs.PrimitiveRecursiveCorrectness
 
 def runner (c : Code) : Com :=
   .seq (.read (reg 0)) (.seq (compile c 0) (.write (.var (reg 0))))
 
-def program (c : Code) : Program := Lax865980Proofs.Compile.compileProgram (layout c) (runner c)
+def program (c : Code) : Program := Lax759944Proofs.Legacy.Compile.compileProgram (layout c) (runner c)
 
 def timeBound (c : Code) (n : Nat) : Nat := 10 * (budget c n + 3)
 
@@ -36,18 +36,18 @@ theorem wordBound_prim (c : Code) : Primrec (wordBound c) :=
   Primrec.nat_add.comp (Primrec.nat_add.comp (budget_prim c) (Primrec.const (space c)))
     (Primrec.const 10)
 
-theorem runner_ok (c : Code) : Lax865980Proofs.Compile.Com.Ok (layout c) (runner c) := by
+theorem runner_ok (c : Code) : Lax759944Proofs.Legacy.Compile.Com.Ok (layout c) (runner c) := by
   have hzero : reg 0 ∈ (layout c).scalars := by
     apply List.mem_map.mpr
     exact ⟨0, List.mem_range.mpr (by have := space_ge_three c; omega), rfl⟩
   have hc := layout_ok c
-  simpa [runner, Lax865980Proofs.Compile.Com.Ok, Lax865980Proofs.Compile.Expr.Ok, layout] using
+  simpa [runner, Lax759944Proofs.Legacy.Compile.Com.Ok, Lax759944Proofs.Legacy.Compile.Expr.Ok, layout] using
     (show reg 0 ∈ (layout c).scalars ∧
-      Lax865980Proofs.Compile.Com.Ok (layout c) (compile c 0) ∧
+      Lax759944Proofs.Legacy.Compile.Com.Ok (layout c) (compile c 0) ∧
       reg 0 ∈ (layout c).scalars from ⟨hzero, hc, hzero⟩)
 
 theorem runner_solves (c : Code) (n : Nat) :
-    Lax865980Proofs.Transfer.Solves (layout c) (runner c) {[n]}
+    Lax759944Proofs.Legacy.Transfer.Solves (layout c) (runner c) {[n]}
       (fun _ => [c.eval n]) (fun _ => budget c n + 2) (fun _ => budget c n + 3) := by
   refine ⟨runner_ok c, ?_, ?_⟩
   · intro x hx v hv
@@ -77,7 +77,7 @@ theorem runner_solves (c : Code) (n : Nat) :
 
 theorem code_computes (c : Code) (n w : Nat) (hfit : wordBound c n ≤ 2 ^ w) :
     ComputesInTime w (program c) {[n]} (fun _ => [c.eval n]) (fun _ => timeBound c n) := by
-  apply Lax865980Proofs.Transfer.computesInTime_of_solves (runner_solves c n)
+  apply Lax759944Proofs.Legacy.Transfer.computesInTime_of_solves (runner_solves c n)
   · intro _ _
     refine ⟨by omega, ?_, ?_⟩
     · unfold wordBound at hfit

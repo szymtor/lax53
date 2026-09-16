@@ -1,12 +1,14 @@
 import Lax842588Proofs.FixedAutomatonModelChecking
 import Lax842588Proofs.IntrinsicTimeBounds
 import Lax842588Proofs.IntrinsicSentenceCorrectness
+import Lax842588Proofs.CheckedRamAdapter
 
 /-! The fixed-sentence headline, with only the certified tree on the input tape. -/
 
 namespace Lax842588Proofs.FixedSentenceModelChecking
 
-open Classical Encodable Lax865980.Ram Lax865980.RamComputes Lax865980Proofs.Compile
+open Classical Encodable Lax759944Proofs.Legacy.Ram Lax759944Proofs.Legacy.RamComputes
+open Lax759944Proofs.Legacy.Compile
 open Lax146103.MSOSyntax Lax842588.RankedTree Lax842588.TreeStructure Lax842588.ValueTranslations
 open Lax842588.StructuralRepresentations Lax842588.MSOLinearTime
 open Lax842588.TreeModelCheckingEncoding (treeSize maximumRank)
@@ -111,8 +113,8 @@ theorem exists_fixed_automaton (M : EncodedAutomaton) :
   obtain ⟨steps, hs, hr⟩ := hexec x hx
   exact ⟨steps, hs.trans htime, hr⟩
 
-/-- Expanded fixed-sentence theorem retained behind the concise reusable
-RAM-complexity statement. -/
+/-- Expanded sequential-machine implementation, embedded into `Lax808846`
+by the concise reusable RAM-complexity theorem below. -/
 theorem exists_fixed_sentence_modelChecking_expanded
     (alphabet : RankedAlphabetCode)
     (phi : Sentence (treeSignature alphabet.toRankedAlphabet)) :
@@ -135,7 +137,8 @@ theorem exists_fixed_sentence_modelChecking_expanded
 conclusion: Lax842588.MSOLinearTime.exists_fixed_sentence_modelChecking
 ---
 Specialize the pure automaton before program choice, then materialize it
-within a counted tree-only run from zero memory. The reusable predicate
+within a counted tree-only run from zero memory. The checked embedding into
+`Lax808846` includes the terminal instruction. The reusable predicate
 packages the program and all sufficient-width premises.
 -/
 theorem exists_fixed_sentence_modelChecking_proof
@@ -149,11 +152,16 @@ theorem exists_fixed_sentence_modelChecking_proof
           (treePresentation alphabet) t) := by
   obtain ⟨program, timeCoefficient, wordCoefficient, h⟩ :=
     exists_fixed_sentence_modelChecking_expanded alphabet phi
-  refine ⟨timeCoefficient, wordCoefficient, program, ?_⟩
+  refine ⟨timeCoefficient + 1, wordCoefficient,
+    Lax759944Proofs.LegacyRamBridge.embedProgram program, ?_⟩
   intro t w hpayload harena hword
+  have htarget := CheckedRamAdapter.computesInTime
+    (U := fun _ => (timeCoefficient + 1) * (treeSize t + 1))
+    (h t w hpayload harena hword) (fun _ _ =>
+      CheckedRamAdapter.add_one_le_scaled timeCoefficient (treeSize t + 1) (by omega))
   by_cases hsatisfies : t ∈ sentenceLanguage phi <;>
     simpa [treePresentation, treeInput, inputMagnitudeUsing, natOutput,
       Lax560851.WordArena.encode, Lax560851.StructuralPresentation.presentationOf,
-      hsatisfies] using h t w hpayload harena hword
+      hsatisfies] using htarget
 
 end Lax842588Proofs.FixedSentenceModelChecking

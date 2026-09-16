@@ -1,6 +1,6 @@
 import Lax842588Proofs.IntrinsicModelChecking
 import Lax842588Proofs.ImpLayout
-import Lax865980Proofs.Transfer
+import Lax759944Proofs.Legacy.Transfer
 
 /-!
 One fixed actual RAM program on the unchanged certified public input.
@@ -11,8 +11,8 @@ bounded by computable functions of the public mathematical parameter size.
 namespace Lax842588Proofs.IntrinsicModelCheckingRam
 
 open Classical
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning Lax865980Proofs.Compile Lax865980Proofs.Transfer
-open Lax865980.RamComputes
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning Lax759944Proofs.Legacy.Compile Lax759944Proofs.Legacy.Transfer
+open Lax759944Proofs.Legacy.RamComputes
 open Lax146103.MSOSyntax Lax842588.RankedTree Lax842588.TreeStructure Lax842588.ValueTranslations
 open Lax842588.MSOLinearTime Lax842588.TreeModelCheckingEncoding Lax560851.WordArena
 open Lax842588Proofs.ArenaSemantics Lax842588Proofs.FormulaArenaTraversalModel

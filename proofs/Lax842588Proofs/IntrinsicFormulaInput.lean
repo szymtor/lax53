@@ -11,7 +11,7 @@ namespace Lax842588Proofs.IntrinsicFormulaInput
 
 set_option maxHeartbeats 3000000
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 open Lax842588.ValueTranslations Lax560851.WordArena
 open Lax842588Proofs.ArenaSemantics Lax842588Proofs.FormulaArenaTraversalModel
 open Lax842588Proofs.IntrinsicCompilerFields Lax842588Proofs.MSORamCompilerLoad
@@ -234,9 +234,9 @@ def scalars : List String := IntrinsicFieldExtraction.scalars ++
 
 def arrays : List String := ["Arena", "FormulaOrder", "FormulaFOOrder", "FormulaSOOrder"]
 
-theorem program_ok (L : Lax865980Proofs.Compile.Layout) (ht : 9 ≤ L.temps)
+theorem program_ok (L : Lax759944Proofs.Legacy.Compile.Layout) (ht : 9 ≤ L.temps)
     (hs : ∀ s ∈ scalars, s ∈ L.scalars) (ha : ∀ a ∈ arrays, a ∈ L.arrays) :
-    Lax865980Proofs.Compile.Com.Ok L program := by
+    Lax759944Proofs.Legacy.Compile.Com.Ok L program := by
   have hpacked := IntrinsicFieldExtraction.packedProgram_ok L ht
     (ha "Arena" (by simp [arrays]))
     (fun s h => hs s (List.mem_append_left _ h))
@@ -250,17 +250,17 @@ theorem program_ok (L : Lax865980Proofs.Compile.Layout) (ht : 9 ≤ L.temps)
     tauto
   simp only [List.forall_mem_cons, List.forall_mem_nil, and_true] at hscalar
   simp only [arrays, List.forall_mem_cons, List.forall_mem_nil, and_true] at ha
-  have hread : Lax865980Proofs.Compile.Com.Ok L IntrinsicOccurrenceInput.program := by
+  have hread : Lax759944Proofs.Legacy.Compile.Com.Ok L IntrinsicOccurrenceInput.program := by
     refine ⟨?_, hpacked⟩
     simp only [MSORamCompilerProgram.loadCompilerOccurrence, AutomatonRamProgram.seqs,
-      Lax865980Proofs.Compile.Com.Ok, Lax865980Proofs.Compile.Expr.Ok]
+      Lax759944Proofs.Legacy.Compile.Com.Ok, Lax759944Proofs.Legacy.Compile.Expr.Ok]
     rcases hscalar with ⟨hcf, hfo, hso, htag, hfc, hrc, hci, hcnt, hname, hfw, hsw, hms, hA⟩
     rcases ha with ⟨har, horder, hforder, hsorder⟩
     simp_all only [true_and, and_true]
     omega
-  simp only [program, loop, step, condition, Lax865980Proofs.Compile.Com.Ok, hread,
-    pairProgram, Lax865980Proofs.Compile.Cond.Ok, Lax865980Proofs.Compile.Expr.Ok,
-    Lax865980Proofs.Compile.condExpr]
+  simp only [program, loop, step, condition, Lax759944Proofs.Legacy.Compile.Com.Ok, hread,
+    pairProgram, Lax759944Proofs.Legacy.Compile.Cond.Ok, Lax759944Proofs.Legacy.Compile.Expr.Ok,
+    Lax759944Proofs.Legacy.Compile.condExpr]
   rcases hscalar with ⟨hcf, hfo, hso, htag, hfc, hrc, hci, hcnt, hname, hfw, hsw, hms, hA⟩
   simp_all only [true_and, and_true]
   omega

@@ -10,7 +10,7 @@ as the public model-checking input.
 
 namespace Lax842588Proofs.IntrinsicCompilerFields
 
-open Lax865980.Ram Lax865980.RamComputes
+open Lax759944Proofs.Legacy.Ram Lax759944Proofs.Legacy.RamComputes
 open Lax146103.MSOSyntax Lax842588.TreeStructure Lax842588.ValueTranslations
 open Lax842588Proofs.FormulaArenaTraversalModel Lax842588Proofs.IntrinsicFormulaCompiler
 open Lax842588Proofs.PrimitiveRecursiveRam

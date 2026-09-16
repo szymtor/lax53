@@ -5,7 +5,7 @@ import Lax842588Proofs.MSORamCompilerLoad
 
 namespace Lax842588Proofs.IntrinsicOccurrenceInput
 
-open Lax865980Proofs.Imp Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Reasoning
 open Lax842588.ValueTranslations Lax560851.WordArena
 open Lax842588Proofs.ArenaSemantics Lax842588Proofs.FormulaArenaTraversalModel
 open Lax842588Proofs.IntrinsicCompilerFields Lax842588Proofs.MSORamCompilerLoad

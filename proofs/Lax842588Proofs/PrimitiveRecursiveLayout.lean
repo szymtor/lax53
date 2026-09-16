@@ -4,7 +4,7 @@ import Lax842588Proofs.PrimitiveRecursiveCompile
 
 namespace Lax842588Proofs.PrimitiveRecursiveCompile
 
-open Lax865980Proofs.Imp Lax865980Proofs.Compile
+open Lax759944Proofs.Legacy.Imp Lax759944Proofs.Legacy.Compile
 open Lax842588Proofs.PrimitiveRecursiveCode Lax842588Proofs.PrimitiveRecursivePairing
 
 /-- A deliberately loose, input-independent count of scalar registers. -/

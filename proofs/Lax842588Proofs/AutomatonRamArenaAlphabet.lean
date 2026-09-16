@@ -11,8 +11,8 @@ namespace Lax842588Proofs.AutomatonRamArenaCorrectness
 set_option maxHeartbeats 3000000
 open Classical
 
-open Lax865980Proofs.Imp
-open Lax865980Proofs.Reasoning
+open Lax759944Proofs.Legacy.Imp
+open Lax759944Proofs.Legacy.Reasoning
 open Lax842588Proofs.ArrayInput
 open Lax842588.ValueTranslations
 open Lax842588.TreeModelCheckingEncoding
